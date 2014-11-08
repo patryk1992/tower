@@ -4,6 +4,17 @@ import com.badlogic.gdx.math.Vector2;
 
 public class MyInterface {
 	Vector2 position;
+	
+	int width;
+	int height;
+	public MyInterface(){
+		
+	}
+	public MyInterface(float x, float y, int width, int height){
+		this.width = width;
+		this.height = height;
+		position = new Vector2(x, y);
+	}
 	public Vector2 getPosition() {
 		return position;
 	}
@@ -21,15 +32,5 @@ public class MyInterface {
 	}
 	public void setHeight(int height) {
 		this.height = height;
-	}
-	int width;
-	int height;
-	public MyInterface(){
-		
-	}
-	public MyInterface(float x, float y, int width, int height){
-		this.width = width;
-		this.height = height;
-		position = new Vector2(x, y);
 	}
 }

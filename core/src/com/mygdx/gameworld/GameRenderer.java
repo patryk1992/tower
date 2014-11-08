@@ -1,5 +1,7 @@
 package com.mygdx.gameworld;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -11,6 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.gameobjects.Barricade;
 import com.mygdx.gameobjects.Castle;
+import com.mygdx.gameobjects.Tower;
 
 public class GameRenderer {
 	private OrthographicCamera cam;
@@ -67,6 +70,21 @@ public class GameRenderer {
         shapeRenderer.setColor(myWorld.getCastles()[1].getColor());
         shapeRenderer.rect(myWorld.getCastles()[1].getPosition().x, myWorld.getCastles()[1].getPosition().y, myWorld.getCastles()[1].getWidth(), myWorld.getCastles()[1].getHeight());
         shapeRenderer.end();
+        
+        for(ArrayList<Tower> towerList : myWorld.getTowerList()){
+        	for(Tower tower :towerList ){
+        		shapeRenderer.begin(ShapeType.Filled);
+        		if(tower.getIdGroup()==1){
+                shapeRenderer.setColor(Color.YELLOW);
+        		}
+        		else if(tower.getIdGroup()==2)
+        		{
+        		shapeRenderer.setColor(Color.PURPLE);
+        		}
+                shapeRenderer.rect(tower.getPosition().x, tower.getPosition().y, tower.getWidth(), tower.getHeight());
+                shapeRenderer.end();
+        	}
+        }
        
         shapeRenderer.begin(ShapeType.Filled);
         shapeRenderer.setColor(Color.GRAY);

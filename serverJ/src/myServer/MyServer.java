@@ -1,10 +1,15 @@
 package myServer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import myServer.Packet.Packet0LoginRequest;
 import myServer.Packet.Packet1LoginAnswer;
 import myServer.Packet.Packet2Message;
+
+
+
+
 
 import com.Client.packets.Packet3CreateTowerRequest;
 import com.badlogic.gdx.graphics.Color;
@@ -14,6 +19,8 @@ import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
 import com.mygdx.gameobjects.Castle;
 import com.mygdx.gameobjects.GameObject;
+import com.mygdx.gameobjects.MyInterface;
+import com.mygdx.gameobjects.Tower;
 import com.mygdx.gameworld.GameWorld;
 import com.server.logic.ServerGameWorld;
 
@@ -43,6 +50,9 @@ public class MyServer {
 		kryo.register(GameObject.class);
 		kryo.register(Color.class);
 		kryo.register(Packet3CreateTowerRequest.class);
+		kryo.register(ArrayList.class);
+		kryo.register(Tower.class);
+		kryo.register(MyInterface.class);
 		
 	}
 	

@@ -37,8 +37,9 @@ public class ServerGameWorld {
 	}	
 
 	public void update(float delta) {
-//		gameWorld.getCastles()[0].setPosition(new Vector2(delta,midPointY-40));
-		server.sendToAllTCP(gameWorld);
 		
+		synchronized(gameWorld){
+		server.sendToAllTCP(gameWorld);
+		}
 	}
 }

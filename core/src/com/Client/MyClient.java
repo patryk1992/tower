@@ -1,7 +1,11 @@
 package com.Client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+
+
 
 
 
@@ -28,6 +32,8 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.minlog.Log;
 import com.mygdx.gameobjects.Castle;
 import com.mygdx.gameobjects.GameObject;
+import com.mygdx.gameobjects.MyInterface;
+import com.mygdx.gameobjects.Tower;
 import com.mygdx.gameworld.GameRenderer;
 import com.mygdx.gameworld.GameWorld;
 
@@ -37,7 +43,7 @@ public class MyClient {
 	
 	public MyClient(String IP, GameRenderer renderer){
 		this.renderer=renderer;
-		client= new Client();
+		client= new Client(8192,8192);
 		register();
 		
 		NetworkListener nl = new NetworkListener();
@@ -66,6 +72,11 @@ public class MyClient {
 		kryo.register(GameObject.class);
 		kryo.register(Color.class);
 		kryo.register(Packet3CreateTowerRequest.class);
+		kryo.register(ArrayList.class);
+		kryo.register(Tower.class);
+		kryo.register(MyInterface.class);
+		
+		
 	}
 	
 
