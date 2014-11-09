@@ -20,8 +20,8 @@ public class GameRenderer {
 	private OrthographicCamera cam;
 	private ShapeRenderer shapeRenderer;
 	private GameWorld myWorld;
-	private HUD hud;
-	private SpriteBatch batcher;
+	private HUD hud;	
+	private SpriteBatch batcher;	
 	
 	private int midPointY;
     private int gameWidth;    
@@ -42,8 +42,7 @@ public class GameRenderer {
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
         shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(cam.combined);        
-        
+        shapeRenderer.setProjectionMatrix(cam.combined);            
         hud=new HUD(shapeRenderer,gameWidth, midPointY);
         
     }
@@ -90,6 +89,8 @@ public class GameRenderer {
        hud.render(runTime);
          
     }  
-
+    public HUD getHud() {
+		return hud;
+	}
 
 }

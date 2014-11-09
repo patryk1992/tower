@@ -25,6 +25,8 @@ public class NetworkListener extends Listener {
 	public void connected(Connection arg0) {
 		Log.info("[CLIENT]you have connected");
 		Packet0LoginRequest packet = new Packet0LoginRequest();
+		renderer.getHud().setConnectionId(arg0.getID());
+		renderer.getHud().intHUD();
 		client.sendTCP(packet);
 	}
 
@@ -36,6 +38,7 @@ public class NetworkListener extends Listener {
 
 	@Override
 	public void received(Connection c, Object o) {
+		
 		if (o instanceof Packet1LoginAnswer) {
 			boolean answer = ((Packet1LoginAnswer) o).accepted;
 
