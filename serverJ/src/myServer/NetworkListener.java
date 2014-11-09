@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
-import com.mygdx.gameobjects.Tower;
+import com.mygdx.gameobjects.Building;
 import com.server.logic.ServerGameWorld;
 
 public class NetworkListener extends Listener {
@@ -43,7 +43,7 @@ public class NetworkListener extends Listener {
 		}
 		else if(o instanceof Packet3CreateTowerRequest){
 			Packet3CreateTowerRequest request=(Packet3CreateTowerRequest)o;	
-			Tower tower=new Tower(request.position.x-25,request.position.y-25,50,50,c.getID(),UUID.randomUUID().toString());
+			Building tower=new Building(request.position.x-25,request.position.y-25,50,50,c.getID(),UUID.randomUUID().toString());
 			if(c.getID()==1&&request.position.x<640){
 				synchronized(serverGameWorld.getGameWorld()){
 					serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(tower);

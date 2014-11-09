@@ -9,6 +9,7 @@ import com.mygdx.gameworld.GameWorld;
 public class Input implements InputProcessor {
 	private Client client;
 	private GameWorld world;
+	
 	public Input(Client client,GameWorld world){
 		this.client=client;
 		this.world=world;

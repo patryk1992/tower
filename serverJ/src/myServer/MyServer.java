@@ -20,7 +20,7 @@ import com.esotericsoftware.minlog.Log;
 import com.mygdx.gameobjects.Castle;
 import com.mygdx.gameobjects.GameObject;
 import com.mygdx.gameobjects.MyInterface;
-import com.mygdx.gameobjects.Tower;
+import com.mygdx.gameobjects.Building;
 import com.mygdx.gameworld.GameWorld;
 import com.server.logic.ServerGameWorld;
 
@@ -30,7 +30,7 @@ public class MyServer {
 	
 	public MyServer() throws IOException{
 		
-		server = new Server();
+		server = new Server(18192,8192);
 		registerPackets();
 		networkListener=new NetworkListener();
 		server.addListener(networkListener);
@@ -51,7 +51,7 @@ public class MyServer {
 		kryo.register(Color.class);
 		kryo.register(Packet3CreateTowerRequest.class);
 		kryo.register(ArrayList.class);
-		kryo.register(Tower.class);
+		kryo.register(Building.class);
 		kryo.register(MyInterface.class);
 		
 	}

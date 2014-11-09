@@ -13,18 +13,19 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.gameobjects.Barricade;
 import com.mygdx.gameobjects.Castle;
-import com.mygdx.gameobjects.Tower;
+import com.mygdx.gameobjects.Building;
+
 
 public class GameRenderer {
 	private OrthographicCamera cam;
 	private ShapeRenderer shapeRenderer;
 	private GameWorld myWorld;
-	
+	private HUD hud;
 	private SpriteBatch batcher;
 	
 	private int midPointY;
     private int gameWidth;    
-    Barricade barricade;
+   
 
     public GameRenderer(GameWorld world, int gameWidth, int midPointY) {
         myWorld = world;
@@ -43,7 +44,8 @@ public class GameRenderer {
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(cam.combined);        
         
-        barricade=new Barricade((gameWidth/2)-4,0,8,midPointY*2);
+        hud=new HUD(shapeRenderer,gameWidth, midPointY);
+        
     }
     
     public void setMyWorld(GameWorld myWorld) {
@@ -71,8 +73,8 @@ public class GameRenderer {
         shapeRenderer.rect(myWorld.getCastles()[1].getPosition().x, myWorld.getCastles()[1].getPosition().y, myWorld.getCastles()[1].getWidth(), myWorld.getCastles()[1].getHeight());
         shapeRenderer.end();
         
-        for(ArrayList<Tower> towerList : myWorld.getTowerList()){
-        	for(Tower tower :towerList ){
+        for(ArrayList<Building> towerList : myWorld.getTowerList()){
+        	for(Building tower :towerList ){
         		shapeRenderer.begin(ShapeType.Filled);
         		if(tower.getIdGroup()==1){
                 shapeRenderer.setColor(Color.YELLOW);
@@ -85,11 +87,7 @@ public class GameRenderer {
                 shapeRenderer.end();
         	}
         }
-       
-        shapeRenderer.begin(ShapeType.Filled);
-        shapeRenderer.setColor(Color.GRAY);
-        shapeRenderer.rect(barricade.getPosition().x, barricade.getPosition().y, barricade.getWidth(), barricade.getHeight());
-        shapeRenderer.end();
+       hud.render(runTime);
          
     }  
 
