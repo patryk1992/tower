@@ -15,6 +15,7 @@ public class HUD {
 	ITower iTower;
 	IMine iMine;
 	IFactory iFactory;
+	
 	int connectionId;
 	
 	public void setConnectionId(int connectionId) {
@@ -61,4 +62,13 @@ public class HUD {
 	     }
 	     
 	 }
+	public ITower getiTower() {
+		return iTower;
+	}
+	public IMine getiMine() {
+		return iMine;
+	}
+	public IFactory getiFactory() {
+		return iFactory;
+	}
 }

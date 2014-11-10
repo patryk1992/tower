@@ -6,12 +6,17 @@ import myServer.Packet.Packet0LoginRequest;
 import myServer.Packet.Packet1LoginAnswer;
 import myServer.Packet.Packet2Message;
 
-import com.Client.packets.Packet3CreateTowerRequest;
+import com.Client.packets.Packet3CreateFactoryRequest;
+import com.Client.packets.Packet4CreateMineRequest;
+import com.Client.packets.Packet5CreateTowerRequest;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
 import com.mygdx.gameobjects.Building;
+import com.mygdx.gameobjects.Factory;
+import com.mygdx.gameobjects.Mine;
+import com.mygdx.gameobjects.Tower;
 import com.server.logic.ServerGameWorld;
 
 public class NetworkListener extends Listener {
@@ -41,9 +46,9 @@ public class NetworkListener extends Listener {
 			c.sendTCP(loginAnswer);
 			
 		}
-		else if(o instanceof Packet3CreateTowerRequest){
-			Packet3CreateTowerRequest request=(Packet3CreateTowerRequest)o;	
-			Building tower=new Building(request.position.x-25,request.position.y-25,50,50,c.getID(),UUID.randomUUID().toString());
+		else if(o instanceof Packet5CreateTowerRequest){
+			Packet5CreateTowerRequest request=(Packet5CreateTowerRequest)o;	
+			Tower tower=new Tower(request.position.x-25,request.position.y-25,50,50,c.getID(),UUID.randomUUID().toString());
 			if(c.getID()==1&&request.position.x<640){
 				synchronized(serverGameWorld.getGameWorld()){
 					serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(tower);
@@ -56,7 +61,36 @@ public class NetworkListener extends Listener {
 			}
 			
 		}
-	
+		else if(o instanceof Packet3CreateFactoryRequest){
+			Packet3CreateFactoryRequest request=(Packet3CreateFactoryRequest)o;	
+			Factory factory=new Factory(request.position.x-25,request.position.y-25,50,50,c.getID(),UUID.randomUUID().toString());
+			if(c.getID()==1&&request.position.x<640){
+				synchronized(serverGameWorld.getGameWorld()){
+					serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(factory);
+				}
+			}
+			else if(c.getID()==2&&request.position.x>640){
+				synchronized(serverGameWorld.getGameWorld()){
+					serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(factory);
+				}
+			}
+			
+		}
+		else if(o instanceof Packet4CreateMineRequest){
+			Packet4CreateMineRequest request=(Packet4CreateMineRequest)o;	
+			Mine Mine=new Mine(request.position.x-25,request.position.y-25,50,50,c.getID(),UUID.randomUUID().toString());
+			if(c.getID()==1&&request.position.x<640){
+				synchronized(serverGameWorld.getGameWorld()){
+					serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(Mine);
+				}
+			}
+			else if(c.getID()==2&&request.position.x>640){
+				synchronized(serverGameWorld.getGameWorld()){
+					serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(Mine);
+				}
+			}
+			
+		}
 		
 	}
 }

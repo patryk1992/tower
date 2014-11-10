@@ -25,7 +25,7 @@ public class GameScreen implements Screen{
 		renderer = new GameRenderer(world,(int) screenWidth,midPointY);
 		myClient=new MyClient("192.168.43.115",renderer);
 		
-		Gdx.input.setInputProcessor(new Input(myClient.client,world));
+		Gdx.input.setInputProcessor(new Input(myClient.client,world,renderer.getHud()));
 		
 	}
 	
