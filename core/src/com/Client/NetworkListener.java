@@ -39,7 +39,12 @@ public class NetworkListener extends Listener {
 	@Override
 	public void received(Connection c, Object o) {
 		
-		if (o instanceof Packet1LoginAnswer) {
+		if (o instanceof GameWorld) {
+			GameWorld gameWorld = ((GameWorld) o);
+			renderer.setMyWorld(gameWorld);
+			
+		}
+		else if (o instanceof Packet1LoginAnswer) {
 			boolean answer = ((Packet1LoginAnswer) o).accepted;
 
 		}
@@ -47,11 +52,7 @@ public class NetworkListener extends Listener {
 			String message = ((Packet2Message) o).message;
 			Log.info("[Client]" + message);
 		}
-		else if (o instanceof GameWorld) {
-			GameWorld gameWorld = ((GameWorld) o);
-			renderer.setMyWorld(gameWorld);
-			
-		}
+		
 		
 	}
 

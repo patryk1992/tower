@@ -1,5 +1,9 @@
 package com.mygdx.gameobjects;
 
+import java.util.ArrayList;
+
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class MyInterface {
@@ -49,5 +53,13 @@ public class MyInterface {
 		} else {
 			return false;
 		}
+	}
+	public boolean collides(ArrayList<Building> buildingList) {
+		for(Building building:buildingList){
+		 if(Intersector.overlaps(new Rectangle(position.x, position.y, width, height), new Rectangle(building.getPosition().x, building.getPosition().y, building.getWidth(), building.getHeight()))){
+			 return true;
+		 }
+		}
+		return false;
 	}
 }

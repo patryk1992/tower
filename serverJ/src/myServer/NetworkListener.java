@@ -9,6 +9,7 @@ import myServer.Packet.Packet2Message;
 import com.Client.packets.Packet3CreateFactoryRequest;
 import com.Client.packets.Packet4CreateMineRequest;
 import com.Client.packets.Packet5CreateTowerRequest;
+import com.Client.packets.Packet6CreateAttackPointRequest;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -50,13 +51,17 @@ public class NetworkListener extends Listener {
 			Packet5CreateTowerRequest request=(Packet5CreateTowerRequest)o;	
 			Tower tower=new Tower(request.position.x-25,request.position.y-25,50,50,c.getID(),UUID.randomUUID().toString());
 			if(c.getID()==1&&request.position.x<640){
-				synchronized(serverGameWorld.getGameWorld()){
-					serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(tower);
+				if(!tower.collides(serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1))){
+					synchronized(serverGameWorld.getGameWorld()){
+						serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(tower);//-1 bo indeksacja listy jest od 0
+					}
 				}
 			}
 			else if(c.getID()==2&&request.position.x>640){
-				synchronized(serverGameWorld.getGameWorld()){
-					serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(tower);
+				if(!tower.collides(serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1))){
+					synchronized(serverGameWorld.getGameWorld()){
+						serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(tower);
+					}
 				}
 			}
 			
@@ -65,32 +70,55 @@ public class NetworkListener extends Listener {
 			Packet3CreateFactoryRequest request=(Packet3CreateFactoryRequest)o;	
 			Factory factory=new Factory(request.position.x-25,request.position.y-25,50,50,c.getID(),UUID.randomUUID().toString());
 			if(c.getID()==1&&request.position.x<640){
+				if(!factory.collides(serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1))){
 				synchronized(serverGameWorld.getGameWorld()){
 					serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(factory);
-				}
+				}}
 			}
 			else if(c.getID()==2&&request.position.x>640){
-				synchronized(serverGameWorld.getGameWorld()){
-					serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(factory);
+				if(!factory.collides(serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1))){
+					synchronized(serverGameWorld.getGameWorld()){
+						serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(factory);
+					}
 				}
 			}
 			
 		}
 		else if(o instanceof Packet4CreateMineRequest){
 			Packet4CreateMineRequest request=(Packet4CreateMineRequest)o;	
-			Mine Mine=new Mine(request.position.x-25,request.position.y-25,50,50,c.getID(),UUID.randomUUID().toString());
+			Mine mine=new Mine(request.position.x-25,request.position.y-25,50,50,c.getID(),UUID.randomUUID().toString());
 			if(c.getID()==1&&request.position.x<640){
-				synchronized(serverGameWorld.getGameWorld()){
-					serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(Mine);
-				}
-			}
-			else if(c.getID()==2&&request.position.x>640){
-				synchronized(serverGameWorld.getGameWorld()){
-					serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(Mine);
+				if(!mine.collides(serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1))){
+					synchronized(serverGameWorld.getGameWorld()){		
+						serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(mine);
+					}
 				}
 			}
 			
+			else if(c.getID()==2&&request.position.x>640){
+				if(!mine.collides(serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1))){
+					synchronized(serverGameWorld.getGameWorld()){
+						serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1).add(mine);
+					}
+				}
+			}
+			
+			
+		}
+		else if(o instanceof Packet6CreateAttackPointRequest){
+			Packet6CreateAttackPointRequest request=(Packet6CreateAttackPointRequest)o;			
+			if(c.getID()==1&&request.position.x<640){
+				
+			}
+			
+			else if(c.getID()==2&&request.position.x>640){
+				
+			}
+			
+			
 		}
 		
+		
 	}
+	
 }

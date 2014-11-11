@@ -11,9 +11,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.gameobjects.Barricade;
 import com.mygdx.gameobjects.Castle;
 import com.mygdx.gameobjects.Building;
+import com.mygdx.gameobjects.Factory;
+import com.mygdx.gameobjects.Mine;
+import com.mygdx.gameobjects.Tower;
 
 
 public class GameRenderer {
@@ -73,20 +77,59 @@ public class GameRenderer {
         shapeRenderer.end();
         
         for(ArrayList<Building> towerList : myWorld.getTowerList()){
-        	for(Building tower :towerList ){
+        	for(Building building :towerList ){
         		shapeRenderer.begin(ShapeType.Filled);
-        		if(tower.getIdGroup()==1){
-                shapeRenderer.setColor(Color.YELLOW);
+        		if(building.getIdGroup()==1){
+        			if(building instanceof Mine){
+        				shapeRenderer.setColor(Color.YELLOW);
+        			}
+        			else if(building instanceof Tower){
+        				shapeRenderer.setColor(Color.GRAY);
+        			}
+        			else if(building instanceof Factory){
+        				shapeRenderer.setColor(Color.PURPLE);
+        			}
         		}
-        		else if(tower.getIdGroup()==2)
+        		else if(building.getIdGroup()==2)
         		{
-        		shapeRenderer.setColor(Color.PURPLE);
+        			if(building instanceof Mine){
+        				shapeRenderer.setColor(Color.YELLOW);
+        			}
+        			else if(building instanceof Tower){
+        				shapeRenderer.setColor(Color.GRAY);
+        			}
+        			else if(building instanceof Factory){
+        				shapeRenderer.setColor(Color.PURPLE);
+        			}
         		}
-                shapeRenderer.rect(tower.getPosition().x, tower.getPosition().y, tower.getWidth(), tower.getHeight());
+                shapeRenderer.rect(building.getPosition().x, building.getPosition().y, building.getWidth(), building.getHeight());
                 shapeRenderer.end();
         	}
         }
+        	      		
+        		if(hud.connectionId==1){
+        			shapeRenderer.begin(ShapeType.Line);
+        		    shapeRenderer.setColor(Color.RED);
+        		    shapeRenderer.line(myWorld.getTargetLine().get(0).get(0),myWorld.getTargetLine().get(0).get(1));        		       
+        		    shapeRenderer.end();
+        		}
+        		else if(hud.connectionId==2)
+        		{
+        			shapeRenderer.begin(ShapeType.Line);
+        		    shapeRenderer.setColor(Color.RED);
+        		    shapeRenderer.line(myWorld.getTargetLine().get(1).get(0),myWorld.getTargetLine().get(1).get(1));        		       
+        		    shapeRenderer.end();
+        		}
+                
+        
        hud.render(runTime);
+       
+       //testy
+//       shapeRenderer.begin(ShapeType.Line);
+//       shapeRenderer.setColor(Color.RED);
+//       shapeRenderer.line(0,360,1280,360);
+//       
+//       shapeRenderer.end();
          
     }  
     public HUD getHud() {

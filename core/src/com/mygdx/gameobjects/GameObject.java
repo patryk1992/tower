@@ -20,6 +20,5 @@ public class GameObject extends MyInterface{
 		super(x,y,width,height);
 		this.id=id;
 		this.idGroup=idGroup;
-		
 	}
 }

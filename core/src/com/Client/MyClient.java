@@ -26,12 +26,14 @@ import java.util.Scanner;
 
 
 
+
 import com.Client.Packet.Packet0LoginRequest;
 import com.Client.Packet.Packet1LoginAnswer;
 import com.Client.Packet.Packet2Message;
 import com.Client.packets.Packet3CreateFactoryRequest;
 import com.Client.packets.Packet4CreateMineRequest;
 import com.Client.packets.Packet5CreateTowerRequest;
+import com.Client.packets.Packet6CreateAttackPointRequest;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
@@ -90,8 +92,7 @@ public class MyClient {
 		kryo.register(Factory.class);
 		kryo.register(Mine.class);
 		kryo.register(Tower.class);
-		
-		
+		kryo.register(Packet6CreateAttackPointRequest.class);
 		
 	}
 	

@@ -26,12 +26,8 @@ public class ServerGameWorld {
 
 	public ServerGameWorld(int midPointY, Server server){
 		this.server=server;
-		this.midPointY=midPointY;
-		Castle []castles=new Castle[2];		
-		castles[0]=new Castle(5,midPointY-40,80,80,server.getConnections()[0].getID(),UUID.randomUUID().toString(),Color.GREEN);
-		castles[1]=new Castle(1195,midPointY-40,80,80,server.getConnections()[1].getID(),UUID.randomUUID().toString(),Color.RED);
-		gameWorld=new GameWorld(midPointY);
-		gameWorld.setCastles(castles);		
+		this.midPointY=midPointY;		
+		gameWorld=new GameWorld(midPointY);			
 		server.sendToAllTCP(gameWorld);
 		
 	}	

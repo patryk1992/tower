@@ -3,6 +3,7 @@ package com.mygdx.helpers;
 import com.Client.packets.Packet3CreateFactoryRequest;
 import com.Client.packets.Packet4CreateMineRequest;
 import com.Client.packets.Packet5CreateTowerRequest;
+import com.Client.packets.Packet6CreateAttackPointRequest;
 import com.badlogic.gdx.InputProcessor;
 import com.esotericsoftware.kryonet.Client;
 import com.mygdx.gameworld.GameRenderer;
@@ -69,7 +70,7 @@ public class Input implements InputProcessor {
 				hud.getiFactory().setPressed(false);
 				hud.getiMine().setPressed(false);
 			}
-		} else {			
+		} else if((screenX<640&&client.getID()==1 )||(screenX>640&&client.getID()==2 )){			
 			if (hud.getiFactory().getPressed()) {
 				client.sendTCP(new Packet3CreateFactoryRequest(screenX,screenY));
 			}
@@ -80,6 +81,10 @@ public class Input implements InputProcessor {
 				client.sendTCP(new Packet4CreateMineRequest(screenX,screenY));
 			}
 		}
+		if((screenX>640&&client.getID()==1 )||(screenX<640&&client.getID()==2 ) ){
+			client.sendTCP(new Packet6CreateAttackPointRequest(screenX,screenY));
+		}
+		
 		return false;
 	}
 

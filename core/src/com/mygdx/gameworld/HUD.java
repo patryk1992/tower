@@ -46,17 +46,17 @@ public class HUD {
 	     shapeRenderer.end();
 	     if(iTower!=null&&iMine!=null&&iFactory!=null){
 		     shapeRenderer.begin(ShapeType.Filled);
-		     shapeRenderer.setColor(Color.PURPLE);
+		     shapeRenderer.setColor(Color.GRAY);
 		     shapeRenderer.rect(iTower.getPosition().x, iTower.getPosition().y, iTower.getWidth(), iTower.getHeight());
 		     shapeRenderer.end();
 		     
 		     shapeRenderer.begin(ShapeType.Filled);
-		     shapeRenderer.setColor(Color.GRAY);
+		     shapeRenderer.setColor(Color.YELLOW);
 		     shapeRenderer.rect(iMine.getPosition().x, iMine.getPosition().y, iMine.getWidth(), iMine.getHeight());
 		     shapeRenderer.end();
 		     
 		     shapeRenderer.begin(ShapeType.Filled);
-		     shapeRenderer.setColor(Color.YELLOW);
+		     shapeRenderer.setColor(Color.PURPLE);
 		     shapeRenderer.rect(iFactory.getPosition().x, iFactory.getPosition().y, iFactory.getWidth(), iFactory.getHeight());
 		     shapeRenderer.end();
 	     }
