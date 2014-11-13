@@ -5,10 +5,12 @@ import java.util.UUID;
 
 
 
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.gameobjects.Castle;
 import com.mygdx.gameobjects.Building;
+import com.mygdx.gameobjects.Tank;
 
 public class GameWorld {
 
@@ -16,7 +18,7 @@ public class GameWorld {
 
 	ArrayList<ArrayList<Building>> towerList = new ArrayList<ArrayList<Building>>(3);
 	ArrayList<ArrayList<Vector2>> targetLine =new ArrayList<ArrayList<Vector2>>(3);
-
+	ArrayList<ArrayList<Vector2>> tankList =new ArrayList<ArrayList<Vector2>>(3);
 
 	
 
@@ -59,6 +61,7 @@ public class GameWorld {
 	public void setCastles(Castle[] castles) {
 		this.castles = castles;
 	}
+	
 	
 		
 

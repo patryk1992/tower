@@ -12,11 +12,13 @@ import com.server.logic.ServerGameWorld;
 
 public class LogicGame {
 	static ServerGameWorld serverGameWorld;
-	static float delta = 0;
+	static int delta = 0;
+	static int fps=60;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		MyServer myServer = null;
+		long time;
 		try {
 			myServer = new MyServer();
 			Log.set(Log.LEVEL_DEBUG);
@@ -26,7 +28,7 @@ public class LogicGame {
 			e.printStackTrace();
 		}
 		while (true) {
-			sleep(60);
+			sleep(fps);
 			if (myServer.server.getConnections().length == 2) {
 				Log.info("server" + myServer.server.getConnections().length);				
 				Packet2Message message = new Packet2Message();
@@ -44,21 +46,22 @@ public class LogicGame {
 		while (true) {
 			myServer.networkListener.setServerGameWorld(serverGameWorld);
 			delta++;
-			sleep(60);
-			serverGameWorld.update(delta);
-
-			if (delta > 1280)
-				delta = 0;
+			sleep(fps);
+			time=delta/fps;
+			serverGameWorld.update(time);
+			
+			
 
 		}
 
 	}
-	static void sleep(int fps){
+	static long sleep(int fps){
 		try {
 			Thread.sleep(1000/fps);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return 1000/fps;
 	}
 }

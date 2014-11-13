@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -24,8 +25,10 @@ public class GameRenderer {
 	private OrthographicCamera cam;
 	private ShapeRenderer shapeRenderer;
 	private GameWorld myWorld;
+	
 	private HUD hud;	
 	private SpriteBatch batcher;	
+	private BitmapFont font;
 	
 	private int midPointY;
     private int gameWidth;    
@@ -48,12 +51,17 @@ public class GameRenderer {
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(cam.combined);            
         hud=new HUD(shapeRenderer,gameWidth, midPointY);
+        font = new BitmapFont(true);
+        font.setColor(Color.BLACK);
         
     }
     
     public void setMyWorld(GameWorld myWorld) {
 		this.myWorld = myWorld;
 		
+	}
+    public GameWorld getMyWorld() {
+		return myWorld;
 	}
     public void render(float runTime) {
     	
@@ -70,11 +78,18 @@ public class GameRenderer {
         shapeRenderer.setColor(myWorld.getCastles()[0].getColor());
         shapeRenderer.rect(myWorld.getCastles()[0].getPosition().x, myWorld.getCastles()[0].getPosition().y, myWorld.getCastles()[0].getWidth(), myWorld.getCastles()[0].getHeight());
         shapeRenderer.end();
+        batcher.begin();
+        font.draw(batcher, Integer.toString(myWorld.getCastles()[0].getLives()), myWorld.getCastles()[0].getPosition().x, myWorld.getCastles()[0].getPosition().y);
+        batcher.end();
+        
         
         shapeRenderer.begin(ShapeType.Filled);
         shapeRenderer.setColor(myWorld.getCastles()[1].getColor());
         shapeRenderer.rect(myWorld.getCastles()[1].getPosition().x, myWorld.getCastles()[1].getPosition().y, myWorld.getCastles()[1].getWidth(), myWorld.getCastles()[1].getHeight());
         shapeRenderer.end();
+        batcher.begin();
+        font.draw(batcher, Integer.toString(myWorld.getCastles()[1].getLives()), myWorld.getCastles()[1].getPosition().x, myWorld.getCastles()[1].getPosition().y);
+        batcher.end();
         
         for(ArrayList<Building> towerList : myWorld.getTowerList()){
         	for(Building building :towerList ){
@@ -82,28 +97,45 @@ public class GameRenderer {
         		if(building.getIdGroup()==1){
         			if(building instanceof Mine){
         				shapeRenderer.setColor(Color.YELLOW);
+        				shapeRenderer.rect(building.getPosition().x, building.getPosition().y, building.getWidth(), building.getHeight());
+        	            shapeRenderer.end();
         			}
         			else if(building instanceof Tower){
         				shapeRenderer.setColor(Color.GRAY);
+        				shapeRenderer.rect(building.getPosition().x, building.getPosition().y, building.getWidth(), building.getHeight());
+        	            shapeRenderer.end();
         			}
-        			else if(building instanceof Factory){
-        				shapeRenderer.setColor(Color.PURPLE);
+        			else if(building instanceof Factory){        				
+        		        shapeRenderer.setColor(Color.PURPLE);
+        		        shapeRenderer.rect(building.getPosition().x, building.getPosition().y, building.getWidth(), building.getHeight());
+                        shapeRenderer.end();
+                        batcher.begin();
+        		        font.draw(batcher, Integer.toString(((Factory) building).getTankNumber()),building.getPosition().x, building.getPosition().y);
+        		        batcher.end();
         			}
         		}
         		else if(building.getIdGroup()==2)
         		{
         			if(building instanceof Mine){
         				shapeRenderer.setColor(Color.YELLOW);
+        				shapeRenderer.rect(building.getPosition().x, building.getPosition().y, building.getWidth(), building.getHeight());
+        	            shapeRenderer.end();
         			}
         			else if(building instanceof Tower){
         				shapeRenderer.setColor(Color.GRAY);
+        				shapeRenderer.rect(building.getPosition().x, building.getPosition().y, building.getWidth(), building.getHeight());
+        	            shapeRenderer.end();
         			}
-        			else if(building instanceof Factory){
-        				shapeRenderer.setColor(Color.PURPLE);
+        			else if(building instanceof Factory){     				
+        		        shapeRenderer.setColor(Color.PURPLE);
+        				shapeRenderer.rect(building.getPosition().x, building.getPosition().y, building.getWidth(), building.getHeight());
+        	            shapeRenderer.end();
+        	            batcher.begin();
+        		        font.draw(batcher, Integer.toString(((Factory) building).getTankNumber()),building.getPosition().x, building.getPosition().y);
+        		        batcher.end();
         			}
         		}
-                shapeRenderer.rect(building.getPosition().x, building.getPosition().y, building.getWidth(), building.getHeight());
-                shapeRenderer.end();
+               
         	}
         }
         	      		

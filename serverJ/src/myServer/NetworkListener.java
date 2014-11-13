@@ -10,6 +10,7 @@ import com.Client.packets.Packet3CreateFactoryRequest;
 import com.Client.packets.Packet4CreateMineRequest;
 import com.Client.packets.Packet5CreateTowerRequest;
 import com.Client.packets.Packet6CreateAttackPointRequest;
+import com.Client.packets.Packet7ClickTowerRequest;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -68,7 +69,7 @@ public class NetworkListener extends Listener {
 		}
 		else if(o instanceof Packet3CreateFactoryRequest){
 			Packet3CreateFactoryRequest request=(Packet3CreateFactoryRequest)o;	
-			Factory factory=new Factory(request.position.x-25,request.position.y-25,50,50,c.getID(),UUID.randomUUID().toString());
+			Factory factory=new Factory(request.position.x-25,request.position.y-25,50,50,c.getID(),UUID.randomUUID().toString(),5,5);
 			if(c.getID()==1&&request.position.x<640){
 				if(!factory.collides(serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1))){
 				synchronized(serverGameWorld.getGameWorld()){
@@ -114,6 +115,11 @@ public class NetworkListener extends Listener {
 			else if(c.getID()==2&&request.position.x>640){
 				
 			}
+			
+			
+		}
+		else if(o instanceof Packet7ClickTowerRequest){
+			serverGameWorld.getGameWorld().getTowerList();
 			
 			
 		}

@@ -15,6 +15,7 @@ public class GameScreen implements Screen{
 	private GameRenderer renderer;
 	private MyClient myClient;
 	private float runTime =0;
+	private Input input;
 	
 	public GameScreen(){
 		float screenWidth = Gdx.graphics.getWidth();
@@ -23,9 +24,9 @@ public class GameScreen implements Screen{
 		
 		world= new GameWorld(midPointY);
 		renderer = new GameRenderer(world,(int) screenWidth,midPointY);
-		myClient=new MyClient("192.168.43.115",renderer);
-		
-		Gdx.input.setInputProcessor(new Input(myClient.client,world,renderer.getHud()));
+		myClient=new MyClient("192.168.43.115",renderer);	
+		input=new Input(myClient.client,renderer);
+		Gdx.input.setInputProcessor(input);
 		
 	}
 	
@@ -33,6 +34,7 @@ public class GameScreen implements Screen{
 	public void render(float delta) {
 		runTime+=delta;		
 		renderer.render(runTime);
+		
 	}
 
 	@Override

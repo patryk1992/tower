@@ -1,11 +1,15 @@
 package com.mygdx.helpers;
 
+import java.util.ArrayList;
+
 import com.Client.packets.Packet3CreateFactoryRequest;
 import com.Client.packets.Packet4CreateMineRequest;
 import com.Client.packets.Packet5CreateTowerRequest;
 import com.Client.packets.Packet6CreateAttackPointRequest;
+import com.Client.packets.Packet7ClickTowerRequest;
 import com.badlogic.gdx.InputProcessor;
 import com.esotericsoftware.kryonet.Client;
+import com.mygdx.gameobjects.Building;
 import com.mygdx.gameworld.GameRenderer;
 import com.mygdx.gameworld.GameWorld;
 import com.mygdx.gameworld.HUD;
@@ -13,12 +17,12 @@ import com.mygdx.gameworld.HUD;
 public class Input implements InputProcessor {
 	private Client client;
 	private GameWorld world;
+	GameRenderer renderer;
 	HUD hud;
-
-	public Input(Client client, GameWorld world, HUD hud) {
+	public Input(Client client, GameRenderer renderer) {
 		this.client = client;
-		this.world = world;
-		this.hud = hud;
+		this.renderer = renderer;
+		hud=renderer.getHud();
 	}
 
 	@Override
@@ -84,6 +88,12 @@ public class Input implements InputProcessor {
 		if((screenX>640&&client.getID()==1 )||(screenX<640&&client.getID()==2 ) ){
 			client.sendTCP(new Packet6CreateAttackPointRequest(screenX,screenY));
 		}
+		if(hud.getiFactory().getPressed()==false && hud.getiMine().getPressed()==false && hud.getiTower().getPressed()==false){
+			String clickedId=towerClicked(screenX,screenY);
+			if(clickedId!=null){
+				client.sendTCP(new Packet7ClickTowerRequest(clickedId));
+			}
+		}
 		
 		return false;
 	}
@@ -110,6 +120,15 @@ public class Input implements InputProcessor {
 	public boolean scrolled(int amount) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	public String towerClicked(int screenX, int screenY){				
+	        	for(Building building :renderer.getMyWorld().getTowerList().get(client.getID()-1) ){
+	        		if(building.collides(screenX, screenY)){
+	        			return building.getId();
+	        		}
+	        	}
+				return null;
+				
 	}
 
 }
