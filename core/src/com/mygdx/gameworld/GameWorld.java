@@ -18,9 +18,10 @@ public class GameWorld {
 
 	ArrayList<ArrayList<Building>> towerList = new ArrayList<ArrayList<Building>>(3);
 	ArrayList<ArrayList<Vector2>> targetLine =new ArrayList<ArrayList<Vector2>>(3);
-	ArrayList<ArrayList<Vector2>> tankList =new ArrayList<ArrayList<Vector2>>(3);
+	ArrayList<ArrayList<Tank>> tankList =new ArrayList<ArrayList<Tank>>(3);
 
 	
+
 
 	public GameWorld(int midPointY){
 		castles=new Castle[2];
@@ -40,6 +41,10 @@ public class GameWorld {
 		targetLine2.add(new Vector2(0, midPointY));			
 		targetLine.add(targetLine1);
 		targetLine.add(targetLine2);
+		ArrayList<Tank> tankList1=new ArrayList<Tank>(3);
+		ArrayList<Tank> tankLIst2=new ArrayList<Tank>(3);
+		tankList.add(tankList1);
+		tankList.add(tankLIst2);
 		
 	}
 	
@@ -54,6 +59,9 @@ public class GameWorld {
 		return targetLine;
 	}
 
+	public ArrayList<ArrayList<Tank>> getTankList() {
+		return tankList;
+	}
 	public Castle[] getCastles() {
 		return castles;
 	}
@@ -61,7 +69,13 @@ public class GameWorld {
 	public void setCastles(Castle[] castles) {
 		this.castles = castles;
 	}
-	
+	public void deployTanks(int tanksNumber,int idConnection){
+		
+		for(int i=0;i<tanksNumber;i++){
+			Tank tank=new Tank(targetLine.get(idConnection-1).get(0).x-i*25,targetLine.get(idConnection-1).get(0).y,20,20,idConnection,UUID.randomUUID().toString());
+			tankList.get(idConnection-1).add(tank);
+		}
+	}
 	
 		
 

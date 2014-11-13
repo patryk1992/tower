@@ -3,7 +3,7 @@ package com.mygdx.gameobjects;
 import java.util.ArrayList;
 
 public class Factory extends Building {
-	int tankNumber;
+	int tankNumber;	
 	long storedTime;
 	long produceTime;
 	long maxTank;
@@ -28,5 +28,10 @@ public class Factory extends Building {
 	public int getTankNumber() {
 		return tankNumber;
 	}
+	public void setTankNumber(int tankNumber) {
+		this.tankNumber = tankNumber;
+	}
+	
+	
 	
 }

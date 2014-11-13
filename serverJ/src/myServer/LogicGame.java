@@ -21,7 +21,7 @@ public class LogicGame {
 		long time;
 		try {
 			myServer = new MyServer();
-			Log.set(Log.LEVEL_DEBUG);
+//			Log.set(Log.LEVEL_DEBUG);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

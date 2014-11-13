@@ -18,6 +18,7 @@ import com.mygdx.gameobjects.Castle;
 import com.mygdx.gameobjects.Building;
 import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.Mine;
+import com.mygdx.gameobjects.Tank;
 import com.mygdx.gameobjects.Tower;
 
 
@@ -92,20 +93,22 @@ public class GameRenderer {
         batcher.end();
         
         for(ArrayList<Building> towerList : myWorld.getTowerList()){
-        	for(Building building :towerList ){
-        		shapeRenderer.begin(ShapeType.Filled);
+        	for(Building building :towerList ){        		
         		if(building.getIdGroup()==1){
         			if(building instanceof Mine){
+        				shapeRenderer.begin(ShapeType.Filled);
         				shapeRenderer.setColor(Color.YELLOW);
         				shapeRenderer.rect(building.getPosition().x, building.getPosition().y, building.getWidth(), building.getHeight());
         	            shapeRenderer.end();
         			}
         			else if(building instanceof Tower){
+        				shapeRenderer.begin(ShapeType.Filled);
         				shapeRenderer.setColor(Color.GRAY);
         				shapeRenderer.rect(building.getPosition().x, building.getPosition().y, building.getWidth(), building.getHeight());
         	            shapeRenderer.end();
         			}
-        			else if(building instanceof Factory){        				
+        			else if(building instanceof Factory){    
+        				shapeRenderer.begin(ShapeType.Filled);
         		        shapeRenderer.setColor(Color.PURPLE);
         		        shapeRenderer.rect(building.getPosition().x, building.getPosition().y, building.getWidth(), building.getHeight());
                         shapeRenderer.end();
@@ -117,16 +120,19 @@ public class GameRenderer {
         		else if(building.getIdGroup()==2)
         		{
         			if(building instanceof Mine){
+        				shapeRenderer.begin(ShapeType.Filled);
         				shapeRenderer.setColor(Color.YELLOW);
         				shapeRenderer.rect(building.getPosition().x, building.getPosition().y, building.getWidth(), building.getHeight());
         	            shapeRenderer.end();
         			}
         			else if(building instanceof Tower){
+        				shapeRenderer.begin(ShapeType.Filled);
         				shapeRenderer.setColor(Color.GRAY);
         				shapeRenderer.rect(building.getPosition().x, building.getPosition().y, building.getWidth(), building.getHeight());
         	            shapeRenderer.end();
         			}
-        			else if(building instanceof Factory){     				
+        			else if(building instanceof Factory){
+        				shapeRenderer.begin(ShapeType.Filled);
         		        shapeRenderer.setColor(Color.PURPLE);
         				shapeRenderer.rect(building.getPosition().x, building.getPosition().y, building.getWidth(), building.getHeight());
         	            shapeRenderer.end();
@@ -137,7 +143,7 @@ public class GameRenderer {
         		}
                
         	}
-        }
+        }        
         	      		
         		if(hud.connectionId==1){
         			shapeRenderer.begin(ShapeType.Line);
@@ -152,7 +158,16 @@ public class GameRenderer {
         		    shapeRenderer.line(myWorld.getTargetLine().get(1).get(0),myWorld.getTargetLine().get(1).get(1));        		       
         		    shapeRenderer.end();
         		}
-                
+        		 for(ArrayList<Tank> towerList : myWorld.getTankList()){
+        	        	for(Tank tank :towerList ){        		
+        	        		shapeRenderer.begin(ShapeType.Filled);
+	        		        shapeRenderer.setColor(Color.PINK);
+	        				shapeRenderer.rect(tank.getPosition().x, tank.getPosition().y, tank.getWidth(), tank.getHeight());
+	        	            shapeRenderer.end();
+        	        		
+        	               
+        	        	}
+        	        }
         
        hud.render(runTime);
        

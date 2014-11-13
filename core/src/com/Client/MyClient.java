@@ -28,6 +28,7 @@ import java.util.Scanner;
 
 
 
+
 import com.Client.Packet.Packet0LoginRequest;
 import com.Client.Packet.Packet1LoginAnswer;
 import com.Client.Packet.Packet2Message;
@@ -47,6 +48,7 @@ import com.mygdx.gameobjects.GameObject;
 import com.mygdx.gameobjects.Mine;
 import com.mygdx.gameobjects.MyInterface;
 import com.mygdx.gameobjects.Building;
+import com.mygdx.gameobjects.Tank;
 import com.mygdx.gameobjects.Tower;
 import com.mygdx.gameworld.GameRenderer;
 import com.mygdx.gameworld.GameWorld;
@@ -96,6 +98,7 @@ public class MyClient {
 		kryo.register(Tower.class);
 		kryo.register(Packet6CreateAttackPointRequest.class);
 		kryo.register(Packet7ClickTowerRequest.class);
+		kryo.register(Tank.class);
 		
 	}
 	

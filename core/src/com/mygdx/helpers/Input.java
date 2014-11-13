@@ -88,7 +88,7 @@ public class Input implements InputProcessor {
 		if((screenX>640&&client.getID()==1 )||(screenX<640&&client.getID()==2 ) ){
 			client.sendTCP(new Packet6CreateAttackPointRequest(screenX,screenY));
 		}
-		if(hud.getiFactory().getPressed()==false && hud.getiMine().getPressed()==false && hud.getiTower().getPressed()==false){
+		else if(hud.getiFactory().getPressed()==false && hud.getiMine().getPressed()==false && hud.getiTower().getPressed()==false){
 			String clickedId=towerClicked(screenX,screenY);
 			if(clickedId!=null){
 				client.sendTCP(new Packet7ClickTowerRequest(clickedId));

@@ -41,7 +41,7 @@ public class ServerGameWorld {
 		}
 		produce(time);
 	}
-
+	//poprawic dopisac wyszukiwanie tylko w swoich budynkach
 	public void produce(long time) {
 		for (ArrayList<Building> towerList : gameWorld.getTowerList()) {
 			for (Building building : towerList) {

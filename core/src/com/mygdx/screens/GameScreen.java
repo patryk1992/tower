@@ -1,5 +1,4 @@
 package com.mygdx.screens;
-
 import com.Client.MyClient;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

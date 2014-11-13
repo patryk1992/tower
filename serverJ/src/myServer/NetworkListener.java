@@ -18,13 +18,14 @@ import com.esotericsoftware.minlog.Log;
 import com.mygdx.gameobjects.Building;
 import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.Mine;
+import com.mygdx.gameobjects.Tank;
 import com.mygdx.gameobjects.Tower;
 import com.server.logic.ServerGameWorld;
 
 public class NetworkListener extends Listener {
-	
+
 	private ServerGameWorld serverGameWorld;
-	
+
 	public void setServerGameWorld(ServerGameWorld serverGameWorld) {
 		this.serverGameWorld = serverGameWorld;
 	}
@@ -111,7 +112,6 @@ public class NetworkListener extends Listener {
 			if(c.getID()==1&&request.position.x<640){
 				
 			}
-			
 			else if(c.getID()==2&&request.position.x>640){
 				
 			}
@@ -119,12 +119,24 @@ public class NetworkListener extends Listener {
 			
 		}
 		else if(o instanceof Packet7ClickTowerRequest){
-			serverGameWorld.getGameWorld().getTowerList();
+			Packet7ClickTowerRequest request=(Packet7ClickTowerRequest)o;
+			for(Building building :serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1) ){
+        		if(building.getId().equals(request.id)){
+        			if(building instanceof Factory){
+	        			Factory factory=((Factory)building);        			
+	        			Tank tank=new Tank(640,360,20,20,factory.getIdGroup(),UUID.randomUUID().toString());
+	        				synchronized(serverGameWorld.getGameWorld()){
+	    						serverGameWorld.getGameWorld().deployTanks(factory.getTankNumber(), c.getID());
+	    					}        			
+	        			((Factory)building).setTankNumber(0);        			
+	        			}
+        			}
+        	}
+			
 			
 			
 		}
 		
 		
 	}
-	
 }
