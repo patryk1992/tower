@@ -57,5 +57,11 @@ public class Tank extends GameObject {
 		}
 		return false;
 	}	
+	public Tank collides(Base base) {	
+			if(Intersector.overlaps(new Rectangle(position.x, position.y, width, height), new Rectangle(base.getPosition().x, base.getPosition().y, base.getWidth(), base.getHeight()))){
+				 return this;
+			}		
+		return null;
+	}
 
 }

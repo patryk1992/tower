@@ -8,7 +8,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
-import com.mygdx.gameobjects.Castle;
+import com.mygdx.gameobjects.Base;
 import com.mygdx.gameworld.GameRenderer;
 import com.mygdx.gameworld.GameWorld;
 
@@ -33,7 +33,6 @@ public class NetworkListener extends Listener {
 	@Override
 	public void disconnected(Connection arg0) {
 		Log.info("[Client]You have disconnected");
-
 	}
 
 	@Override

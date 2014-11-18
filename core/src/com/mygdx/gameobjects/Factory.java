@@ -32,6 +32,8 @@ public class Factory extends Building {
 		this.tankNumber = tankNumber;
 	}
 	
-	
+	public void setStoredTime(long storedTime) {
+		this.storedTime = storedTime;
+	}
 	
 }

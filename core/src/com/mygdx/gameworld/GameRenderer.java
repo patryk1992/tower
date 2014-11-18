@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.gameobjects.Barricade;
-import com.mygdx.gameobjects.Castle;
+import com.mygdx.gameobjects.Base;
 import com.mygdx.gameobjects.Building;
 import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.Mine;

@@ -6,7 +6,7 @@ import myServer.Packet.Packet2Message;
 
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.minlog.Log;
-import com.mygdx.gameobjects.Castle;
+import com.mygdx.gameobjects.Base;
 import com.mygdx.gameworld.GameWorld;
 import com.server.logic.ServerGameWorld;
 
@@ -14,11 +14,12 @@ public class LogicGame {
 	static ServerGameWorld serverGameWorld;
 	static int delta = 0;
 	static int fps=60;
-
+	static MyServer myServer = null;
+	static long time;
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		MyServer myServer = null;
-		long time;
+		
 		try {
 			myServer = new MyServer();
 //			Log.set(Log.LEVEL_DEBUG);

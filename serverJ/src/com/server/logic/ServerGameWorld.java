@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Server;
 import com.mygdx.gameobjects.Building;
-import com.mygdx.gameobjects.Castle;
+import com.mygdx.gameobjects.Base;
 import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.Tank;
 import com.mygdx.gameworld.GameWorld;
@@ -20,6 +20,11 @@ public class ServerGameWorld {
 	int midPointY;
 	GameWorld gameWorld;
 	ArrayList<ArrayList<Tank>> temporaryTankList =new ArrayList<ArrayList<Tank>>(3);
+	long time;
+
+	public long getTime() {
+		return time;
+	}
 
 	public GameWorld getGameWorld() {
 		return gameWorld;
@@ -41,12 +46,14 @@ public class ServerGameWorld {
 	}
 
 	public void update(long time) {
+		this.time=time;
 		synchronized (gameWorld) {
 			server.sendToAllTCP(gameWorld);
 		}
-		produce(time);
-		goAttack();
+		produce(time);		
 		setOnStartPositionTanks();
+		goAttack();
+		
 	}
 	
 	public void produce(long time) {
@@ -61,9 +68,24 @@ public class ServerGameWorld {
 	}
 	public void goAttack() {
 		Tank tmp;
+		int tmpGroupId;
 //		ArrayList<Tank> StoppedTankList=new ArrayList<Tank>();//stop
 		for (ArrayList<Tank> tankList : gameWorld.getTankList()) {
 			for (Tank tank : tankList) {
+				/////////////////////////////////////////////////////////////////////////////////sprawdzenie kolozi z Base przeciwnika dlategi inne idgroup
+				if(tank.getIdGroup()==2){
+					tmpGroupId=0;
+				}
+				else
+				{
+					tmpGroupId=1;
+				}
+				if(tank.collides(gameWorld.getCastles()[tmpGroupId])!=null){
+					tankList.remove(tank);
+					gameWorld.getCastles()[tmpGroupId].reduceLives();
+					break;
+				}
+				/////////////////////////////////////////////////////////////////////////////////sprawdzanie kolizji z innymi samolotami
 				tmp=tank.collides(tankList);
 				if(tmp==null){//jesli jest kolizja z innym tankiem to stop
 					if(tank.move()){
@@ -79,7 +101,10 @@ public class ServerGameWorld {
 			}
 		
 		}
+
+		
 	}
+	
 	public void deployTanks(int tanksNumber,int idConnection){
 		
 		for(int i=0;i<tanksNumber;i++){

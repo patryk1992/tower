@@ -124,8 +124,10 @@ public class NetworkListener extends Listener {
 	        			Factory factory=((Factory)building);        			
 	        				synchronized(serverGameWorld.getGameWorld()){
 	    						serverGameWorld.deployTanks(factory.getTankNumber(), c.getID());
+	    						factory.setTankNumber(0);
+	    	        			factory.setStoredTime(serverGameWorld.getTime());
 	    					}        			
-	        			factory.setTankNumber(0);        			
+	        			
 	        			}
         			}
         	}
