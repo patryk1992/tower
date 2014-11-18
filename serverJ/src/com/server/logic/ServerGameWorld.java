@@ -72,7 +72,7 @@ public class ServerGameWorld {
 //		ArrayList<Tank> StoppedTankList=new ArrayList<Tank>();//stop
 		for (ArrayList<Tank> tankList : gameWorld.getTankList()) {
 			for (Tank tank : tankList) {
-				/////////////////////////////////////////////////////////////////////////////////sprawdzenie kolozi z Base przeciwnika dlategi inne idgroup
+				/////////////////////////////////////////////////////////////////////////////////sprawdzenie koloizi z Base przeciwnika dlategi inne idgroup
 				if(tank.getIdGroup()==2){
 					tmpGroupId=0;
 				}
