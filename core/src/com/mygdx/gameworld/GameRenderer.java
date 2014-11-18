@@ -150,12 +150,20 @@ public class GameRenderer {
         		    shapeRenderer.setColor(Color.RED);
         		    shapeRenderer.line(myWorld.getTargetLine().get(0).get(0),myWorld.getTargetLine().get(0).get(1));        		       
         		    shapeRenderer.end();
+        		    shapeRenderer.begin(ShapeType.Line);
+        		    shapeRenderer.setColor(Color.RED);
+        		    shapeRenderer.line(myWorld.getTargetLine().get(0).get(1),myWorld.getTargetLine().get(0).get(2));        		       
+        		    shapeRenderer.end();
         		}
         		else if(hud.connectionId==2)
         		{
         			shapeRenderer.begin(ShapeType.Line);
         		    shapeRenderer.setColor(Color.RED);
         		    shapeRenderer.line(myWorld.getTargetLine().get(1).get(0),myWorld.getTargetLine().get(1).get(1));        		       
+        		    shapeRenderer.end();
+        		    shapeRenderer.begin(ShapeType.Line);
+        		    shapeRenderer.setColor(Color.RED);
+        		    shapeRenderer.line(myWorld.getTargetLine().get(1).get(1),myWorld.getTargetLine().get(1).get(2));        		       
         		    shapeRenderer.end();
         		}
         		 for(ArrayList<Tank> towerList : myWorld.getTankList()){

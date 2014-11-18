@@ -17,6 +17,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
 import com.mygdx.gameobjects.Building;
 import com.mygdx.gameobjects.Factory;
+import com.mygdx.gameobjects.GameObject;
 import com.mygdx.gameobjects.Mine;
 import com.mygdx.gameobjects.Tank;
 import com.mygdx.gameobjects.Tower;
@@ -108,14 +109,11 @@ public class NetworkListener extends Listener {
 			
 		}
 		else if(o instanceof Packet6CreateAttackPointRequest){
-			Packet6CreateAttackPointRequest request=(Packet6CreateAttackPointRequest)o;			
-			if(c.getID()==1&&request.position.x<640){
-				
+			Packet6CreateAttackPointRequest request=(Packet6CreateAttackPointRequest)o;	
+			synchronized(serverGameWorld.getGameWorld()){				
+					serverGameWorld.getGameWorld().getTargetLine().get(c.getID()-1).set(1, new Vector2(request.position));
+					serverGameWorld.getGameWorld().getTargetLine().get(c.getID()-1).set(0, new Vector2(640,request.position.y));
 			}
-			else if(c.getID()==2&&request.position.x>640){
-				
-			}
-			
 			
 		}
 		else if(o instanceof Packet7ClickTowerRequest){
@@ -124,11 +122,10 @@ public class NetworkListener extends Listener {
         		if(building.getId().equals(request.id)){
         			if(building instanceof Factory){
 	        			Factory factory=((Factory)building);        			
-	        			Tank tank=new Tank(640,360,20,20,factory.getIdGroup(),UUID.randomUUID().toString());
 	        				synchronized(serverGameWorld.getGameWorld()){
-	    						serverGameWorld.getGameWorld().deployTanks(factory.getTankNumber(), c.getID());
+	    						serverGameWorld.deployTanks(factory.getTankNumber(), c.getID());
 	    					}        			
-	        			((Factory)building).setTankNumber(0);        			
+	        			factory.setTankNumber(0);        			
 	        			}
         			}
         	}

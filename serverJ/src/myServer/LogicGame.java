@@ -48,8 +48,7 @@ public class LogicGame {
 			delta++;
 			sleep(fps);
 			time=delta/fps;
-			serverGameWorld.update(time);
-			
+			serverGameWorld.update(time);		
 			
 
 		}
