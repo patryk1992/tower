@@ -2,32 +2,6 @@ package com.Client;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 import com.Client.Packet.Packet0LoginRequest;
 import com.Client.Packet.Packet1LoginAnswer;
@@ -46,12 +20,13 @@ import com.mygdx.gameobjects.Base;
 import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.GameObject;
 import com.mygdx.gameobjects.Mine;
-import com.mygdx.gameobjects.MyInterface;
 import com.mygdx.gameobjects.Building;
 import com.mygdx.gameobjects.Tank;
 import com.mygdx.gameobjects.Tower;
 import com.mygdx.gameworld.GameRenderer;
 import com.mygdx.gameworld.GameWorld;
+import com.mygdx.simpleobjects.Dimension;
+import com.mygdx.simpleobjects.MyRectangle;
 
 public class MyClient {
 	public Client client;
@@ -92,13 +67,15 @@ public class MyClient {
 		kryo.register(Packet5CreateTowerRequest.class);
 		kryo.register(ArrayList.class);
 		kryo.register(Building.class);
-		kryo.register(MyInterface.class);
+		kryo.register(Dimension.class);
 		kryo.register(Factory.class);
 		kryo.register(Mine.class);
 		kryo.register(Tower.class);
 		kryo.register(Packet6CreateAttackPointRequest.class);
 		kryo.register(Packet7ClickTowerRequest.class);
 		kryo.register(Tank.class);
+		kryo.register(MyRectangle.class);
+		
 		
 	}
 	

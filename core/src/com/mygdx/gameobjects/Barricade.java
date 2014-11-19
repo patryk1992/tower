@@ -1,6 +1,8 @@
 package com.mygdx.gameobjects;
 
-public class Barricade extends MyInterface{
+import com.mygdx.simpleobjects.MyRectangle;
+
+public class Barricade extends MyRectangle{
 	public Barricade(float x, float y, int width, int height){
 		super(x,y,width,height);
 	}

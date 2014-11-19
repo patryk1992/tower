@@ -1,6 +1,8 @@
 package com.mygdx.gameobjects;
 
-public class ITower extends MyInterface{
+import com.mygdx.simpleobjects.MyRectangle;
+
+public class ITower extends MyRectangle{
 	Boolean pressed=false;
 	
 	public ITower(float x, float y, int width, int height){

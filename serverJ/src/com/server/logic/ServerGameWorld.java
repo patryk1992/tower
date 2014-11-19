@@ -86,7 +86,7 @@ public class ServerGameWorld {
 					break;
 				}
 				/////////////////////////////////////////////////////////////////////////////////sprawdzanie kolizji z innymi samolotami
-				tmp=tank.collides(tankList);
+				tmp=(Tank) tank.collides(tankList);
 				if(tmp==null){//jesli jest kolizja z innym tankiem to stop
 					if(tank.move()){
 						tank.goTo(gameWorld.getTargetLine().get(tank.getIdGroup()-1).get(2));

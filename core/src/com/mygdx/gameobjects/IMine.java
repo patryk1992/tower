@@ -1,6 +1,8 @@
 package com.mygdx.gameobjects;
 
-public class IMine extends MyInterface{
+import com.mygdx.simpleobjects.MyRectangle;
+
+public class IMine extends MyRectangle{
 	Boolean pressed=false; 
 	
 	public IMine(float x, float y, int width, int height){

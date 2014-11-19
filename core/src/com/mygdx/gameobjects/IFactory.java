@@ -1,6 +1,8 @@
 package com.mygdx.gameobjects;
 
-public class IFactory extends MyInterface{
+import com.mygdx.simpleobjects.MyRectangle;
+
+public class IFactory extends MyRectangle{
 	Boolean pressed=false; 
 	
 	public IFactory(float x, float y, int width, int height){

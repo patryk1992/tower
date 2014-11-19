@@ -123,7 +123,7 @@ public class Input implements InputProcessor {
 	}
 	public String towerClicked(int screenX, int screenY){				
 	        	for(Building building :renderer.getMyWorld().getTowerList().get(client.getID()-1) ){
-	        		if(building.collides(screenX, screenY)){
+	        		if(building.getDimension().collides(screenX, screenY)){
 	        			return building.getId();
 	        		}
 	        	}
