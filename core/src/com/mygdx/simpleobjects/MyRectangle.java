@@ -38,7 +38,7 @@ public class MyRectangle extends Dimension{
 	}
 
 	@Override
-	public boolean collides(int x, int y, int radius) {
+	public boolean collides(int x, int y, float radius) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -18,6 +18,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
 import com.mygdx.gameobjects.Base;
+import com.mygdx.gameobjects.Bullet;
 import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.GameObject;
 import com.mygdx.gameobjects.Mine;
@@ -26,6 +27,7 @@ import com.mygdx.gameobjects.Tank;
 import com.mygdx.gameobjects.Tower;
 import com.mygdx.gameworld.GameWorld;
 import com.mygdx.simpleobjects.Dimension;
+import com.mygdx.simpleobjects.MyCircle;
 import com.mygdx.simpleobjects.MyRectangle;
 import com.server.logic.ServerGameWorld;
 
@@ -67,6 +69,8 @@ public class MyServer {
 		kryo.register(Packet7ClickTowerRequest.class);
 		kryo.register(Tank.class);
 		kryo.register(MyRectangle.class);
+		kryo.register(Bullet.class);
+		kryo.register(MyCircle.class);
 	}
 	
 }

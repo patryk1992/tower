@@ -29,7 +29,7 @@ public abstract class Dimension {
 	
 	public abstract boolean collides(float x, float y, int w, int h);
 	
-	public abstract boolean collides(int x, int y, int radius);
+	public abstract boolean collides(int x, int y, float radius);
 	
 	
 }

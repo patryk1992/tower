@@ -1,10 +1,13 @@
 package com.mygdx.gameobjects;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.simpleobjects.MyRectangle;
 
 public class Tank extends GameObject {
 	int lives;
@@ -13,12 +16,34 @@ public class Tank extends GameObject {
 	float speed;
 	Vector2 pointTarget;
 	Vector2 pointInit;
+	long storedTime;
+	long produceTime;
 	public Tank(float x, float y, int width, int height, int idGroup, String id){
 		super(x,y,width,height,idGroup,id);		
 		lives=3;
 	}
 	public Tank(){
 		
+	}
+	
+	public Bullet fire(long time,List<? extends Building> objectList){
+		long timeDifference=time-storedTime;
+		Building targetBuilding=scanForTarget(objectList);
+		if(timeDifference>produceTime&&targetBuilding!=null){			
+			storedTime=time;
+			return new Bullet(getDimension().position.x, getDimension().position.y, 10, getIdGroup(),UUID.randomUUID().toString(),targetBuilding);
+			
+		}
+		return null;
+		
+	}
+	public Building scanForTarget(List<? extends Building> objectList){
+		for(Building building:objectList){
+			if(this.getDimension().getPosition().dst(building.getDimension().getPosition())<150){
+				return building;
+			}
+		}
+		return null;
 	}
 	public void goTo(Vector2 point){
 		velocityConstant=1;
@@ -38,6 +63,11 @@ public class Tank extends GameObject {
 	    return false;
 	}
 	
-	
+	public long getStoredTime() {
+		return storedTime;
+	}
+	public void setStoredTime(long storedTime) {
+		this.storedTime = storedTime;
+	}
 
 }

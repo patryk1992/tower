@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Server;
 import com.mygdx.gameobjects.Building;
 import com.mygdx.gameobjects.Base;
+import com.mygdx.gameobjects.Bullet;
 import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.Tank;
 import com.mygdx.gameworld.GameWorld;
@@ -52,10 +53,19 @@ public class ServerGameWorld {
 		}
 		produce(time);		
 		setOnStartPositionTanks();
-		goAttack();
-		
+		goAttack(time);
+		moveBullets();
 	}
 	
+	private void moveBullets() {
+		for (ArrayList<Bullet> bulletList : gameWorld.getBulletList()) {
+			for (Bullet bullet:bulletList) {
+				bullet.move();
+			}
+		}
+	}
+	
+
 	public void produce(long time) {
 		for (ArrayList<Building> towerList : gameWorld.getTowerList()) {
 			for (Building building : towerList) {
@@ -66,10 +76,9 @@ public class ServerGameWorld {
 		}
 
 	}
-	public void goAttack() {
+	public void goAttack(long time) {
 		Tank tmp;
 		int tmpGroupId;
-//		ArrayList<Tank> StoppedTankList=new ArrayList<Tank>();//stop
 		for (ArrayList<Tank> tankList : gameWorld.getTankList()) {
 			for (Tank tank : tankList) {
 				/////////////////////////////////////////////////////////////////////////////////sprawdzenie koloizi z Base przeciwnika dlategi inne idgroup
@@ -85,6 +94,14 @@ public class ServerGameWorld {
 					gameWorld.getCastles()[tmpGroupId].reduceLives();
 					break;
 				}
+				/////////////////////////////////////////////////////////////////////////////////strzelanie do innych budynków	zainicjowanie wystrza³u		 	
+				for (Building building :gameWorld.getTowerList().get(tmpGroupId)) {
+					Bullet bullet=tank.fire(time, gameWorld.getTowerList().get(tmpGroupId));
+					if(bullet!=null){
+						gameWorld.getBulletList().get(tank.getIdGroup()-1).add(bullet);
+					}
+				}			
+				
 				/////////////////////////////////////////////////////////////////////////////////sprawdzanie kolizji z innymi samolotami
 				tmp=(Tank) tank.collides(tankList);
 				if(tmp==null){//jesli jest kolizja z innym tankiem to stop
@@ -93,7 +110,7 @@ public class ServerGameWorld {
 					}
 				}
 				else{
-//					StoppedTankList.add(tmp);//stop
+
 					tankList.remove(tank);//wybuch
 					tankList.remove(tmp);					
 					break;

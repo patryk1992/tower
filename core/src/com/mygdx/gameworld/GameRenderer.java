@@ -16,10 +16,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.gameobjects.Barricade;
 import com.mygdx.gameobjects.Base;
 import com.mygdx.gameobjects.Building;
+import com.mygdx.gameobjects.Bullet;
 import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.Mine;
 import com.mygdx.gameobjects.Tank;
 import com.mygdx.gameobjects.Tower;
+import com.mygdx.simpleobjects.MyCircle;
 import com.mygdx.simpleobjects.MyRectangle;
 
 
@@ -177,7 +179,15 @@ public class GameRenderer {
         	               
         	        	}
         	        }
-        
+        for (ArrayList<Bullet> bulletList : myWorld.getBulletList()) {
+        	for (Bullet bullet:bulletList) {
+        		shapeRenderer.begin(ShapeType.Filled);
+		        shapeRenderer.setColor(Color.BLACK);
+	            shapeRenderer.circle(bullet.getDimension().getPosition().x, bullet.getDimension().getPosition().y, ((MyCircle) bullet.getDimension()).getRadius());
+				shapeRenderer.end();
+        	}
+        }
+        		 
        hud.render(runTime);
        
        //testy

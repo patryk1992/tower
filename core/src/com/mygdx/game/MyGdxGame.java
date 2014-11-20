@@ -20,7 +20,6 @@ public class MyGdxGame  extends Game{
 	GameScreen gameScreen;
 	 @Override
 	    public void create() {
-		 	
 	        Gdx.app.log("ZBGame", "created");
 	        gameScreen=new GameScreen();
 	        setScreen(gameScreen);

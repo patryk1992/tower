@@ -1,11 +1,12 @@
 package com.mygdx.simpleobjects;
 
 public class MyCircle extends Dimension {
-	int radius;
+	float radius;
+	
 	public MyCircle(){
 		
 	}
-	public MyCircle(float x, float y, int radius){
+	public MyCircle(float x, float y, float radius){
 		super(x,y);
 		this.radius=radius;
 	}
@@ -22,8 +23,11 @@ public class MyCircle extends Dimension {
 	}
 
 	@Override
-	public boolean collides(int x, int y, int radius) {
+	public boolean collides(int x, int y, float radius) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	public float getRadius() {
+		return radius;
 	}
 }

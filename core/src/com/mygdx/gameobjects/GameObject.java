@@ -28,7 +28,7 @@ public class GameObject {
 		this.id=id;
 		this.idGroup=idGroup;
 	}
-	public GameObject(float x, float y, int radius ,int idGroup, String id){
+	public GameObject(float x, float y, float radius ,int idGroup, String id){
 		setDimension(new MyCircle(x,y,radius));
 		this.id=id;
 		this.idGroup=idGroup;

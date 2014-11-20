@@ -6,10 +6,12 @@ import java.util.UUID;
 
 
 
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.gameobjects.Base;
 import com.mygdx.gameobjects.Building;
+import com.mygdx.gameobjects.Bullet;
 import com.mygdx.gameobjects.Tank;
 
 public class GameWorld {
@@ -19,9 +21,11 @@ public class GameWorld {
 	ArrayList<ArrayList<Building>> towerList = new ArrayList<ArrayList<Building>>(3);
 	ArrayList<ArrayList<Vector2>> targetLine =new ArrayList<ArrayList<Vector2>>(3);
 	ArrayList<ArrayList<Tank>> tankList =new ArrayList<ArrayList<Tank>>(3);
-
+	ArrayList<ArrayList<Bullet>> bulletList =new ArrayList<ArrayList<Bullet>>(3);
 	
 
+
+	
 
 	public GameWorld(int midPointY){
 		castles=new Base[2];
@@ -44,9 +48,13 @@ public class GameWorld {
 		targetLine.add(targetLine1);
 		targetLine.add(targetLine2);
 		ArrayList<Tank> tankList1=new ArrayList<Tank>(3);
-		ArrayList<Tank> tankLIst2=new ArrayList<Tank>(3);
+		ArrayList<Tank> tankList2=new ArrayList<Tank>(3);
 		tankList.add(tankList1);
-		tankList.add(tankLIst2);
+		tankList.add(tankList2);
+		ArrayList<Bullet> bulletList1=new ArrayList<Bullet>(3);
+		ArrayList<Bullet> bulletList2=new ArrayList<Bullet>(3);
+		bulletList.add(bulletList1);
+		bulletList.add(bulletList2);
 		
 	}
 	
@@ -63,6 +71,9 @@ public class GameWorld {
 
 	public ArrayList<ArrayList<Tank>> getTankList() {
 		return tankList;
+	}
+	public ArrayList<ArrayList<Bullet>> getBulletList() {
+		return bulletList;
 	}
 	public Base[] getCastles() {
 		return castles;

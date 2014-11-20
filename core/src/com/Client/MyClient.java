@@ -3,6 +3,9 @@ package com.Client;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
+
+
 import com.Client.Packet.Packet0LoginRequest;
 import com.Client.Packet.Packet1LoginAnswer;
 import com.Client.Packet.Packet2Message;
@@ -17,6 +20,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.minlog.Log;
 import com.mygdx.gameobjects.Base;
+import com.mygdx.gameobjects.Bullet;
 import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.GameObject;
 import com.mygdx.gameobjects.Mine;
@@ -26,6 +30,7 @@ import com.mygdx.gameobjects.Tower;
 import com.mygdx.gameworld.GameRenderer;
 import com.mygdx.gameworld.GameWorld;
 import com.mygdx.simpleobjects.Dimension;
+import com.mygdx.simpleobjects.MyCircle;
 import com.mygdx.simpleobjects.MyRectangle;
 
 public class MyClient {
@@ -75,8 +80,8 @@ public class MyClient {
 		kryo.register(Packet7ClickTowerRequest.class);
 		kryo.register(Tank.class);
 		kryo.register(MyRectangle.class);
-		
-		
+		kryo.register(Bullet.class);
+		kryo.register(MyCircle.class);
 	}
 	
 
