@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Base extends GameObject{
 	Color color;
 	int lives;
-	
+	int coins=50;
 	public Base(){
 		
 	}

@@ -10,15 +10,10 @@ import com.mygdx.simpleobjects.*;
 
 public class GameObject {	
 	String id;
-	int idGroup;
-	
+	int idGroup;	
 	private Dimension dimension;
-	public String getId() {
-		return id;
-	}
-	public int getIdGroup() {
-		return idGroup;
-	}
+	int bulletsCanTake;
+	
 	public GameObject(){
 		
 	}	
@@ -27,11 +22,13 @@ public class GameObject {
 		setDimension(new MyRectangle(x,y,width,height));
 		this.id=id;
 		this.idGroup=idGroup;
+		bulletsCanTake=5;
 	}
 	public GameObject(float x, float y, float radius ,int idGroup, String id){
 		setDimension(new MyCircle(x,y,radius));
 		this.id=id;
 		this.idGroup=idGroup;
+		bulletsCanTake=5;
 	}
 	
 	public GameObject collides(List<? extends GameObject> objectList) {
@@ -66,5 +63,13 @@ public class GameObject {
 	public void setDimension(Dimension dimension) {
 		this.dimension = dimension;
 	}
-	
+	public String getId() {
+		return id;
+	}
+	public int getIdGroup() {
+		return idGroup;
+	}
+	public int shooted() {
+		return bulletsCanTake--;
+	}
 }

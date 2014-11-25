@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.simpleobjects.MyRectangle;
 
-public class Tank extends GameObject {
+public class Tank extends GameObject implements iFire{
 	int lives;
 	float velocityConstant;
 	float progres;
@@ -18,33 +18,15 @@ public class Tank extends GameObject {
 	Vector2 pointInit;
 	long storedTime;
 	long produceTime;
-	public Tank(float x, float y, int width, int height, int idGroup, String id){
+	public Tank(float x, float y, int width, int height,long produceTime ,int idGroup, String id){
 		super(x,y,width,height,idGroup,id);		
 		lives=3;
+		this.produceTime=produceTime;
 	}
 	public Tank(){
 		
 	}
 	
-	public Bullet fire(long time,List<? extends Building> objectList){
-		long timeDifference=time-storedTime;
-		Building targetBuilding=scanForTarget(objectList);
-		if(timeDifference>produceTime&&targetBuilding!=null){			
-			storedTime=time;
-			return new Bullet(getDimension().position.x, getDimension().position.y, 10, getIdGroup(),UUID.randomUUID().toString(),targetBuilding);
-			
-		}
-		return null;
-		
-	}
-	public Building scanForTarget(List<? extends Building> objectList){
-		for(Building building:objectList){
-			if(this.getDimension().getPosition().dst(building.getDimension().getPosition())<150){
-				return building;
-			}
-		}
-		return null;
-	}
 	public void goTo(Vector2 point){
 		velocityConstant=1;
 		progres=0;
@@ -68,6 +50,26 @@ public class Tank extends GameObject {
 	}
 	public void setStoredTime(long storedTime) {
 		this.storedTime = storedTime;
+	}
+	@Override
+	public Bullet fire(long time, List<? extends GameObject> objectList) {
+		long timeDifference=time-storedTime;
+		Building targetBuilding=(Building) scanForTarget(objectList);
+		if(timeDifference>produceTime&&targetBuilding!=null){			
+			storedTime=time;
+			return new Bullet(getDimension().position.x, getDimension().position.y, 5, getIdGroup(),UUID.randomUUID().toString(),targetBuilding);
+			
+		}
+		return null;
+	}
+	@Override
+	public GameObject scanForTarget(List<? extends GameObject> objectList) {
+		for(GameObject building:objectList){
+			if(this.getDimension().getPosition().dst(building.getDimension().getPosition())<150){
+				return building;
+			}
+		}
+		return null;
 	}
 
 }

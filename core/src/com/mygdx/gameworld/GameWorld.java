@@ -7,11 +7,13 @@ import java.util.UUID;
 
 
 
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.gameobjects.Base;
 import com.mygdx.gameobjects.Building;
 import com.mygdx.gameobjects.Bullet;
+import com.mygdx.gameobjects.GameObject;
 import com.mygdx.gameobjects.Tank;
 
 public class GameWorld {
@@ -77,6 +79,14 @@ public class GameWorld {
 	}
 	public Base[] getCastles() {
 		return castles;
+	}
+	public GameObject getObjectFromList(String id,ArrayList<? extends GameObject> list) {
+		for(GameObject object:list){
+			if(object.getId().equals(id)){
+				return object;
+			}
+		}
+		return null;
 	}
 	
 	public void setCastles(Base[] castles) {
