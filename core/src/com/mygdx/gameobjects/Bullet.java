@@ -28,7 +28,7 @@ public class Bullet extends GameObject {
 	    progres += speed;
 	    this.getDimension().getPosition().x=pointInit.x+(pointTarget.x-pointInit.x)*progres;
 	    this.getDimension().getPosition().y=pointInit.y+(pointTarget.y-pointInit.y)*progres; 
-	    if(this.getDimension().getPosition().dst2(pointTarget)<5){//5 to dok³adnosc sprawdzanie kolizji
+	    if(this.getDimension().getPosition().dst2(pointTarget)<10){//5 to dok³adnosc sprawdzanie kolizji
 	    	return true;
 	    }
 	    return false;

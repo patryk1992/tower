@@ -26,9 +26,6 @@ public class GameWorld {
 	ArrayList<ArrayList<Bullet>> bulletList =new ArrayList<ArrayList<Bullet>>(3);
 	
 
-
-	
-
 	public GameWorld(int midPointY){
 		castles=new Base[2];
 		castles[0]=new Base(5,midPointY-40,80,80,1,UUID.randomUUID().toString(),Color.GREEN);

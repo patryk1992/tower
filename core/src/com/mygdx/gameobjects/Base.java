@@ -7,9 +7,10 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Base extends GameObject{
+	
 	Color color;
 	int lives;
-	int coins=50;
+	int coins=500;
 	public Base(){
 		
 	}
@@ -30,5 +31,14 @@ public class Base extends GameObject{
 	}
 	public void setColor(Color color) {
 		this.color = color;
+	}
+	public int getCoins() {
+		return coins;
+	}
+	public void addCoins(int coins) {
+		this.coins += coins;
+	}
+	public void withdrawCoins(int coins) {
+		this.coins -= coins;
 	}
 }

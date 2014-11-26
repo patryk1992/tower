@@ -13,6 +13,7 @@ import com.mygdx.gameobjects.Base;
 import com.mygdx.gameobjects.Bullet;
 import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.GameObject;
+import com.mygdx.gameobjects.Mine;
 import com.mygdx.gameobjects.Tank;
 import com.mygdx.gameobjects.Tower;
 import com.mygdx.gameobjects.iFire;
@@ -132,9 +133,9 @@ public class ServerGameWorld {
 							gameWorld.getBulletList().get(building.getIdGroup()-1).add(bullet);
 						}
 	    			}
-//					else if(building instanceof Factory){
-//	    				((Factory) building).produce(time);
-//	    			}
+					else if(building instanceof Mine){
+						gameWorld.getCastles()[building.getIdGroup()-1].addCoins(((Mine) building).extract(time));
+	    			}
 				}
 			}
 		}

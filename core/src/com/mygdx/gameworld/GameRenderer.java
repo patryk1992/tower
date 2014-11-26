@@ -189,14 +189,11 @@ public class GameRenderer {
         }
         		 
        hud.render(runTime);
-       
-       //testy
-//       shapeRenderer.begin(ShapeType.Line);
-//       shapeRenderer.setColor(Color.RED);
-//       shapeRenderer.line(0,360,1280,360);
-//       
-//       shapeRenderer.end();
-         
+             
+       batcher.begin();
+	   font.draw(batcher, Integer.toString(myWorld.getCastles()[hud.connectionId-1].getCoins()),hud.getiCoins().getPosition().x,hud.getiCoins().getPosition().y);
+	   batcher.end();
+		
     }  
     public HUD getHud() {
 		return hud;

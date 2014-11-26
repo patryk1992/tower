@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.gameobjects.Barricade;
+import com.mygdx.gameobjects.ICoins;
 import com.mygdx.gameobjects.IFactory;
 import com.mygdx.gameobjects.IMine;
 import com.mygdx.gameobjects.ITower;
@@ -15,7 +16,7 @@ public class HUD {
 	ITower iTower;
 	IMine iMine;
 	IFactory iFactory;
-	
+	ICoins iCoins;
 	int connectionId;
 	
 	public void setConnectionId(int connectionId) {
@@ -32,11 +33,13 @@ public class HUD {
 			iTower= new ITower(1,670,50,50);
 			iMine= new IMine(1,610,50,50);
 			iFactory= new IFactory(1,550,50,50);
+			iCoins= new ICoins(5, 10, 15);
 			}
 		else if(connectionId==2){
 			iTower= new ITower(1229,670,50,50);
 			iMine= new IMine(1229,610,50,50);
 			iFactory= new IFactory(1229,550,50,50);
+			iCoins= new ICoins(1250, 10, 15);
 			}
 	}
 	public void render(float runTime) {
@@ -44,7 +47,7 @@ public class HUD {
 	     shapeRenderer.setColor(Color.GRAY);
 	     shapeRenderer.rect(barricade.getPosition().x, barricade.getPosition().y, barricade.getWidth(), barricade.getHeight());
 	     shapeRenderer.end();
-	     if(iTower!=null&&iMine!=null&&iFactory!=null){
+	     if(iTower!=null&&iMine!=null&&iFactory!=null&&iCoins!=null){
 		     shapeRenderer.begin(ShapeType.Filled);
 		     shapeRenderer.setColor(Color.GRAY);
 		     shapeRenderer.rect(iTower.getPosition().x, iTower.getPosition().y, iTower.getWidth(), iTower.getHeight());
@@ -59,6 +62,11 @@ public class HUD {
 		     shapeRenderer.setColor(Color.PURPLE);
 		     shapeRenderer.rect(iFactory.getPosition().x, iFactory.getPosition().y, iFactory.getWidth(), iFactory.getHeight());
 		     shapeRenderer.end();
+		     
+		     shapeRenderer.begin(ShapeType.Filled);
+		     shapeRenderer.setColor(Color.PINK);
+		     shapeRenderer.circle(iCoins.getPosition().x, iCoins.getPosition().y, iCoins.getRadius());
+		     shapeRenderer.end();
 	     }
 	     
 	 }
@@ -70,5 +78,8 @@ public class HUD {
 	}
 	public IFactory getiFactory() {
 		return iFactory;
+	}
+	public ICoins getiCoins() {
+		return iCoins;
 	}
 }

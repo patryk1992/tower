@@ -9,8 +9,10 @@ import com.mygdx.simpleobjects.MyRectangle;
 public class Building extends GameObject{
 	long storedTime;
 	long produceTime;
-	public Building(float x, float y, int width, int height ,int idGroup, String id){
+	public Building(float x, float y, int width, int height ,long producedTime,int idGroup, String id){
 		super(x,y,width,height,idGroup,id);
+		this.produceTime=producedTime;
+		storedTime=0;
 	}
 
 	public Building() {
