@@ -17,10 +17,6 @@ public class LogicGame {
 	static MyServer myServer = null;
 	static long time;
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		start();
-	}
 	public static void start(){
 
 		try {

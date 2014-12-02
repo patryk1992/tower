@@ -1,15 +1,12 @@
-package com.Client;
+package myServer;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import myServer.Packet.Packet0LoginRequest;
+import myServer.Packet.Packet1LoginAnswer;
+import myServer.Packet.Packet2Message;
 
-
-
-
-import com.Client.Packet.Packet0LoginRequest;
-import com.Client.Packet.Packet1LoginAnswer;
-import com.Client.Packet.Packet2Message;
 import com.Client.packets.Packet3CreateFactoryRequest;
 import com.Client.packets.Packet4CreateMineRequest;
 import com.Client.packets.Packet5CreateTowerRequest;
@@ -18,7 +15,7 @@ import com.Client.packets.Packet7ClickTowerRequest;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
 import com.mygdx.gameobjects.Base;
 import com.mygdx.gameobjects.Bullet;
@@ -28,33 +25,28 @@ import com.mygdx.gameobjects.Mine;
 import com.mygdx.gameobjects.Building;
 import com.mygdx.gameobjects.Tank;
 import com.mygdx.gameobjects.Tower;
-import com.mygdx.gameworld.GameRenderer;
 import com.mygdx.gameworld.GameWorld;
 import com.mygdx.simpleobjects.Dimension;
 import com.mygdx.simpleobjects.MyCircle;
 import com.mygdx.simpleobjects.MyRectangle;
+import com.server.logic.ServerGameWorld;
 
-public class MyClient {
-	public Client client;
-	GameRenderer renderer;
+public class MyServer {
+	public Server server;
+	public NetworkListener networkListener;
 	
-	public MyClient(String IP, GameRenderer renderer)throws Exception{
-		this.renderer=renderer;
-		client= new Client(8192,18192);
-		register();
+	public MyServer() throws IOException{
 		
-		NetworkListener nl = new NetworkListener();
-		nl.init(client,renderer);
-		client.addListener(nl);		
-		client.start();
-		
-		Log.info("Please enter IP: ");
-		client.connect(500000,IP, 54556);
-		
+		server = new Server(18192,8192);
+		registerPackets();
+		networkListener=new NetworkListener();
+		server.addListener(networkListener);
+		server.bind(54556);
+		server.start();		
 	}
 	
-	private void register(){
-		Kryo kryo = client.getKryo();
+	private void registerPackets(){
+		Kryo kryo = server.getKryo();
 		kryo.register(Packet0LoginRequest.class);
 		kryo.register(Packet1LoginAnswer.class);
 		kryo.register(Packet2Message.class);
@@ -81,5 +73,4 @@ public class MyClient {
 		kryo.register(MyCircle.class);
 	}
 	
-
 }

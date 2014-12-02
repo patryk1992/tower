@@ -15,14 +15,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.esotericsoftware.minlog.Log;
 import com.mygdx.screens.GameScreen;
+import com.mygdx.screens.MenuScreen;
 
 public class MyGdxGame  extends Game{
 	GameScreen gameScreen;
 	 @Override
 	    public void create() {
 	        Gdx.app.log("ZBGame", "created");
-	        gameScreen=new GameScreen();
-	        setScreen(gameScreen);
+	        setScreen(new MenuScreen(this));
 	       
 	    }
 
