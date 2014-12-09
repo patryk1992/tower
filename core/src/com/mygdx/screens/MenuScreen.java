@@ -35,7 +35,7 @@ public class MenuScreen implements Screen {
 	private Label labelMessage;
 	private TextButton connectButton;
 	private TextButton startServerButton;
-	private TextArea textIPAddress;
+	public TextArea textIPAddress;
 	private TextArea textMessage;
 
 	public MenuScreen(MyGdxGame game) {
@@ -137,7 +137,12 @@ public class MenuScreen implements Screen {
 					}
 				}).start();
 				
-				//game.setScreen(new GameScreen());
+				try {
+					game.setScreen(new GameScreen("127.0.0.1"));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -146,7 +151,7 @@ public class MenuScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				try{
-				game.setScreen(new GameScreen(textIPAddress.getMessageText()));
+				game.setScreen(new GameScreen(textIPAddress.getText()));
 				}
 				catch(Exception e){
 					labelMessage.setText("Cant connect to server");

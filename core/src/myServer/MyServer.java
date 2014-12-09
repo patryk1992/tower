@@ -37,11 +37,11 @@ public class MyServer {
 	
 	public MyServer() throws IOException{
 		
-		server = new Server(18192,8192);
+		server = new Server(48192,8192);
 		registerPackets();
 		networkListener=new NetworkListener();
 		server.addListener(networkListener);
-		server.bind(54556);
+		server.bind(54556,43445);
 		server.start();		
 	}
 	

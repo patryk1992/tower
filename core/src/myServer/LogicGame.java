@@ -13,7 +13,7 @@ import com.server.logic.ServerGameWorld;
 public class LogicGame {
 	static ServerGameWorld serverGameWorld;
 	static int delta = 0;
-	static int fps=60;
+	static int fps=40;
 	static MyServer myServer = null;
 	static long time;
 	
@@ -49,8 +49,6 @@ public class LogicGame {
 			sleep(fps);
 			time=delta/fps;
 			serverGameWorld.update(time);		
-			
-
 		}
 
 	}

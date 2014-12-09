@@ -34,6 +34,8 @@ public class NetworkListener extends Listener {
 	@Override
 	public void connected(Connection arg0) {
 		Log.info("[SERVER]Someone is trying to connected");
+//		float tmp=(float) 0.9;
+//		arg0.setIdleThreshold( tmp);
 	}
 
 	@Override

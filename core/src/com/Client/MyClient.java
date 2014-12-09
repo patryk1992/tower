@@ -40,7 +40,7 @@ public class MyClient {
 	
 	public MyClient(String IP, GameRenderer renderer)throws Exception{
 		this.renderer=renderer;
-		client= new Client(8192,18192);
+		client= new Client(8192,48192);
 		register();
 		
 		NetworkListener nl = new NetworkListener();
@@ -49,7 +49,7 @@ public class MyClient {
 		client.start();
 		
 		Log.info("Please enter IP: ");
-		client.connect(500000,IP, 54556);
+		client.connect(500000,IP, 54556,43445);
 		
 	}
 	

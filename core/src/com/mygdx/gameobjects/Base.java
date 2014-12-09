@@ -10,7 +10,7 @@ public class Base extends GameObject{
 	
 	Color color;
 	int lives;
-	int coins=500;
+	int coins=1500;
 	public Base(){
 		
 	}

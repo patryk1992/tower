@@ -189,11 +189,11 @@ public class GameRenderer {
         }
         		 
        hud.render(runTime);
-             
-       batcher.begin();
-	   font.draw(batcher, Integer.toString(myWorld.getCastles()[hud.connectionId-1].getCoins()),hud.getiCoins().getPosition().x,hud.getiCoins().getPosition().y);
-	   batcher.end();
-		
+       if(myWorld!=null){
+	       batcher.begin();
+		   font.draw(batcher, Integer.toString(myWorld.getCastles()[hud.connectionId-1].getCoins()),hud.getiCoins().getPosition().x,hud.getiCoins().getPosition().y);
+		   batcher.end();
+	   }
     }  
     public HUD getHud() {
 		return hud;

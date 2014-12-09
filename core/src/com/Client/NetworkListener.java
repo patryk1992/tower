@@ -48,7 +48,7 @@ public class NetworkListener extends Listener {
 
 		}
 		else if (o instanceof Packet2Message) {
-			String message = ((Packet2Message) o).message;
+			String message = ((Packet2Message) o).message; 
 			Log.info("[Client]" + message);
 		}
 		

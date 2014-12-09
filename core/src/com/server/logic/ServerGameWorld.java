@@ -52,8 +52,15 @@ public class ServerGameWorld {
 
 	public void update(long time) {
 		this.time=time;
-		synchronized (gameWorld) {
-			server.sendToAllTCP(gameWorld);
+		synchronized (gameWorld) {		
+			try{
+			server.sendToUDP(server.getConnections()[1].getID(), gameWorld);
+			server.sendToUDP(server.getConnections()[0].getID(), gameWorld);
+			}
+			catch(Exception e){
+				System.out.print(e.toString());
+			}
+//			server.sendToAllUDP( gameWorld);
 		}
 		performTowerAction(time);		
 		setOnStartPositionTanks();
@@ -114,7 +121,7 @@ public class ServerGameWorld {
 
 	public void performTowerAction(long time) {
 		for (ArrayList<Building> towerList : gameWorld.getTowerList()) {
-			synchronized(towerList){
+			synchronized(gameWorld){
 				for (Building building : towerList) {
 					if(building instanceof Factory){
 	    				((Factory) building).produce(time);
