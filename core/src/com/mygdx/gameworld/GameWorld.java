@@ -16,7 +16,7 @@ import com.mygdx.gameobjects.Bullet;
 import com.mygdx.gameobjects.GameObject;
 import com.mygdx.gameobjects.Tank;
 
-public class GameWorld {
+public class GameWorld  {
 
 	private Base []castles;
 

@@ -52,16 +52,17 @@ public class ServerGameWorld {
 
 	public void update(long time) {
 		this.time=time;
-		synchronized (gameWorld) {		
-			try{
-			server.sendToUDP(server.getConnections()[1].getID(), gameWorld);
-			server.sendToUDP(server.getConnections()[0].getID(), gameWorld);
-			}
-			catch(Exception e){
-				System.out.print(e.toString());
-			}
-//			server.sendToAllUDP( gameWorld);
-		}
+//		Thread thread=new Thread(){
+//			public void run(){
+				synchronized (gameWorld) {
+				//	System.out.println(server.getConnections()[1].getTcpWriteBufferSize());
+					
+					server.sendToUDP(server.getConnections()[1].getID(), gameWorld);
+					server.sendToUDP(server.getConnections()[0].getID(), gameWorld);
+				}
+//			}
+//		};
+//		thread.start();
 		performTowerAction(time);		
 		setOnStartPositionTanks();
 		goAttack(time);
@@ -113,7 +114,10 @@ public class ServerGameWorld {
 					}
 				}
 			}
-			bulletList.removeAll(removeBulletList);
+			synchronized (gameWorld) {
+				bulletList.removeAll(removeBulletList);
+			}
+			
 		}
 		
 	}
@@ -137,7 +141,9 @@ public class ServerGameWorld {
 						}
 						Bullet bullet=(Bullet) ((Tower) building).fire(time, gameWorld.getTankList().get(tmpGroupId));
 						if(bullet!=null){
-							gameWorld.getBulletList().get(building.getIdGroup()-1).add(bullet);
+							synchronized (gameWorld) {
+								gameWorld.getBulletList().get(building.getIdGroup()-1).add(bullet);
+							}						
 						}
 	    			}
 					else if(building instanceof Mine){
@@ -169,7 +175,10 @@ public class ServerGameWorld {
 				/////////////////////////////////////////////////////////////////////////////////strzelanie do innych budynków	zainicjowanie wystrza³u		 				
 				Bullet bullet=tank.fire(time, gameWorld.getTowerList().get(tmpGroupId));
 				if(bullet!=null){
-					gameWorld.getBulletList().get(tank.getIdGroup()-1).add(bullet);
+					synchronized (gameWorld) {
+						gameWorld.getBulletList().get(tank.getIdGroup()-1).add(bullet);
+					}
+				
 				}
 			
 				/*

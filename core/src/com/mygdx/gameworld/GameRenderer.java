@@ -189,7 +189,7 @@ public class GameRenderer {
         }
         		 
        hud.render(runTime);
-       if(myWorld!=null){
+       if(myWorld.getCastles()!=null){
 	       batcher.begin();
 		   font.draw(batcher, Integer.toString(myWorld.getCastles()[hud.connectionId-1].getCoins()),hud.getiCoins().getPosition().x,hud.getiCoins().getPosition().y);
 		   batcher.end();
