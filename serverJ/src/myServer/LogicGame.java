@@ -32,7 +32,7 @@ public class LogicGame {
 			e.printStackTrace();
 		}
 		while (true) {
-			sleep(fps);
+			sleepFps(fps);
 			if (myServer.server.getConnections().length == 2) {
 				Log.info("server" + myServer.server.getConnections().length);				
 				Packet2Message message = new Packet2Message();
@@ -50,7 +50,7 @@ public class LogicGame {
 		while (true) {
 			myServer.networkListener.setServerGameWorld(serverGameWorld);
 			delta++;
-			sleep(fps);
+			sleepFps(fps);
 			time=delta/fps;
 			serverGameWorld.update(time);		
 			

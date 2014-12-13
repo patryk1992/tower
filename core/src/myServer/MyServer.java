@@ -37,7 +37,7 @@ public class MyServer {
 	
 	public MyServer() throws IOException{
 		
-		server = new Server(148192,18192);
+		server = new Server(9948192,998192);
 		registerPackets();
 		networkListener=new NetworkListener();
 		server.addListener(networkListener);

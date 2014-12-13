@@ -54,12 +54,12 @@ public class ServerGameWorld {
 		this.time=time;
 //		Thread thread=new Thread(){
 //			public void run(){
-				synchronized (gameWorld) {
+//				synchronized (gameWorld) {
 				//	System.out.println(server.getConnections()[1].getTcpWriteBufferSize());
 					
-					server.sendToUDP(server.getConnections()[1].getID(), gameWorld);
-					server.sendToUDP(server.getConnections()[0].getID(), gameWorld);
-				}
+//					server.sendToUDP(server.getConnections()[0].getID(), gameWorld);
+//					server.sendToUDP(server.getConnections()[1].getID(), gameWorld);
+//				}
 //			}
 //		};
 //		thread.start();
@@ -173,19 +173,18 @@ public class ServerGameWorld {
 					break;
 				}
 				/////////////////////////////////////////////////////////////////////////////////strzelanie do innych budynków	zainicjowanie wystrza³u		 				
-				Bullet bullet=tank.fire(time, gameWorld.getTowerList().get(tmpGroupId));
-				if(bullet!=null){
-					synchronized (gameWorld) {
+				synchronized (gameWorld) {
+					Bullet bullet=tank.fire(time, gameWorld.getTowerList().get(tmpGroupId));				
+					if(bullet!=null){					
 						gameWorld.getBulletList().get(tank.getIdGroup()-1).add(bullet);
 					}
-				
 				}
 			
 				/*
 				 * sprawdzanie kolizji z innymi samolotami
 				 * */
 				tmp=(Tank) tank.collides(tankList);
-				if(tmp==null){//jesli jest kolizja z innym tankiem to stop
+				if(tmp==null){//jesli jest kolizja z innym
 					if(tank.move()){
 						tank.goTo(gameWorld.getTargetLine().get(tank.getIdGroup()-1).get(2));
 					}
@@ -210,16 +209,18 @@ public class ServerGameWorld {
 			temporaryTankList.get(idConnection-1).add(tank);
 		}
 	}
-	public void setOnStartPositionTanks(){		
-			for (ArrayList<Tank> tmpTankList : temporaryTankList) {			
-				for (Tank newTank : tmpTankList) {									
-							if(!newTank.collides(gameWorld.getTankList().get(newTank.getIdGroup()-1),-20,-20,40,40)){
-								gameWorld.getTankList().get(newTank.getIdGroup()-1).add(newTank);
-								tmpTankList.remove(newTank);
-								break;//ConcurrentModificationException i lepsza wydajnoœæ 
-								}
-							}					
-			
+	public void setOnStartPositionTanks(){	
+		synchronized (gameWorld) {		
+					for (ArrayList<Tank> tmpTankList : temporaryTankList) {			
+						for (Tank newTank : tmpTankList) {									
+									if(!newTank.collides(gameWorld.getTankList().get(newTank.getIdGroup()-1),-20,-20,40,40)){
+										gameWorld.getTankList().get(newTank.getIdGroup()-1).add(newTank);
+										tmpTankList.remove(newTank);
+										break;//ConcurrentModificationException i lepsza wydajnoœæ 
+										}
+									}					
+					
+				}
 		}
 	}
 

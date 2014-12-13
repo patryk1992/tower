@@ -28,33 +28,43 @@ public class LogicGame {
 			e.printStackTrace();
 		}
 		while (true) {
-			sleep(fps);
+			sleepFps(fps);
 			if (myServer.server.getConnections().length == 2) {
 				Log.info("server" + myServer.server.getConnections().length);				
 				Packet2Message message = new Packet2Message();
 				message.message = "Start";
-				myServer.server.sendToAllTCP(message);
-				Log.info("[server]" + message.message);
+				myServer.server.sendToAllTCP(message);				
 				serverGameWorld = new ServerGameWorld(360, myServer.server);				
-				myServer.networkListener.setServerGameWorld(serverGameWorld);
-				Log.info("[server]bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" + message.message);
+				myServer.networkListener.setServerGameWorld(serverGameWorld);			
+				
+				Thread thread=new Thread(){
+					public void run(){
+						while (true) {
+							sleepFps(fps);
+							synchronized (serverGameWorld.getGameWorld()) {									
+								myServer.server.sendToUDP(myServer.server.getConnections()[0].getID(), serverGameWorld.getGameWorld());
+								myServer.server.sendToUDP(myServer.server.getConnections()[1].getID(), serverGameWorld.getGameWorld());
+							}
+						}
+					}
+				};
+				thread.start();
 				break;
+				
 			}
 
 		}
 
 		while (true) {
-			myServer.networkListener.setServerGameWorld(serverGameWorld);
 			delta++;
-			sleep(fps);
+			sleepFps(fps);
 			time=delta/fps;
-			serverGameWorld.update(time);		
-			
+			serverGameWorld.update(time);			
 
 		}
 
 	}
-	static long sleep(int fps){
+	static long sleepFps(int fps){
 		try {
 			Thread.sleep(1000/fps);
 		} catch (InterruptedException e) {
