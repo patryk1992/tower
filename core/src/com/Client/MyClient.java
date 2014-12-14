@@ -1,7 +1,9 @@
 package com.Client;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
+
 
 
 
@@ -38,7 +40,7 @@ public class MyClient {
 	public Client client;
 	GameRenderer renderer;
 	
-	public MyClient(String IP, GameRenderer renderer)throws Exception{
+	public MyClient( GameRenderer renderer)throws Exception{
 		this.renderer=renderer;
 		client= new Client(998192,9948192);
 		register();
@@ -48,8 +50,9 @@ public class MyClient {
 		client.addListener(nl);		
 		client.start();
 		
+		InetAddress adressIP=client.discoverHost(43445, 3000);		
 		Log.info("Please enter IP: ");
-		client.connect(500000,IP, 54556,43445);
+		client.connect(500000,adressIP, 54556,43445);
 		
 	}
 	

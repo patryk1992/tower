@@ -9,12 +9,18 @@ public class Bullet extends GameObject {
 	float speed;
 	Vector2 pointTarget;
 	Vector2 pointInit;
-	String targetBuildingID;
+	String targetID;
+	int targetType;//1 gdy samolat, 0 gdy budynek
 	
-	public Bullet(float x, float y,float radius, int idGroup, String id, GameObject targetBuilding){
+	public Bullet(float x, float y,float radius, int idGroup, String id, GameObject targetObject){
 		super(x,y,radius,idGroup,id);
-		this.targetBuildingID=targetBuilding.id;
-		this.pointTarget=new Vector2(targetBuilding.getDimension().getPosition().x+((MyRectangle) targetBuilding.getDimension()).getWidth()/2,targetBuilding.getDimension().getPosition().y+((MyRectangle) targetBuilding.getDimension()).getHeight()/2);
+		this.targetID=targetObject.id;
+		this.pointTarget=new Vector2(targetObject.getDimension().getPosition().x+((MyRectangle) targetObject.getDimension()).getWidth()/2,targetObject.getDimension().getPosition().y+((MyRectangle) targetObject.getDimension()).getHeight()/2);
+		if(targetObject instanceof Tank){
+			this.targetType=1;
+		}else if(targetObject instanceof Building){
+			this.targetType=0;
+		}
 		velocityConstant=5;
 		progres=0;
 		pointInit=new Vector2(this.getDimension().getPosition());
@@ -34,10 +40,14 @@ public class Bullet extends GameObject {
 	    return false;
 	}
 	public String getTargetBuildingID() {
-		return targetBuildingID;
+		return targetID;
 	}
 	public void updatePointTarget(GameObject target) {
 		this.pointTarget=new Vector2(target.getDimension().getPosition().x+((MyRectangle) target.getDimension()).getWidth()/2,target.getDimension().getPosition().y+((MyRectangle) target.getDimension()).getHeight()/2);
+	}
+
+	public int getTargetType() {
+		return targetType;
 	}
 }
 

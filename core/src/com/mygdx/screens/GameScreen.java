@@ -16,14 +16,14 @@ public class GameScreen implements Screen{
 	private float runTime =0;
 	private Input input;
 	
-	public GameScreen(String IP) throws Exception{
+	public GameScreen() throws Exception{
 		float screenWidth = Gdx.graphics.getWidth();
 		float screenHeight =Gdx.graphics.getHeight();	
 		int midPointY =(int) (screenHeight /2);
 		
 		world= new GameWorld(midPointY);
 		renderer = new GameRenderer(world,(int) screenWidth,midPointY);
-		myClient=new MyClient(IP,renderer);	
+		myClient=new MyClient(renderer);	
 		input=new Input(myClient.client,renderer);
 		Gdx.input.setInputProcessor(input);
 		

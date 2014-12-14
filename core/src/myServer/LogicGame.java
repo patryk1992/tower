@@ -42,8 +42,9 @@ public class LogicGame {
 						while (true) {
 							sleepFps(fps);
 							synchronized (serverGameWorld.getGameWorld()) {									
-								myServer.server.sendToUDP(myServer.server.getConnections()[0].getID(), serverGameWorld.getGameWorld());
-								myServer.server.sendToUDP(myServer.server.getConnections()[1].getID(), serverGameWorld.getGameWorld());
+//								myServer.server.sendToUDP(myServer.server.getConnections()[0].getID(), serverGameWorld.getGameWorld());
+//								myServer.server.sendToUDP(myServer.server.getConnections()[1].getID(), serverGameWorld.getGameWorld());
+								myServer.server.sendToAllUDP(serverGameWorld.getGameWorld());
 							}
 						}
 					}

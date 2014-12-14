@@ -82,7 +82,7 @@ public class ServerGameWorld {
 					tmpGroupId=1;
 				}
 				/*
-				 * Update target gdy czo³g/////////////opopraw
+				 * Update target gdy czo³g/
 				 */
 				GameObject targetGameObject= gameWorld.getObjectFromList(bullet.getTargetBuildingID(), gameWorld.getTankList().get(tmpGroupId));
 				if(targetGameObject!=null){

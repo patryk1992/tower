@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.simpleobjects.MyRectangle;
@@ -18,10 +19,13 @@ public class Tank extends GameObject implements iFire{
 	Vector2 pointInit;
 	long storedTime;
 	long produceTime;
+	double degrees;
+	
 	public Tank(float x, float y, int width, int height,long produceTime ,int idGroup, String id){
 		super(x,y,width,height,idGroup,id);		
 		lives=3;
 		this.produceTime=produceTime;
+		degrees=90;
 	}
 	public Tank(){
 		
@@ -34,6 +38,21 @@ public class Tank extends GameObject implements iFire{
 		pointTarget=point;
 		float distance=this.getDimension().getPosition().dst(point);
 		speed=velocityConstant/distance;
+		/*
+		 * Przeliczanie nachylania
+		 * 
+		 */
+		
+		Vector2 pointHelp=new Vector2(pointInit.x,pointTarget.y);
+//		float radian=pointHelp.dst(pointTarget)/pointHelp.dst(pointInit);
+//		degrees=Math.atan(radian)*180/Math.PI;
+		degrees=MathUtils.atan2(pointHelp.dst(pointTarget), pointHelp.dst(pointInit))*180/Math.PI;
+		if(pointInit.y>pointHelp.y){
+			degrees=180-degrees;
+		}
+		if(idGroup==1){
+			degrees=180-degrees;
+		}
 	}
 	public boolean move(){
 	    progres += speed;
@@ -50,6 +69,9 @@ public class Tank extends GameObject implements iFire{
 	}
 	public void setStoredTime(long storedTime) {
 		this.storedTime = storedTime;
+	}
+	public double getDegrees() {
+		return degrees;
 	}
 	@Override
 	public Bullet fire(long time, List<? extends GameObject> objectList) {

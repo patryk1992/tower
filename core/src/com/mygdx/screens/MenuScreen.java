@@ -31,12 +31,10 @@ public class MenuScreen implements Screen {
 	private MyGdxGame game;
 	private Skin skin;
 	private Stage stage;
-	private Label labelDetails;
 	private Label labelMessage;
 	private TextButton connectButton;
 	private TextButton startServerButton;
 	public TextArea textIPAddress;
-	private TextArea textMessage;
 
 	public MenuScreen(MyGdxGame game) {
 		this.game = game;
@@ -59,34 +57,7 @@ public class MenuScreen implements Screen {
 		// Wire the stage to receive input, as we are using Scene2d in this
 		// example
 		Gdx.input.setInputProcessor(stage);
-
-		// The following code loops through the available network interfaces
-		// Keep in mind, there can be multiple interfaces per device, for
-		// example
-		// one per NIC, one per active wireless and the loopback
-		// In this case we only care about IPv4 address ( x.x.x.x format )
-		List<String> addresses = new ArrayList<String>();
-		try {
-			Enumeration<NetworkInterface> interfaces = NetworkInterface
-					.getNetworkInterfaces();
-			for (NetworkInterface ni : Collections.list(interfaces)) {
-				for (InetAddress address : Collections.list(ni
-						.getInetAddresses())) {
-					if (address instanceof Inet4Address) {
-						addresses.add(address.getHostAddress());
-					}
-				}
-			}
-		} catch (SocketException e) {
-			e.printStackTrace();
-		}
-
-		// Print the contents of our array to a string. Yeah, should have used
-		// StringBuilder
-		String ipAddress = new String("");
-		for (String str : addresses) {
-			ipAddress = ipAddress + str + "\n";
-		}
+		
 
 		// Now setupt our scene UI
 
@@ -97,19 +68,13 @@ public class MenuScreen implements Screen {
 		vg.setBounds(100, 0, width - 200, height );
 
 		// Create our controls
-		labelDetails = new Label(ipAddress, skin);
 		labelMessage = new Label(" ", skin);
 		connectButton = new TextButton("Connect to server", skin);
 		startServerButton = new TextButton("Start server", skin);
-		textIPAddress = new TextArea("", skin);
-		// textMessage = new TextArea("",skin);
 		
 		
 		// Add them to scene
-		vg.addActor(labelDetails);
 		vg.addActor(labelMessage);
-		vg.addActor(textIPAddress);
-		// vg.addActor(textMessage);
 		vg.addActor(connectButton);
 		vg.addActor(startServerButton);
 	
@@ -138,7 +103,7 @@ public class MenuScreen implements Screen {
 				}).start();
 				
 				try {
-					game.setScreen(new GameScreen("127.0.0.1"));
+					game.setScreen(new GameScreen());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -151,7 +116,7 @@ public class MenuScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				try{
-				game.setScreen(new GameScreen(textIPAddress.getText()));
+				game.setScreen(new GameScreen());
 				}
 				catch(Exception e){
 					labelMessage.setText("Cant connect to server");
