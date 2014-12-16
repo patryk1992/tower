@@ -11,8 +11,7 @@ import com.mygdx.simpleobjects.*;
 public class GameObject {	
 	String id;
 	int idGroup;	
-	private Dimension dimension;
-	int bulletsCanTake;
+	private Dimension dimension;	
 	
 	public GameObject(){
 		
@@ -21,14 +20,12 @@ public class GameObject {
 	public GameObject(float x, float y, int width, int height ,int idGroup, String id){
 		setDimension(new MyRectangle(x,y,width,height));
 		this.id=id;
-		this.idGroup=idGroup;
-		bulletsCanTake=5;
+		this.idGroup=idGroup;		
 	}
 	public GameObject(float x, float y, float radius ,int idGroup, String id){
 		setDimension(new MyCircle(x,y,radius));
 		this.id=id;
-		this.idGroup=idGroup;
-		bulletsCanTake=5;
+		this.idGroup=idGroup;		
 	}
 	
 	public GameObject collides(List<? extends GameObject> objectList) {
@@ -69,7 +66,5 @@ public class GameObject {
 	public int getIdGroup() {
 		return idGroup;
 	}
-	public int shooted() {
-		return bulletsCanTake--;
-	}
+	
 }

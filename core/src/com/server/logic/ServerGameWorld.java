@@ -21,7 +21,7 @@ import com.mygdx.gameworld.GameWorld;
 
 public class ServerGameWorld {
 
-	private Server server;
+	Server server;
 	int midPointY;
 	GameWorld gameWorld;
 	ArrayList<ArrayList<Tank>> temporaryTankList =new ArrayList<ArrayList<Tank>>(3);
@@ -34,7 +34,7 @@ public class ServerGameWorld {
 	public GameWorld getGameWorld() {
 		return gameWorld;
 	}
-
+	
 	public void setGameWorld(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
 	}
@@ -99,14 +99,14 @@ public class ServerGameWorld {
 						 target=gameWorld.getObjectFromList(bullet.getTargetBuildingID(), gameWorld.getTankList().get(tmpGroupId));	
 					}
 					if(target instanceof Building){
-						if(target!=null&&target.shooted()<=0){
+						if(target!=null&&((Building) target).shooted()<=0){
 							synchronized(gameWorld){
 								gameWorld.getTowerList().get(tmpGroupId).remove(target);
 							}
 						}
 					}
 					else if(target instanceof Tank){
-						if(target!=null&&target.shooted()<=0){
+						if(target!=null&&((Tank) target).shooted()<=0){
 							synchronized(gameWorld){
 								gameWorld.getTankList().get(tmpGroupId).remove(target);
 							}
@@ -223,5 +223,9 @@ public class ServerGameWorld {
 				}
 		}
 	}
+	public Server getServer() {
+		return server;
+	}
+
 
 }

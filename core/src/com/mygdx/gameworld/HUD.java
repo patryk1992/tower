@@ -1,6 +1,7 @@
 package com.mygdx.gameworld;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -19,17 +20,21 @@ public class HUD {
 	IMine iMine;
 	IFactory iFactory;
 	ICoins iCoins;
-	int connectionId;
 	SpriteBatch batcher;
+	int connectionId;
+	int connections;
+	BitmapFont font;
+	
 	
 	public void setConnectionId(int connectionId) {
 		this.connectionId = connectionId;
 	}
-	public HUD(ShapeRenderer shapeRenderer, SpriteBatch batcher, int gameWidth, int midPointY){
+	public HUD(ShapeRenderer shapeRenderer, SpriteBatch batcher, BitmapFont font, int gameWidth, int midPointY){
 		this.gameWidth=gameWidth;
 		this.midPointY=midPointY;
 		this.shapeRenderer=shapeRenderer;
 		this.batcher=batcher;
+		this.font=font;
 		barricade=new Barricade((gameWidth/2)-4,0,8,midPointY*2);
 	}
 	public void intHUD(){
@@ -85,7 +90,15 @@ public class HUD {
 		     shapeRenderer.circle(iCoins.getPosition().x, iCoins.getPosition().y, iCoins.getRadius());
 		     shapeRenderer.end();
 	     }
-	     
+	     if(connections<1){
+		     shapeRenderer.begin(ShapeType.Filled);
+		     shapeRenderer.setColor(Color.RED);
+		     shapeRenderer.rect(640, midPointY, 100,300);
+		     shapeRenderer.end();
+		     batcher.begin();
+			 font.draw(batcher, "czekam na 2",650,midPointY);
+			 batcher.end();
+	     }
 	 }
 	public ITower getiTower() {
 		return iTower;
@@ -98,5 +111,11 @@ public class HUD {
 	}
 	public ICoins getiCoins() {
 		return iCoins;
+	}
+	public int getConnections() {
+		return connections;
+	}
+	public void setConnections(int connections) {
+		this.connections = connections;
 	}
 }

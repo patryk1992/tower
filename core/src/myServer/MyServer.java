@@ -3,10 +3,14 @@ package myServer;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import myServer.Packet.Packet0LoginRequest;
-import myServer.Packet.Packet1LoginAnswer;
-import myServer.Packet.Packet2Message;
 
+
+
+
+
+import com.Client.packets.Packet.Packet0LoginRequest;
+import com.Client.packets.Packet.Packet1LoginAnswer;
+import com.Client.packets.Packet.Packet2Message;
 import com.Client.packets.Packet3CreateFactoryRequest;
 import com.Client.packets.Packet4CreateMineRequest;
 import com.Client.packets.Packet5CreateTowerRequest;

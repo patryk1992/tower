@@ -20,12 +20,14 @@ public class Tank extends GameObject implements iFire{
 	long storedTime;
 	long produceTime;
 	double degrees;
+	int bulletsCanTake;
 	
 	public Tank(float x, float y, int width, int height,long produceTime ,int idGroup, String id){
 		super(x,y,width,height,idGroup,id);		
 		lives=3;
 		this.produceTime=produceTime;
 		degrees=90;
+		this.bulletsCanTake=2;
 	}
 	public Tank(){
 		
@@ -35,7 +37,7 @@ public class Tank extends GameObject implements iFire{
 		velocityConstant=1;
 		progres=0;
 		pointInit=new Vector2(this.getDimension().getPosition());
-		pointTarget=point;
+		pointTarget=point;		
 		float distance=this.getDimension().getPosition().dst(point);
 		speed=velocityConstant/distance;
 		/*
@@ -92,6 +94,9 @@ public class Tank extends GameObject implements iFire{
 			}
 		}
 		return null;
+	}
+	public int shooted() {
+		return bulletsCanTake--;
 	}
 
 }

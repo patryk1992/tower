@@ -2,8 +2,8 @@ package myServer;
 
 import java.io.IOException;
 
-import myServer.Packet.Packet2Message;
-
+import com.Client.packets.Packet.Packet1LoginAnswer;
+import com.Client.packets.Packet.Packet2Message;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.minlog.Log;
 import com.mygdx.gameobjects.Base;
@@ -50,6 +50,15 @@ public class LogicGame {
 					}
 				};
 				thread.start();
+				//komunikat cekam na gracza
+				Packet1LoginAnswer loginAnswer= new Packet1LoginAnswer();			
+				loginAnswer.accepted=true;
+				if(serverGameWorld==null){
+					loginAnswer.connections=0;					
+				}else {
+					loginAnswer.connections=serverGameWorld.getServer().getConnections().length;					
+				}
+				myServer.server.sendToAllTCP(loginAnswer);
 				break;
 				
 			}

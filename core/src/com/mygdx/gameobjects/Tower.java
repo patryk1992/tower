@@ -9,7 +9,7 @@ public class Tower extends Building implements iFire{
 		
 	}
 	public Tower(float x, float y, int width, int height ,long producedTime,int idGroup, String id){
-		super(x,y,width,height, producedTime,idGroup,id);
+		super(x,y,width,height, producedTime,idGroup,id,10);
 	}
 	@Override
 	public GameObject fire(long time, List<? extends GameObject> objectList) {

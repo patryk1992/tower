@@ -18,7 +18,7 @@ import com.mygdx.gameobjects.Tank;
 
 public class GameWorld  {
 
-	private Base []castles;
+	private Base []Bases;
 
 	ArrayList<ArrayList<Building>> towerList = new ArrayList<ArrayList<Building>>(3);
 	ArrayList<ArrayList<Vector2>> targetLine =new ArrayList<ArrayList<Vector2>>(3);
@@ -27,9 +27,9 @@ public class GameWorld  {
 	
 
 	public GameWorld(int midPointY){
-		castles=new Base[2];
-		castles[0]=new Base(5,midPointY-40,80,80,1,UUID.randomUUID().toString(),Color.GREEN);
-		castles[1]=new Base(1195,midPointY-40,80,80,2,UUID.randomUUID().toString(),Color.RED);
+		Bases=new Base[2];
+		Bases[0]=new Base(5,midPointY-40,80,80,1,UUID.randomUUID().toString(),Color.GREEN);
+		Bases[1]=new Base(1195,midPointY-40,80,80,2,UUID.randomUUID().toString(),Color.RED);
 		ArrayList<Building> towerList1;
 		ArrayList<Building> towerList2;
 		towerList1=new ArrayList<Building>();
@@ -38,12 +38,12 @@ public class GameWorld  {
 		towerList.add(towerList2);
 		ArrayList<Vector2> targetLine1=new ArrayList<Vector2>(3);
 		ArrayList<Vector2> targetLine2=new ArrayList<Vector2>(3);
-		targetLine1.add(new Vector2(640, midPointY));
-		targetLine1.add(new Vector2(960, midPointY));
-		targetLine1.add(new Vector2(1240, midPointY));
-		targetLine2.add(new Vector2(640, midPointY));
-		targetLine2.add(new Vector2(320, midPointY));
-		targetLine2.add(new Vector2(40, midPointY));			
+		targetLine1.add(new Vector2(640, midPointY-10));
+		targetLine1.add(new Vector2(960, midPointY-10));
+		targetLine1.add(new Vector2(1240, midPointY-10));
+		targetLine2.add(new Vector2(640, midPointY-10));
+		targetLine2.add(new Vector2(320, midPointY-10));
+		targetLine2.add(new Vector2(40, midPointY-10));			
 		targetLine.add(targetLine1);
 		targetLine.add(targetLine2);
 		ArrayList<Tank> tankList1=new ArrayList<Tank>(3);
@@ -75,7 +75,7 @@ public class GameWorld  {
 		return bulletList;
 	}
 	public Base[] getCastles() {
-		return castles;
+		return Bases;
 	}
 	public GameObject getObjectFromList(String id,ArrayList<? extends GameObject> list) {
 		for(GameObject object:list){
@@ -87,7 +87,7 @@ public class GameWorld  {
 	}
 	
 	public void setCastles(Base[] castles) {
-		this.castles = castles;
+		this.Bases = castles;
 	}
 	
 	

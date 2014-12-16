@@ -54,10 +54,12 @@ public class GameRenderer {
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
         shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(cam.combined);            
-        hud=new HUD(shapeRenderer,batcher,gameWidth, midPointY);
+        shapeRenderer.setProjectionMatrix(cam.combined);  
         font = new BitmapFont(true);
         font.setColor(Color.BLACK);
+        hud=new HUD(shapeRenderer,batcher,font,gameWidth, midPointY);
+        
+        
      
     }
     
@@ -143,11 +145,11 @@ public class GameRenderer {
         		
         shapeRenderer.begin(ShapeType.Line);
         shapeRenderer.setColor(Color.RED);
-        shapeRenderer.line(myWorld.getTargetLine().get(hud.connectionId-1).get(0),myWorld.getTargetLine().get(hud.connectionId-1).get(1));        		       
+        shapeRenderer.line(myWorld.getTargetLine().get(hud.connectionId-1).get(0).x,myWorld.getTargetLine().get(hud.connectionId-1).get(0).y+10,myWorld.getTargetLine().get(hud.connectionId-1).get(1).x,myWorld.getTargetLine().get(hud.connectionId-1).get(1).y+10);        		       
         shapeRenderer.end();
         shapeRenderer.begin(ShapeType.Line);
         shapeRenderer.setColor(Color.RED);
-        shapeRenderer.line(myWorld.getTargetLine().get(hud.connectionId-1).get(1),myWorld.getTargetLine().get(hud.connectionId-1).get(2));        		       
+        shapeRenderer.line(myWorld.getTargetLine().get(hud.connectionId-1).get(1).x,myWorld.getTargetLine().get(hud.connectionId-1).get(1).y+10,myWorld.getTargetLine().get(hud.connectionId-1).get(2).x,myWorld.getTargetLine().get(hud.connectionId-1).get(2).y+10);        		       
         shapeRenderer.end();
         
         batcher.begin();
@@ -179,11 +181,12 @@ public class GameRenderer {
         }
         batcher.end();		 
        hud.render(runTime);
-       if(myWorld.getCastles()!=null){
+       if(myWorld!=null){
 	       batcher.begin();
 		   font.draw(batcher, Integer.toString(myWorld.getCastles()[hud.connectionId-1].getCoins()),hud.getiCoins().getPosition().x,hud.getiCoins().getPosition().y);
 		   batcher.end();
 	   }
+       
     }  
     public HUD getHud() {
 		return hud;

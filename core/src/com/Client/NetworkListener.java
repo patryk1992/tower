@@ -1,8 +1,8 @@
 package com.Client;
 
-import com.Client.Packet.Packet0LoginRequest;
-import com.Client.Packet.Packet1LoginAnswer;
-import com.Client.Packet.Packet2Message;
+import com.Client.packets.Packet.Packet0LoginRequest;
+import com.Client.packets.Packet.Packet1LoginAnswer;
+import com.Client.packets.Packet.Packet2Message;
 import com.badlogic.gdx.graphics.Color;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -15,9 +15,9 @@ import com.mygdx.gameworld.GameWorld;
 public class NetworkListener extends Listener {
 	private Client client;
 	GameRenderer renderer;
-
-	public void init(Client client, GameRenderer renderer) {
-		this.client = client;
+	
+	
+	public void init( GameRenderer renderer) {		
 		this.renderer = renderer;
 	}
 
@@ -27,7 +27,7 @@ public class NetworkListener extends Listener {
 		Packet0LoginRequest packet = new Packet0LoginRequest();
 		renderer.getHud().setConnectionId(arg0.getID());
 		renderer.getHud().intHUD();
-		client.sendTCP(packet);
+		arg0.sendTCP(packet);		
 	}
 
 	@Override
@@ -44,8 +44,8 @@ public class NetworkListener extends Listener {
 			
 		}
 		else if (o instanceof Packet1LoginAnswer) {
-			boolean answer = ((Packet1LoginAnswer) o).accepted;
-
+			Packet1LoginAnswer answer =  (Packet1LoginAnswer) o;
+			renderer.getHud().setConnections(answer.connections);
 		}
 		else if (o instanceof Packet2Message) {
 			String message = ((Packet2Message) o).message;

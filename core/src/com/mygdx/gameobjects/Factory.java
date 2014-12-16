@@ -9,7 +9,7 @@ public class Factory extends Building {
 		
 	}
 	public Factory(float x, float y, int width, int height ,int idGroup, String id,long produceTime,long maxTank){
-		super(x,y,width,height,produceTime,idGroup,id);
+		super(x,y,width,height,produceTime,idGroup,id,10);
 		tankNumber=0;
 		this.maxTank=maxTank;
 	}
