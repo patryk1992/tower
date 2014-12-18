@@ -14,7 +14,7 @@ import com.mygdx.gameobjects.Base;
 import com.mygdx.gameobjects.Building;
 import com.mygdx.gameobjects.Bullet;
 import com.mygdx.gameobjects.GameObject;
-import com.mygdx.gameobjects.Tank;
+import com.mygdx.gameobjects.Plane;
 
 public class GameWorld  {
 
@@ -22,7 +22,7 @@ public class GameWorld  {
 
 	ArrayList<ArrayList<Building>> towerList = new ArrayList<ArrayList<Building>>(3);
 	ArrayList<ArrayList<Vector2>> targetLine =new ArrayList<ArrayList<Vector2>>(3);
-	ArrayList<ArrayList<Tank>> tankList =new ArrayList<ArrayList<Tank>>(3);
+	ArrayList<ArrayList<Plane>> tankList =new ArrayList<ArrayList<Plane>>(3);
 	ArrayList<ArrayList<Bullet>> bulletList =new ArrayList<ArrayList<Bullet>>(3);
 	
 
@@ -46,8 +46,8 @@ public class GameWorld  {
 		targetLine2.add(new Vector2(40, midPointY-10));			
 		targetLine.add(targetLine1);
 		targetLine.add(targetLine2);
-		ArrayList<Tank> tankList1=new ArrayList<Tank>(3);
-		ArrayList<Tank> tankList2=new ArrayList<Tank>(3);
+		ArrayList<Plane> tankList1=new ArrayList<Plane>(3);
+		ArrayList<Plane> tankList2=new ArrayList<Plane>(3);
 		tankList.add(tankList1);
 		tankList.add(tankList2);
 		ArrayList<Bullet> bulletList1=new ArrayList<Bullet>(3);
@@ -68,7 +68,7 @@ public class GameWorld  {
 		return targetLine;
 	}
 
-	public ArrayList<ArrayList<Tank>> getTankList() {
+	public ArrayList<ArrayList<Plane>> getTankList() {
 		return tankList;
 	}
 	public ArrayList<ArrayList<Bullet>> getBulletList() {

@@ -34,10 +34,10 @@ public class MenuScreen implements Screen {
 	private Label labelMessage;
 	private TextButton connectButton;
 	private TextButton startServerButton;
-	public TextArea textIPAddress;
+	public TextArea textIPAddress;	
 
 	public MenuScreen(MyGdxGame game) {
-		this.game = game;
+		this.game = game;		
 	}
 
 	@Override
@@ -96,14 +96,17 @@ public class MenuScreen implements Screen {
 				new Thread(
 						new Runnable() {
 					@Override
-					public void run() {
+					public void run() {						
 						LogicGame.start();
 						// serwer start
 					}
 				}).start();
 				
 				try {
-					game.setScreen(new GameScreen());
+					
+					GameScreen gameScreen=new GameScreen();
+					game.setGameScreen(gameScreen);
+					game.setScreen(gameScreen);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -115,8 +118,10 @@ public class MenuScreen implements Screen {
 		connectButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				try{
-				game.setScreen(new GameScreen());
+				try{				
+				GameScreen gameScreen=new GameScreen();
+				game.setGameScreen(gameScreen);
+				game.setScreen(gameScreen);
 				}
 				catch(Exception e){
 					labelMessage.setText("Cant connect to server");
@@ -161,7 +166,7 @@ public class MenuScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		
 
 	}
 

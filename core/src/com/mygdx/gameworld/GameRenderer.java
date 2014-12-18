@@ -19,14 +19,14 @@ import com.mygdx.gameobjects.Building;
 import com.mygdx.gameobjects.Bullet;
 import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.Mine;
-import com.mygdx.gameobjects.Tank;
+import com.mygdx.gameobjects.Plane;
 import com.mygdx.gameobjects.Tower;
 import com.mygdx.helpers.AssetLoader;
 import com.mygdx.simpleobjects.MyCircle;
 import com.mygdx.simpleobjects.MyRectangle;
 
-
 public class GameRenderer {
+
 	private OrthographicCamera cam;
 	private ShapeRenderer shapeRenderer;
 	private GameWorld myWorld;
@@ -57,8 +57,7 @@ public class GameRenderer {
         shapeRenderer.setProjectionMatrix(cam.combined);  
         font = new BitmapFont(true);
         font.setColor(Color.BLACK);
-        hud=new HUD(shapeRenderer,batcher,font,gameWidth, midPointY);
-        
+        hud=new HUD(shapeRenderer,batcher,font,gameWidth, midPointY);     
         
      
     }
@@ -75,14 +74,15 @@ public class GameRenderer {
     	Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        shapeRenderer.begin(ShapeType.Filled);
+        
         // Draw Background color
-        shapeRenderer.setColor(55 / 255.0f, 80 / 255.0f, 100 / 255.0f, 1);
-        shapeRenderer.rect(0, 0, 1280, 720 );        
-        shapeRenderer.end();
+        batcher.begin();
+        batcher.enableBlending();
+        batcher.draw(AssetLoader.background, 0, 0, gameWidth, midPointY*2);    
+    
         
         // Begin SpriteBatch
-        batcher.begin();
+        
         // Disable transparency
         // This is good for performance when drawing images that do not require
         // transparency.
@@ -145,7 +145,7 @@ public class GameRenderer {
         		
         shapeRenderer.begin(ShapeType.Line);
         shapeRenderer.setColor(Color.RED);
-        shapeRenderer.line(myWorld.getTargetLine().get(hud.connectionId-1).get(0).x,myWorld.getTargetLine().get(hud.connectionId-1).get(0).y+10,myWorld.getTargetLine().get(hud.connectionId-1).get(1).x,myWorld.getTargetLine().get(hud.connectionId-1).get(1).y+10);        		       
+        shapeRenderer.line(myWorld.getTargetLine().get(hud.connectionId-1).get(0).x-5,myWorld.getTargetLine().get(hud.connectionId-1).get(0).y+10,myWorld.getTargetLine().get(hud.connectionId-1).get(1).x,myWorld.getTargetLine().get(hud.connectionId-1).get(1).y+10);        		       
         shapeRenderer.end();
         shapeRenderer.begin(ShapeType.Line);
         shapeRenderer.setColor(Color.RED);
@@ -154,14 +154,14 @@ public class GameRenderer {
         
         batcher.begin();
         batcher.enableBlending();
-        for(ArrayList<Tank> towerList : myWorld.getTankList()){
-        	   for(Tank tank :towerList ){       		   
-        		   float x=tank.getDimension().getPosition().x;
-        		   float y=tank.getDimension().getPosition().y;
-        		   float width=((MyRectangle) tank.getDimension()).getWidth();
-        		   float height=((MyRectangle) tank.getDimension()).getHeight();       		   
+        for(ArrayList<Plane> towerList : myWorld.getTankList()){
+        	   for(Plane plane :towerList ){       		   
+        		   float x=plane.getDimension().getPosition().x;
+        		   float y=plane.getDimension().getPosition().y;
+        		   float width=((MyRectangle) plane.getDimension()).getWidth();
+        		   float height=((MyRectangle) plane.getDimension()).getHeight();       		   
         	
-        		   batcher.draw(AssetLoader.plane[tank.getIdGroup()-1], x, y,width/2,height/2, width, height, 1, 1, (float) tank.getDegrees(), true); //90% to poziomo
+        		   batcher.draw(AssetLoader.plane[plane.getIdGroup()-1], x, y,width/2,height/2, width, height, 1, 1, (float) plane.getDegrees(), true); //90% to poziomo
 //        		   shapeRenderer.begin(ShapeType.Filled);
 //        	        shapeRenderer.begin(ShapeType.Filled);
 //	        		shapeRenderer.setColor(Color.PINK);

@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import com.Client.packets.Packet.Packet0LoginRequest;
 import com.Client.packets.Packet.Packet1LoginAnswer;
+import com.Client.packets.Packet.PacketEndGameAnswer;
+import com.Client.packets.Packet.PacketEndGameRequest;
 import com.Client.packets.Packet3CreateFactoryRequest;
 import com.Client.packets.Packet4CreateMineRequest;
 import com.Client.packets.Packet5CreateTowerRequest;
@@ -54,6 +56,12 @@ public class NetworkListener extends Listener {
 				loginAnswer.connections=serverGameWorld.getServer().getConnections().length;
 				serverGameWorld.getServer().sendToAllTCP(loginAnswer);
 			}
+			
+			
+			
+		}else if(o instanceof PacketEndGameRequest){
+			PacketEndGameAnswer packetEndGameAnswer=new PacketEndGameAnswer();
+			serverGameWorld.getServer().sendToAllTCP(packetEndGameAnswer);
 			
 			
 			

@@ -14,7 +14,7 @@ import com.mygdx.gameobjects.Bullet;
 import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.GameObject;
 import com.mygdx.gameobjects.Mine;
-import com.mygdx.gameobjects.Tank;
+import com.mygdx.gameobjects.Plane;
 import com.mygdx.gameobjects.Tower;
 import com.mygdx.gameobjects.iFire;
 import com.mygdx.gameworld.GameWorld;
@@ -24,7 +24,7 @@ public class ServerGameWorld {
 	Server server;
 	int midPointY;
 	GameWorld gameWorld;
-	ArrayList<ArrayList<Tank>> temporaryTankList =new ArrayList<ArrayList<Tank>>(3);
+	ArrayList<ArrayList<Plane>> temporaryTankList =new ArrayList<ArrayList<Plane>>(3);
 	long time;
 
 	public long getTime() {
@@ -44,25 +44,14 @@ public class ServerGameWorld {
 		this.midPointY = midPointY;
 		gameWorld = new GameWorld(midPointY);
 		server.sendToAllTCP(gameWorld);
-		ArrayList<Tank> tankList1=new ArrayList<Tank>(3);
-		ArrayList<Tank> tankLIst2=new ArrayList<Tank>(3);
+		ArrayList<Plane> tankList1=new ArrayList<Plane>(3);
+		ArrayList<Plane> tankLIst2=new ArrayList<Plane>(3);
 		temporaryTankList.add(tankList1);
 		temporaryTankList.add(tankLIst2);
 	}
 
 	public void update(long time) {
 		this.time=time;
-//		Thread thread=new Thread(){
-//			public void run(){
-//				synchronized (gameWorld) {
-				//	System.out.println(server.getConnections()[1].getTcpWriteBufferSize());
-					
-//					server.sendToUDP(server.getConnections()[0].getID(), gameWorld);
-//					server.sendToUDP(server.getConnections()[1].getID(), gameWorld);
-//				}
-//			}
-//		};
-//		thread.start();
 		performTowerAction(time);		
 		setOnStartPositionTanks();
 		goAttack(time);
@@ -105,8 +94,8 @@ public class ServerGameWorld {
 							}
 						}
 					}
-					else if(target instanceof Tank){
-						if(target!=null&&((Tank) target).shooted()<=0){
+					else if(target instanceof Plane){
+						if(target!=null&&((Plane) target).shooted()<=0){
 							synchronized(gameWorld){
 								gameWorld.getTankList().get(tmpGroupId).remove(target);
 							}
@@ -155,10 +144,10 @@ public class ServerGameWorld {
 
 	}
 	public void goAttack(long time) {
-		Tank tmp;
+		Plane tmp;
 		int tmpGroupId;
-		for (ArrayList<Tank> tankList : gameWorld.getTankList()) {
-			for (Tank tank : tankList) {
+		for (ArrayList<Plane> tankList : gameWorld.getTankList()) {
+			for (Plane tank : tankList) {
 				/////////////////////////////////////////////////////////////////////////////////sprawdzenie koloizi z Base przeciwnika dlategi inne idgroup
 				if(tank.getIdGroup()==2){
 					tmpGroupId=0;
@@ -183,7 +172,7 @@ public class ServerGameWorld {
 				/*
 				 * sprawdzanie kolizji z innymi samolotami
 				 * */
-				tmp=(Tank) tank.collides(tankList);
+				tmp=(Plane) tank.collides(tankList);
 				if(tmp==null){//jesli jest kolizja z innym
 					if(tank.move()){
 						tank.goTo(gameWorld.getTargetLine().get(tank.getIdGroup()-1).get(2));
@@ -204,15 +193,15 @@ public class ServerGameWorld {
 	public void deployTanks(int tanksNumber,int idConnection){
 		
 		for(int i=0;i<tanksNumber;i++){
-			Tank tank=new Tank(gameWorld.getTargetLine().get(idConnection-1).get(0).x,gameWorld.getTargetLine().get(idConnection-1).get(0).y,20,20,2,idConnection,UUID.randomUUID().toString());
+			Plane tank=new Plane(gameWorld.getTargetLine().get(idConnection-1).get(0).x,gameWorld.getTargetLine().get(idConnection-1).get(0).y,20,20,2,idConnection,UUID.randomUUID().toString());
 			tank.goTo(gameWorld.getTargetLine().get(idConnection-1).get(1));
 			temporaryTankList.get(idConnection-1).add(tank);
 		}
 	}
 	public void setOnStartPositionTanks(){	
 		synchronized (gameWorld) {		
-					for (ArrayList<Tank> tmpTankList : temporaryTankList) {			
-						for (Tank newTank : tmpTankList) {									
+					for (ArrayList<Plane> tmpTankList : temporaryTankList) {			
+						for (Plane newTank : tmpTankList) {									
 									if(!newTank.collides(gameWorld.getTankList().get(newTank.getIdGroup()-1),-20,-20,40,40)){
 										gameWorld.getTankList().get(newTank.getIdGroup()-1).add(newTank);
 										tmpTankList.remove(newTank);

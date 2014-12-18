@@ -50,7 +50,7 @@ public class LogicGame {
 					}
 				};
 				thread.start();
-				//komunikat cekam na gracza
+				//komunikat czekam na gracza
 				Packet1LoginAnswer loginAnswer= new Packet1LoginAnswer();			
 				loginAnswer.accepted=true;
 				if(serverGameWorld==null){

@@ -1,5 +1,6 @@
 package com.mygdx.screens;
 import com.Client.MyClient;
+import com.Client.packets.Packet.PacketEndGameRequest;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -32,8 +33,7 @@ public class GameScreen implements Screen{
 	@Override
 	public void render(float delta) {
 		runTime+=delta;		
-		renderer.render(runTime);
-		
+		renderer.render(runTime);		
 	}
 
 	@Override
@@ -50,8 +50,7 @@ public class GameScreen implements Screen{
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 	@Override
@@ -68,8 +67,9 @@ public class GameScreen implements Screen{
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 		
+		PacketEndGameRequest packetEndGame=new PacketEndGameRequest();
+		myClient.client.sendTCP(packetEndGame);
 	}
 
 }

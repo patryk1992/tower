@@ -16,7 +16,7 @@ public class Bullet extends GameObject {
 		super(x,y,radius,idGroup,id);
 		this.targetID=targetObject.id;
 		this.pointTarget=new Vector2(targetObject.getDimension().getPosition().x+((MyRectangle) targetObject.getDimension()).getWidth()/2,targetObject.getDimension().getPosition().y+((MyRectangle) targetObject.getDimension()).getHeight()/2);
-		if(targetObject instanceof Tank){
+		if(targetObject instanceof Plane){
 			this.targetType=1;
 		}else if(targetObject instanceof Building){
 			this.targetType=0;

@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.simpleobjects.MyRectangle;
 
-public class Tank extends GameObject implements iFire{
+public class Plane extends GameObject implements iFire{
 	int lives;
 	float velocityConstant;
 	float progres;
@@ -22,14 +22,14 @@ public class Tank extends GameObject implements iFire{
 	double degrees;
 	int bulletsCanTake;
 	
-	public Tank(float x, float y, int width, int height,long produceTime ,int idGroup, String id){
+	public Plane(float x, float y, int width, int height,long produceTime ,int idGroup, String id){
 		super(x,y,width,height,idGroup,id);		
 		lives=3;
 		this.produceTime=produceTime;
 		degrees=90;
 		this.bulletsCanTake=2;
 	}
-	public Tank(){
+	public Plane(){
 		
 	}
 	
@@ -49,11 +49,11 @@ public class Tank extends GameObject implements iFire{
 //		float radian=pointHelp.dst(pointTarget)/pointHelp.dst(pointInit);
 //		degrees=Math.atan(radian)*180/Math.PI;
 		degrees=MathUtils.atan2(pointHelp.dst(pointTarget), pointHelp.dst(pointInit))*180/Math.PI;
-		if(pointInit.y>pointHelp.y){
+		if(pointInit.y<pointHelp.y){
 			degrees=180-degrees;
 		}
-		if(idGroup==1){
-			degrees=180-degrees;
+		if(idGroup==2){
+			degrees=360-degrees;
 		}
 	}
 	public boolean move(){

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
 
     public static Texture texture;
+    public static Texture background;
     public static TextureRegion base[];
 
     public static TextureRegion tower[], factory[], mine[];
@@ -18,10 +19,15 @@ public class AssetLoader {
     public static TextureRegion bullets[];
     public static TextureRegion bullets2[];
     
+    
+    
     public static void load() {
 
-        texture = new Texture(Gdx.files.internal("data/texture2.png"));
+        texture = new Texture(Gdx.files.internal("data/texture.png"));
         texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        
+        background = new Texture(Gdx.files.internal("data/background.png"));
+        background.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
         base=new TextureRegion[2];
         base[0] = new TextureRegion(texture, 436, 404, 212, 212);
@@ -78,23 +84,12 @@ public class AssetLoader {
         bulletsAnimation[1] = new Animation(0.06f, bullets2);
         bulletsAnimation[1].setPlayMode(Animation.PlayMode.LOOP_RANDOM);
 
-//        TextureRegion[] birds = { birdDown, bird, birdUp };
-//        birdAnimation = new Animation(0.06f, birds);
-//        birdAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-//
-//        skullUp = new TextureRegion(texture, 192, 0, 24, 14);
-//        // Create by flipping existing skullUp
-//        skullDown = new TextureRegion(skullUp);
-//        skullDown.flip(false, true);
-//
-//        bar = new TextureRegion(texture, 136, 16, 22, 3);
-//        bar.flip(false, true);
-
     }
 
     public static void dispose() {
         // We must dispose of the texture when we are finished.
         texture.dispose();
+        background.dispose();
     }
 
 }

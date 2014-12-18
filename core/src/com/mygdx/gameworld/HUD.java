@@ -12,8 +12,7 @@ import com.mygdx.gameobjects.IMine;
 import com.mygdx.gameobjects.ITower;
 import com.mygdx.helpers.AssetLoader;
 
-public class HUD {
-	Barricade barricade;
+public class HUD {	
 	int gameWidth, midPointY;
 	ShapeRenderer shapeRenderer;
 	ITower iTower;
@@ -34,8 +33,7 @@ public class HUD {
 		this.midPointY=midPointY;
 		this.shapeRenderer=shapeRenderer;
 		this.batcher=batcher;
-		this.font=font;
-		barricade=new Barricade((gameWidth/2)-4,0,8,midPointY*2);
+		this.font=font;		
 	}
 	public void intHUD(){
 		if(connectionId==1){
@@ -51,11 +49,7 @@ public class HUD {
 			iCoins= new ICoins(1250, 10, 15);
 			}
 	}
-	public void render(float runTime) {
-		 shapeRenderer.begin(ShapeType.Filled);
-	     shapeRenderer.setColor(Color.GRAY);
-	     shapeRenderer.rect(barricade.getPosition().x, barricade.getPosition().y, barricade.getWidth(), barricade.getHeight());
-	     shapeRenderer.end();
+	public void render(float runTime) {		
 	     if(iTower!=null&&iMine!=null&&iFactory!=null&&iCoins!=null){
 	    	 
 	    	// Begin SpriteBatch

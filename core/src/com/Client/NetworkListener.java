@@ -3,6 +3,7 @@ package com.Client;
 import com.Client.packets.Packet.Packet0LoginRequest;
 import com.Client.packets.Packet.Packet1LoginAnswer;
 import com.Client.packets.Packet.Packet2Message;
+import com.Client.packets.Packet.PacketEndGameAnswer;
 import com.badlogic.gdx.graphics.Color;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -50,6 +51,8 @@ public class NetworkListener extends Listener {
 		else if (o instanceof Packet2Message) {
 			String message = ((Packet2Message) o).message;
 			Log.info("[Client]" + message);
+		}else if (o instanceof PacketEndGameAnswer) {
+					//dodaj wyswietalnie koniec gry
 		}
 		
 		

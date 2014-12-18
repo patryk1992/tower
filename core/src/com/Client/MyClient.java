@@ -10,6 +10,10 @@ import java.util.ArrayList;
 
 
 
+
+
+import com.Client.packets.Packet.PacketEndGameAnswer;
+import com.Client.packets.Packet.PacketEndGameRequest;
 import com.Client.packets.Packet3CreateFactoryRequest;
 import com.Client.packets.Packet4CreateMineRequest;
 import com.Client.packets.Packet5CreateTowerRequest;
@@ -29,7 +33,7 @@ import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.GameObject;
 import com.mygdx.gameobjects.Mine;
 import com.mygdx.gameobjects.Building;
-import com.mygdx.gameobjects.Tank;
+import com.mygdx.gameobjects.Plane;
 import com.mygdx.gameobjects.Tower;
 import com.mygdx.gameworld.GameRenderer;
 import com.mygdx.gameworld.GameWorld;
@@ -79,10 +83,12 @@ public class MyClient {
 		kryo.register(Tower.class);
 		kryo.register(Packet6CreateAttackPointRequest.class);
 		kryo.register(Packet7ClickTowerRequest.class);
-		kryo.register(Tank.class);
+		kryo.register(Plane.class);
 		kryo.register(MyRectangle.class);
 		kryo.register(Bullet.class);
 		kryo.register(MyCircle.class);
+		kryo.register(PacketEndGameRequest.class);
+		kryo.register(PacketEndGameAnswer.class);
 	}
 	
 

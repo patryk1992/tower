@@ -8,17 +8,25 @@ import com.mygdx.screens.MenuScreen;
 
 public class MyGdxGame  extends Game{
 	GameScreen gameScreen;
+	MenuScreen menuScreen;
 	 @Override
 	    public void create() {
 	        Gdx.app.log("ZBGame", "created");
-	        setScreen(new MenuScreen(this));
+	        menuScreen=new MenuScreen(this);				        
+	        setScreen(menuScreen);
 	       
 	    }
 
-	    @Override
+	    
+
+		@Override
 	    public void dispose() {
+	    	gameScreen.dispose();
 	        super.dispose();
 	        AssetLoader.dispose();
 	    }
-	
+		
+		public void setGameScreen(GameScreen gameScreen) {
+			this.gameScreen = gameScreen;
+		}
 }
