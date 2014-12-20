@@ -1,11 +1,14 @@
 package com.mygdx.gameworld;
 
+import java.awt.Button;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.gameobjects.Barricade;
+import com.mygdx.gameobjects.IButton;
 import com.mygdx.gameobjects.ICoins;
 import com.mygdx.gameobjects.IFactory;
 import com.mygdx.gameobjects.IMine;
@@ -23,17 +26,19 @@ public class HUD {
 	int connectionId;
 	int connections;
 	BitmapFont font;
+	boolean endGame;
+	int idWinner;	
+	IButton restartGameButton;
+	IButton endGameButton;
 	
-	
-	public void setConnectionId(int connectionId) {
-		this.connectionId = connectionId;
-	}
 	public HUD(ShapeRenderer shapeRenderer, SpriteBatch batcher, BitmapFont font, int gameWidth, int midPointY){
 		this.gameWidth=gameWidth;
 		this.midPointY=midPointY;
 		this.shapeRenderer=shapeRenderer;
 		this.batcher=batcher;
-		this.font=font;		
+		this.font=font;	
+		this.endGame=false;
+		this.idWinner=0;
 	}
 	public void intHUD(){
 		if(connectionId==1){
@@ -48,6 +53,8 @@ public class HUD {
 			iFactory= new IFactory(1229,550,50,50);
 			iCoins= new ICoins(1250, 10, 15);
 			}
+		restartGameButton=new IButton(320,260,640,100);
+		endGameButton=new IButton(320,400,640,100);
 	}
 	public void render(float runTime) {		
 	     if(iTower!=null&&iMine!=null&&iFactory!=null&&iCoins!=null){
@@ -87,11 +94,44 @@ public class HUD {
 	     if(connections<1){
 		     shapeRenderer.begin(ShapeType.Filled);
 		     shapeRenderer.setColor(Color.RED);
-		     shapeRenderer.rect(640, midPointY, 100,300);
+		     shapeRenderer.rect(320, 60, 640,100);
 		     shapeRenderer.end();
 		     batcher.begin();
-			 font.draw(batcher, "czekam na 2",650,midPointY);
+			 font.draw(batcher, "czekam na 2",320,60);
 			 batcher.end();
+	     }
+	     if(endGame){
+	    	 shapeRenderer.begin(ShapeType.Filled);
+		     shapeRenderer.setColor(Color.RED);
+		     shapeRenderer.rect(320, 60, 640,100);
+		     shapeRenderer.end();
+		     batcher.begin();
+		     if(idWinner==0){
+		    	 font.draw(batcher, "koniec utracono polaczenie",320,60);
+		    	 batcher.end();
+		     }else if(idWinner==connectionId){
+		    	 font.draw(batcher, "you win",320,60);
+		    	 batcher.end();
+		     }else{
+		    	 font.draw(batcher, "you lose",320,60);
+		    	 batcher.end();
+		     }
+		     if(idWinner!=0){
+				 shapeRenderer.begin(ShapeType.Filled);
+			     shapeRenderer.setColor(Color.PURPLE);
+			     shapeRenderer.rect(restartGameButton.getPosition().x, restartGameButton.getPosition().y, restartGameButton.getWidth(), restartGameButton.getHeight());
+			     shapeRenderer.end();
+			     batcher.begin();
+			     font.draw(batcher, "restartButton",restartGameButton.getPosition().x, restartGameButton.getPosition().y);
+			     batcher.end();
+			 }		     
+		     shapeRenderer.begin(ShapeType.Filled);
+		     shapeRenderer.setColor(Color.PURPLE);
+		     shapeRenderer.rect(endGameButton.getPosition().x, endGameButton.getPosition().y, endGameButton.getWidth(), endGameButton.getHeight());
+		     shapeRenderer.end();
+		     batcher.begin();
+		     font.draw(batcher, "endButton",endGameButton.getPosition().x, endGameButton.getPosition().y);
+		     batcher.end();
 	     }
 	 }
 	public ITower getiTower() {
@@ -111,5 +151,33 @@ public class HUD {
 	}
 	public void setConnections(int connections) {
 		this.connections = connections;
+	}
+
+	public boolean isEndGame() {
+		return endGame;
+	}
+	public void setEndGame(boolean endGame) {
+		this.endGame = endGame;
+	}	
+	public void setConnectionId(int connectionId) {
+		this.connectionId = connectionId;
+	}
+	public int getIdWinner() {
+		return idWinner;
+	}
+	public void setIdWinner(int idWinner) {
+		this.idWinner = idWinner;
+	}
+	public IButton getRestartGameButton() {
+		return restartGameButton;
+	}
+	public void setRestartGameButton(IButton restartGameButton) {
+		this.restartGameButton = restartGameButton;
+	}
+	public IButton getEndGameButton() {
+		return endGameButton;
+	}
+	public void setEndGameButton(IButton endGameButton) {
+		this.endGameButton = endGameButton;
 	}
 }

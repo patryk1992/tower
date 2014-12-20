@@ -1,9 +1,9 @@
 package com.mygdx.screens;
 import com.Client.MyClient;
-import com.Client.packets.Packet.PacketEndGameRequest;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.gameworld.GameRenderer;
 import com.mygdx.gameworld.GameWorld;
 import com.mygdx.helpers.Input;
@@ -16,16 +16,17 @@ public class GameScreen implements Screen{
 	private MyClient myClient;
 	private float runTime =0;
 	private Input input;
+	MyGdxGame game;
 	
-	public GameScreen() throws Exception{
+	public GameScreen(MyGdxGame game) throws Exception{
 		float screenWidth = Gdx.graphics.getWidth();
 		float screenHeight =Gdx.graphics.getHeight();	
 		int midPointY =(int) (screenHeight /2);
-		
+		this.game=game;
 		world= new GameWorld(midPointY);
 		renderer = new GameRenderer(world,(int) screenWidth,midPointY);
 		myClient=new MyClient(renderer);	
-		input=new Input(myClient.client,renderer);
+		input=new Input(myClient.client,renderer,game);
 		Gdx.input.setInputProcessor(input);
 		
 	}
@@ -55,21 +56,17 @@ public class GameScreen implements Screen{
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void dispose() {
 		
-		PacketEndGameRequest packetEndGame=new PacketEndGameRequest();
-		myClient.client.sendTCP(packetEndGame);
 	}
 
 }

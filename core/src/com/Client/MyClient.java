@@ -4,16 +4,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
-
-
-
-
-
-
-
-
-import com.Client.packets.Packet.PacketEndGameAnswer;
-import com.Client.packets.Packet.PacketEndGameRequest;
+import com.Client.packets.Packet.PacketEndGame;
+import com.Client.packets.Packet.PacketRestartGame;
 import com.Client.packets.Packet3CreateFactoryRequest;
 import com.Client.packets.Packet4CreateMineRequest;
 import com.Client.packets.Packet5CreateTowerRequest;
@@ -87,8 +79,9 @@ public class MyClient {
 		kryo.register(MyRectangle.class);
 		kryo.register(Bullet.class);
 		kryo.register(MyCircle.class);
-		kryo.register(PacketEndGameRequest.class);
-		kryo.register(PacketEndGameAnswer.class);
+		kryo.register(PacketEndGame.class);
+		kryo.register(PacketRestartGame.class);
+		
 	}
 	
 

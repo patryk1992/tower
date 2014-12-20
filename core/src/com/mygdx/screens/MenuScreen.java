@@ -104,8 +104,7 @@ public class MenuScreen implements Screen {
 				
 				try {
 					
-					GameScreen gameScreen=new GameScreen();
-					game.setGameScreen(gameScreen);
+					GameScreen gameScreen=new GameScreen(game);					
 					game.setScreen(gameScreen);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -119,8 +118,7 @@ public class MenuScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				try{				
-				GameScreen gameScreen=new GameScreen();
-				game.setGameScreen(gameScreen);
+				GameScreen gameScreen=new GameScreen(game);				
 				game.setScreen(gameScreen);
 				}
 				catch(Exception e){

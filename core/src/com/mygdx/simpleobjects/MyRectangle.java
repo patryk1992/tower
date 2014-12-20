@@ -22,7 +22,7 @@ public class MyRectangle extends Dimension{
 	@Override
 	public boolean collides(int x2, int y2) {
 		if (x2 > position.x && x2 < position.x + width 
-				&& y2 > position.y && y2 < position.y + width) {
+				&& y2 > position.y && y2 < position.y + height) {
 			return true;
 		} else {
 			return false;

@@ -6,8 +6,7 @@ import com.mygdx.helpers.AssetLoader;
 import com.mygdx.screens.GameScreen;
 import com.mygdx.screens.MenuScreen;
 
-public class MyGdxGame  extends Game{
-	GameScreen gameScreen;
+public class MyGdxGame  extends Game{	
 	MenuScreen menuScreen;
 	 @Override
 	    public void create() {
@@ -15,18 +14,12 @@ public class MyGdxGame  extends Game{
 	        menuScreen=new MenuScreen(this);				        
 	        setScreen(menuScreen);
 	       
-	    }
-
-	    
+	    }	    
 
 		@Override
-	    public void dispose() {
-	    	gameScreen.dispose();
+	    public void dispose() {	    	
 	        super.dispose();
 	        AssetLoader.dispose();
 	    }
 		
-		public void setGameScreen(GameScreen gameScreen) {
-			this.gameScreen = gameScreen;
-		}
 }

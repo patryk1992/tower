@@ -3,8 +3,10 @@ package com.server.logic;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import sun.nio.cs.ext.TIS_620;
 import myServer.MyServer;
 
+import com.Client.packets.Packet.PacketEndGame;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Server;
@@ -26,33 +28,25 @@ public class ServerGameWorld {
 	GameWorld gameWorld;
 	ArrayList<ArrayList<Plane>> temporaryTankList =new ArrayList<ArrayList<Plane>>(3);
 	long time;
-
-	public long getTime() {
-		return time;
-	}
-
-	public GameWorld getGameWorld() {
-		return gameWorld;
-	}
+	Boolean endGameBoolean;
 	
-	public void setGameWorld(GameWorld gameWorld) {
-		this.gameWorld = gameWorld;
-	}
-
+	
 	public ServerGameWorld(int midPointY, Server server) {
 		this.server = server;
 		this.midPointY = midPointY;
+		this.endGameBoolean=false;
 		gameWorld = new GameWorld(midPointY);
 		server.sendToAllTCP(gameWorld);
 		ArrayList<Plane> tankList1=new ArrayList<Plane>(3);
 		ArrayList<Plane> tankLIst2=new ArrayList<Plane>(3);
 		temporaryTankList.add(tankList1);
 		temporaryTankList.add(tankLIst2);
+		
 	}
 
 	public void update(long time) {
 		this.time=time;
-		performTowerAction(time);		
+		performTowerAction(time);				
 		setOnStartPositionTanks();
 		goAttack(time);
 		moveBullets();
@@ -146,41 +140,48 @@ public class ServerGameWorld {
 	public void goAttack(long time) {
 		Plane tmp;
 		int tmpGroupId;
-		for (ArrayList<Plane> tankList : gameWorld.getTankList()) {
-			for (Plane tank : tankList) {
+		for (ArrayList<Plane> planesList : gameWorld.getTankList()) {
+			for (Plane plane : planesList) {
 				/////////////////////////////////////////////////////////////////////////////////sprawdzenie koloizi z Base przeciwnika dlategi inne idgroup
-				if(tank.getIdGroup()==2){
+				if(plane.getIdGroup()==2){
 					tmpGroupId=0;
 				}
 				else
 				{
 					tmpGroupId=1;
 				}
-				if(tank.collides(gameWorld.getCastles()[tmpGroupId])!=null){
-					tankList.remove(tank);
+				if(plane.collides(gameWorld.getCastles()[tmpGroupId])!=null){
+					planesList.remove(plane);
 					gameWorld.getCastles()[tmpGroupId].reduceLives();
+					if(gameWorld.getCastles()[tmpGroupId].getLives()<1){
+						endGameBoolean=true;
+						PacketEndGame packetEndGameAnswer=new PacketEndGame();
+						packetEndGameAnswer.idWinner=plane.getIdGroup();
+						server.sendToAllTCP(packetEndGameAnswer);
+						cleanBeforRestart(); //wyczyszczenie list w przypadku restartu
+					}
 					break;
 				}
 				/////////////////////////////////////////////////////////////////////////////////strzelanie do innych budynków	zainicjowanie wystrza³u		 				
 				synchronized (gameWorld) {
-					Bullet bullet=tank.fire(time, gameWorld.getTowerList().get(tmpGroupId));				
+					Bullet bullet=plane.fire(time, gameWorld.getTowerList().get(tmpGroupId));				
 					if(bullet!=null){					
-						gameWorld.getBulletList().get(tank.getIdGroup()-1).add(bullet);
+						gameWorld.getBulletList().get(plane.getIdGroup()-1).add(bullet);
 					}
 				}
 			
 				/*
 				 * sprawdzanie kolizji z innymi samolotami
 				 * */
-				tmp=(Plane) tank.collides(tankList);
+				tmp=(Plane) plane.collides(planesList);
 				if(tmp==null){//jesli jest kolizja z innym
-					if(tank.move()){
-						tank.goTo(gameWorld.getTargetLine().get(tank.getIdGroup()-1).get(2));
+					if(plane.move()){
+						plane.goTo(gameWorld.getTargetLine().get(plane.getIdGroup()-1).get(2));
 					}
 				}
 				else{
-					tankList.remove(tank);//wybuch
-					tankList.remove(tmp);					
+					planesList.remove(plane);//wybuch
+					planesList.remove(tmp);					
 					break;
 				}
 			}
@@ -209,12 +210,39 @@ public class ServerGameWorld {
 										}
 									}					
 					
-				}
+					}
 		}
 	}
 	public Server getServer() {
 		return server;
 	}
+	public Boolean getEndGameBoolean() {
+		return endGameBoolean;
+	}
 
+	public void setEndGameBoolean(Boolean endGameBoolean) {
+		this.endGameBoolean = endGameBoolean;
+	}
+
+	public long getTime() {
+		return time;
+	}
+
+	public GameWorld getGameWorld() {
+		return gameWorld;
+	}
+	
+	public void setGameWorld(GameWorld gameWorld) {
+		this.gameWorld = gameWorld;
+	}
+	public void intRestart(){
+		endGameBoolean=false;
+		this.gameWorld= new GameWorld(midPointY);		
+	}
+	public void cleanBeforRestart(){
+		temporaryTankList.get(0).clear();
+		temporaryTankList.get(1).clear();
+		gameWorld= new GameWorld(midPointY);	
+	}
 
 }

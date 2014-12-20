@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import com.Client.packets.Packet.Packet0LoginRequest;
 import com.Client.packets.Packet.Packet1LoginAnswer;
-import com.Client.packets.Packet.PacketEndGameAnswer;
-import com.Client.packets.Packet.PacketEndGameRequest;
+import com.Client.packets.Packet.PacketEndGame;
+import com.Client.packets.Packet.PacketRestartGame;
 import com.Client.packets.Packet3CreateFactoryRequest;
 import com.Client.packets.Packet4CreateMineRequest;
 import com.Client.packets.Packet5CreateTowerRequest;
@@ -26,6 +26,7 @@ import com.server.logic.ServerGameWorld;
 public class NetworkListener extends Listener {
 
 	private ServerGameWorld serverGameWorld;
+	private int restartGameRequets=0;
 
 	public void setServerGameWorld(ServerGameWorld serverGameWorld) {
 		this.serverGameWorld = serverGameWorld;
@@ -41,6 +42,10 @@ public class NetworkListener extends Listener {
 	@Override
 	public void disconnected(Connection arg0) {
 		Log.info("[SERVER]Someone is trying to disconnected");
+		PacketEndGame packetEndGameAnswer=new PacketEndGame();
+		serverGameWorld.setEndGameBoolean(true);
+		serverGameWorld.getServer().sendToAllTCP(packetEndGameAnswer);		
+		
 	}
 
 	@Override
@@ -58,14 +63,8 @@ public class NetworkListener extends Listener {
 			}
 			
 			
-			
-		}else if(o instanceof PacketEndGameRequest){
-			PacketEndGameAnswer packetEndGameAnswer=new PacketEndGameAnswer();
-			serverGameWorld.getServer().sendToAllTCP(packetEndGameAnswer);
-			
-			
-			
 		}
+		
 		if(serverGameWorld!=null&&serverGameWorld.getServer().getConnections().length==2)
 		{
 			if(o instanceof Packet5CreateTowerRequest){
@@ -170,8 +169,13 @@ public class NetworkListener extends Listener {
 				
 				
 				
+			}else if(o instanceof PacketRestartGame){
+				restartGameRequets++;
+				if(restartGameRequets==2){
+					restartGameRequets=0;
+					serverGameWorld.intRestart();					
+				}
 			}
-			
 		}
 	}
 }

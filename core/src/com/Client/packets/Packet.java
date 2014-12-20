@@ -14,11 +14,13 @@ public class Packet {
 	public static class Packet2Message {
 		public String message;
 	}
-	public static class PacketEndGameRequest {		
-		public String message="EndGameRequest";
+
+	public static class PacketEndGame {		
+		public String message="EndGame";
+		public int idWinner=0;//0 to przerwanie gry w trakcie;
 	}
-	public static class PacketEndGameAnswer {		
-		public String message="EndGameRequest";
+
+	public static class PacketRestartGame {		
+		public String message="RestartGame";		
 	}
-	
 }

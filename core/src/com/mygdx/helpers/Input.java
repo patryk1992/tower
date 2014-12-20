@@ -2,13 +2,16 @@ package com.mygdx.helpers;
 
 import java.util.ArrayList;
 
+import com.Client.packets.Packet.PacketRestartGame;
 import com.Client.packets.Packet3CreateFactoryRequest;
 import com.Client.packets.Packet4CreateMineRequest;
 import com.Client.packets.Packet5CreateTowerRequest;
 import com.Client.packets.Packet6CreateAttackPointRequest;
 import com.Client.packets.Packet7ClickTowerRequest;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.esotericsoftware.kryonet.Client;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.gameobjects.Building;
 import com.mygdx.gameworld.GameRenderer;
 import com.mygdx.gameworld.GameWorld;
@@ -16,13 +19,15 @@ import com.mygdx.gameworld.HUD;
 
 public class Input implements InputProcessor {
 	private Client client;
-	private GameWorld world;
 	GameRenderer renderer;
 	HUD hud;
-	public Input(Client client, GameRenderer renderer) {
+	MyGdxGame game;
+	
+	public Input(Client client, GameRenderer renderer, MyGdxGame game) {
 		this.client = client;
 		this.renderer = renderer;
 		hud=renderer.getHud();
+		this.game=game;
 	}
 
 	@Override
@@ -45,7 +50,7 @@ public class Input implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
+	if(!hud.isEndGame() ){
 		if ((hud.getiFactory().getPosition().x+hud.getiFactory().getWidth()) > screenX && client.getID() == 1
 				|| hud.getiFactory().getPosition().x < screenX
 				&& client.getID() == 2) {
@@ -94,7 +99,18 @@ public class Input implements InputProcessor {
 				client.sendTCP(new Packet7ClickTowerRequest(clickedId));
 			}
 		}
+	}else {
+		if (hud.getEndGameButton().collides(screenX, screenY)) {	
+			game.dispose();
+//			System.exit(0);
+			Gdx.app.exit() ;
+		} else  if(hud.getRestartGameButton().collides(screenX, screenY)&&hud.getIdWinner()!=0){
+			hud.setEndGame(false);
+			PacketRestartGame packet=new PacketRestartGame();
+			client.sendTCP(packet);
+		}
 		
+	}
 		return false;
 	}
 

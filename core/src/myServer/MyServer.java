@@ -3,17 +3,11 @@ package myServer;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-
-
-
-
-
 import com.Client.packets.Packet.Packet0LoginRequest;
 import com.Client.packets.Packet.Packet1LoginAnswer;
 import com.Client.packets.Packet.Packet2Message;
-import com.Client.packets.Packet.PacketEndGameAnswer;
-import com.Client.packets.Packet.PacketEndGameRequest;
+import com.Client.packets.Packet.PacketEndGame;
+import com.Client.packets.Packet.PacketRestartGame;
 import com.Client.packets.Packet3CreateFactoryRequest;
 import com.Client.packets.Packet4CreateMineRequest;
 import com.Client.packets.Packet5CreateTowerRequest;
@@ -78,8 +72,8 @@ public class MyServer {
 		kryo.register(MyRectangle.class);
 		kryo.register(Bullet.class);
 		kryo.register(MyCircle.class);
-		kryo.register(PacketEndGameRequest.class);
-		kryo.register(PacketEndGameAnswer.class);
+		kryo.register(PacketEndGame.class);
+		kryo.register(PacketRestartGame.class);
 	}
 	
 }

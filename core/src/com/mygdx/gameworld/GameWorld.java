@@ -8,6 +8,7 @@ import java.util.UUID;
 
 
 
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.gameobjects.Base;
@@ -23,8 +24,7 @@ public class GameWorld  {
 	ArrayList<ArrayList<Building>> towerList = new ArrayList<ArrayList<Building>>(3);
 	ArrayList<ArrayList<Vector2>> targetLine =new ArrayList<ArrayList<Vector2>>(3);
 	ArrayList<ArrayList<Plane>> tankList =new ArrayList<ArrayList<Plane>>(3);
-	ArrayList<ArrayList<Bullet>> bulletList =new ArrayList<ArrayList<Bullet>>(3);
-	
+	ArrayList<ArrayList<Bullet>> bulletList =new ArrayList<ArrayList<Bullet>>(3);	
 
 	public GameWorld(int midPointY){
 		Bases=new Base[2];
@@ -89,8 +89,6 @@ public class GameWorld  {
 	public void setCastles(Base[] castles) {
 		this.Bases = castles;
 	}
-	
-	
-		
+			
 
 }

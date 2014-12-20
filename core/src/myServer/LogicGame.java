@@ -50,30 +50,34 @@ public class LogicGame {
 					}
 				};
 				thread.start();
-				//komunikat czekam na gracza
-				Packet1LoginAnswer loginAnswer= new Packet1LoginAnswer();			
-				loginAnswer.accepted=true;
-				if(serverGameWorld==null){
-					loginAnswer.connections=0;					
-				}else {
-					loginAnswer.connections=serverGameWorld.getServer().getConnections().length;					
-				}
-				myServer.server.sendToAllTCP(loginAnswer);
+				waitForSecondPlayerPacket();
 				break;
 				
 			}
 
 		}
+		loopGame();
 
+	}
+	static void loopGame(){
 		while (true) {
 			delta++;
 			sleepFps(fps);
 			time=delta/fps;
-			serverGameWorld.update(time);			
-
+			serverGameWorld.update(time);					
 		}
-
+	}	
+	static void waitForSecondPlayerPacket(){		//komunikat czekam na gracza
+		Packet1LoginAnswer loginAnswer= new Packet1LoginAnswer();			
+		loginAnswer.accepted=true;
+		if(serverGameWorld==null){
+			loginAnswer.connections=0;					
+		}else {
+			loginAnswer.connections=serverGameWorld.getServer().getConnections().length;					
+		}
+		myServer.server.sendToAllTCP(loginAnswer);
 	}
+
 	static long sleepFps(int fps){
 		try {
 			Thread.sleep(1000/fps);
