@@ -34,8 +34,8 @@ public class NetworkListener extends Listener {
 	@Override
 	public void disconnected(Connection arg0) {
 		Log.info("[Client]You have disconnected");
-		PacketEndGame packetEndGameAnswer=new PacketEndGame();
 		renderer.getHud().setEndGame(true);
+		renderer.getHud().setIdWinner(0);
 	}
 
 	@Override

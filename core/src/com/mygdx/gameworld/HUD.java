@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.mygdx.gameobjects.Barricade;
 import com.mygdx.gameobjects.IButton;
 import com.mygdx.gameobjects.ICoins;
@@ -69,6 +70,7 @@ public class HUD {
 	         batcher.draw(AssetLoader.mine[connectionId-1], iMine.getPosition().x, iMine.getPosition().y, iMine.getWidth(), iMine.getHeight());
 	         batcher.draw(AssetLoader.factory[connectionId-1],iFactory.getPosition().x, iFactory.getPosition().y, iFactory.getWidth(), iFactory.getHeight());
 	         batcher.enableBlending();
+	         batcher.draw(AssetLoader.coins, iCoins.getPosition().x, iCoins.getPosition().y, iCoins.getRadius()*2, iCoins.getRadius()*2);
 	         batcher.end();
 	         
 //		     shapeRenderer.begin(ShapeType.Filled);
@@ -86,51 +88,59 @@ public class HUD {
 //		     shapeRenderer.rect(iFactory.getPosition().x, iFactory.getPosition().y, iFactory.getWidth(), iFactory.getHeight());
 //		     shapeRenderer.end();
 		     
-		     shapeRenderer.begin(ShapeType.Filled);
-		     shapeRenderer.setColor(Color.PINK);
-		     shapeRenderer.circle(iCoins.getPosition().x, iCoins.getPosition().y, iCoins.getRadius());
-		     shapeRenderer.end();
+//		     shapeRenderer.begin(ShapeType.Filled);
+//		     shapeRenderer.setColor(Color.PINK);
+//		     shapeRenderer.circle(iCoins.getPosition().x, iCoins.getPosition().y, iCoins.getRadius());
+//		     shapeRenderer.end();
 	     }
 	     if(connections<1){
-		     shapeRenderer.begin(ShapeType.Filled);
-		     shapeRenderer.setColor(Color.RED);
-		     shapeRenderer.rect(320, 60, 640,100);
-		     shapeRenderer.end();
+//		     shapeRenderer.begin(ShapeType.Filled);
+//		     shapeRenderer.setColor(Color.RED);
+//		     shapeRenderer.rect(320, 60, 640,100);
+//		     shapeRenderer.end();
 		     batcher.begin();
-			 font.draw(batcher, "czekam na 2",320,60);
+		     batcher.draw(AssetLoader.waiting, 320, 60, 640,100);
+//			 font.draw(batcher, "czekam na 2",320,60);
 			 batcher.end();
 	     }
 	     if(endGame){
-	    	 shapeRenderer.begin(ShapeType.Filled);
-		     shapeRenderer.setColor(Color.RED);
-		     shapeRenderer.rect(320, 60, 640,100);
-		     shapeRenderer.end();
+//	    	 shapeRenderer.begin(ShapeType.Filled);
+//		     shapeRenderer.setColor(Color.RED);
+//		     shapeRenderer.rect(320, 60, 640,100);
+//		     shapeRenderer.end();
 		     batcher.begin();
 		     if(idWinner==0){
-		    	 font.draw(batcher, "koniec utracono polaczenie",320,60);
+		    	 batcher.draw(AssetLoader.lostConnection, 320, 60, 640,100);
+//		    	 font.draw(batcher, "lost connection",320,60);
 		    	 batcher.end();
 		     }else if(idWinner==connectionId){
-		    	 font.draw(batcher, "you win",320,60);
+//		    	 font.draw(batcher, "you win",320,60);
+		    	 batcher.enableBlending();
+		    	 batcher.draw(AssetLoader.win, 320, 60, 640, 100);
 		    	 batcher.end();
 		     }else{
-		    	 font.draw(batcher, "you lose",320,60);
+//		    	 font.draw(batcher, "you lose",320,60);
+		    	 batcher.enableBlending();
+		    	 batcher.draw(AssetLoader.lose, 320, 60, 640, 100);
 		    	 batcher.end();
 		     }
 		     if(idWinner!=0){
-				 shapeRenderer.begin(ShapeType.Filled);
-			     shapeRenderer.setColor(Color.PURPLE);
-			     shapeRenderer.rect(restartGameButton.getPosition().x, restartGameButton.getPosition().y, restartGameButton.getWidth(), restartGameButton.getHeight());
-			     shapeRenderer.end();
+//				 shapeRenderer.begin(ShapeType.Filled);
+//			     shapeRenderer.setColor(Color.PURPLE);
+//			     shapeRenderer.rect(restartGameButton.getPosition().x, restartGameButton.getPosition().y, restartGameButton.getWidth(), restartGameButton.getHeight());
+//			     shapeRenderer.end();
 			     batcher.begin();
-			     font.draw(batcher, "restartButton",restartGameButton.getPosition().x, restartGameButton.getPosition().y);
+			     batcher.draw(AssetLoader.restart, restartGameButton.getPosition().x, restartGameButton.getPosition().y, restartGameButton.getWidth(), restartGameButton.getHeight());
+//			     font.draw(batcher, "restartButton",restartGameButton.getPosition().x, restartGameButton.getPosition().y);
 			     batcher.end();
 			 }		     
-		     shapeRenderer.begin(ShapeType.Filled);
-		     shapeRenderer.setColor(Color.PURPLE);
-		     shapeRenderer.rect(endGameButton.getPosition().x, endGameButton.getPosition().y, endGameButton.getWidth(), endGameButton.getHeight());
-		     shapeRenderer.end();
+//		     shapeRenderer.begin(ShapeType.Filled);
+//		     shapeRenderer.setColor(Color.PURPLE);
+//		     shapeRenderer.rect(endGameButton.getPosition().x, endGameButton.getPosition().y, endGameButton.getWidth(), endGameButton.getHeight());
+//		     shapeRenderer.end();
 		     batcher.begin();
-		     font.draw(batcher, "endButton",endGameButton.getPosition().x, endGameButton.getPosition().y);
+		     batcher.draw(AssetLoader.end, endGameButton.getPosition().x, endGameButton.getPosition().y, endGameButton.getWidth(), endGameButton.getHeight());
+//		     font.draw(batcher, "endButton",endGameButton.getPosition().x, endGameButton.getPosition().y);
 		     batcher.end();
 	     }
 	 }

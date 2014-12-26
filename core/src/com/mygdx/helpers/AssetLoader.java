@@ -6,12 +6,19 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class AssetLoader {
+public abstract class AssetLoader {
 
     public static Texture texture;
     public static Texture background;
     public static TextureRegion base[];
-
+    public static Texture coins;
+    public static Texture win,lose;
+    public static Texture communiques;
+    public static TextureRegion lostConnection,waiting;
+    
+    public static Texture buttons;
+    public static TextureRegion end,restart;
+    
     public static TextureRegion tower[], factory[], mine[];
     public static TextureRegion plane[];
 
@@ -24,11 +31,35 @@ public class AssetLoader {
     public static void load() {
 
         texture = new Texture(Gdx.files.internal("data/texture.png"));
-        texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);      
         
         background = new Texture(Gdx.files.internal("data/background.png"));
-        background.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-
+        background.setFilter(TextureFilter.Nearest, TextureFilter.Nearest); 
+        
+        coins = new Texture(Gdx.files.internal("data/coins.png"));
+        coins.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        
+        win = new Texture(Gdx.files.internal("data/win.png"));
+        win.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        
+        lose = new Texture(Gdx.files.internal("data/lose.png"));
+        lose.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        
+        buttons = new Texture(Gdx.files.internal("data/buttons.png"));
+        buttons.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        
+        communiques = new Texture(Gdx.files.internal("data/communiques.png"));
+        communiques.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        lostConnection = new TextureRegion(communiques,0,0,5837,505);
+        lostConnection.flip(false, true);        
+        waiting = new TextureRegion(communiques, 0, 505, 5837, 1080);
+        waiting.flip(false, true);
+        
+        restart = new TextureRegion(buttons, 0, 0, 320, 72);
+        restart.flip(false, true);         
+       	end = new TextureRegion(buttons, 0, 90, 320, 65);
+        end.flip(false, true);      
+        
         base=new TextureRegion[2];
         base[0] = new TextureRegion(texture, 436, 404, 212, 212);
         base[0].flip(false, true);        
