@@ -14,10 +14,13 @@ import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.gameobjects.Building;
 import com.mygdx.gameworld.GameRenderer;
-import com.mygdx.gameworld.GameWorld;
 import com.mygdx.gameworld.HUD;
+import com.mygdx.patternobserver.Observer;
+import com.mygdx.patternobserver.Subject;
 
-public class Input implements InputProcessor {
+public class Input implements InputProcessor,Subject {
+	
+	private ArrayList<Observer> observers;
 	private Client client;
 	GameRenderer renderer;
 	HUD hud;
@@ -25,9 +28,17 @@ public class Input implements InputProcessor {
 	
 	public Input(Client client, GameRenderer renderer, MyGdxGame game) {
 		this.client = client;
-		this.renderer = renderer;
+		this.renderer = renderer;		
 		hud=renderer.getHud();
+		this.observers=new ArrayList<Observer>();
+		register(hud.getiFactory());
+		register(hud.getiMine());
+		register(hud.getiTower());
+		hud.getiFactory().setSubject(this);
+		hud.getiMine().setSubject(this);
+		hud.getiTower().setSubject(this);
 		this.game=game;
+		
 	}
 
 	@Override
@@ -53,32 +64,8 @@ public class Input implements InputProcessor {
 	if(!hud.isEndGame() ){
 		if ((hud.getiFactory().getPosition().x+hud.getiFactory().getWidth()) > screenX && client.getID() == 1
 				|| hud.getiFactory().getPosition().x < screenX
-				&& client.getID() == 2) {
-			if (hud.getiFactory().collides(screenX, screenY)) {
-				if (hud.getiFactory().getPressed() == true) {
-					hud.getiFactory().setPressed(false);
-				} else {
-					hud.getiFactory().setPressed(true);
-				}
-				hud.getiMine().setPressed(false);
-				hud.getiTower().setPressed(false);
-			} else if (hud.getiMine().collides(screenX, screenY)) {
-				if (hud.getiMine().getPressed() == true) {
-					hud.getiMine().setPressed(false);
-				} else {
-					hud.getiMine().setPressed(true);
-				}
-				hud.getiFactory().setPressed(false);
-				hud.getiTower().setPressed(false);
-			} else if (hud.getiTower().collides(screenX, screenY)) {
-				if (hud.getiTower().getPressed() == true) {
-					hud.getiTower().setPressed(false);
-				} else {
-					hud.getiTower().setPressed(true);
-				}
-				hud.getiFactory().setPressed(false);
-				hud.getiMine().setPressed(false);
-			}
+				&& client.getID() == 2) {			
+			notifyObservers(screenX, screenY);
 		} else if((screenX<640&&client.getID()==1 )||(screenX>640&&client.getID()==2 )){			
 			if (hud.getiFactory().getPressed()) {
 				client.sendTCP(new Packet3CreateFactoryRequest(screenX,screenY));
@@ -147,4 +134,35 @@ public class Input implements InputProcessor {
 				
 	}
 
+	@Override
+	public void register(Observer obj) {
+		 if(obj == null) throw new NullPointerException("Null Observer");
+	        synchronized (observers) {
+	        if(!observers.contains(obj)) observers.add(obj);
+	        }
+		
+	}
+
+	@Override
+	public void unregister(Observer obj) {
+		synchronized (observers) {
+	        observers.remove(obj);
+	        }
+	}
+
+	@Override
+	public void notifyObservers(int screenX, int screenY) {
+		 for (Observer observer : observers) {
+	            observer.update(screenX, screenY);
+	        }
+	}
+
+	@Override
+	public Object getUpdate(Observer obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public ArrayList<Observer> getObservers() {
+		return observers;
+	}
 }

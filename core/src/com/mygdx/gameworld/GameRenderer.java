@@ -21,7 +21,7 @@ import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.Mine;
 import com.mygdx.gameobjects.Plane;
 import com.mygdx.gameobjects.Tower;
-import com.mygdx.helpers.AssetLoader;
+import com.mygdx.helpers.AssetLoaderSingleton;
 import com.mygdx.simpleobjects.MyCircle;
 import com.mygdx.simpleobjects.MyRectangle;
 
@@ -37,7 +37,6 @@ public class GameRenderer {
 	
 	private int midPointY;
     private int gameWidth;    
-   
 
     public GameRenderer(GameWorld world, int gameWidth, int midPointY) {
         myWorld = world;
@@ -50,7 +49,7 @@ public class GameRenderer {
 
         cam = new OrthographicCamera();
         cam.setToOrtho(true, gameWidth, midPointY*2);
-        AssetLoader.load();
+        AssetLoaderSingleton.getInstance();
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
         shapeRenderer = new ShapeRenderer();
@@ -78,7 +77,7 @@ public class GameRenderer {
         // Draw Background color
         batcher.begin();
         batcher.enableBlending();
-        batcher.draw(AssetLoader.background, 0, 0, gameWidth, midPointY*2);    
+        batcher.draw(AssetLoaderSingleton.background, 0, 0, gameWidth, midPointY*2);    
     
         
         // Begin SpriteBatch
@@ -87,8 +86,8 @@ public class GameRenderer {
         // This is good for performance when drawing images that do not require
         // transparency.
         batcher.disableBlending();
-        batcher.draw(AssetLoader.base[0], myWorld.getCastles()[0].getDimension().getPosition().x, myWorld.getCastles()[0].getDimension().getPosition().y, ((MyRectangle) myWorld.getCastles()[0].getDimension()).getWidth(), ((MyRectangle) myWorld.getCastles()[0].getDimension()).getHeight());        
-        batcher.draw(AssetLoader.base[1], myWorld.getCastles()[1].getDimension().getPosition().x, myWorld.getCastles()[1].getDimension().getPosition().y, ((MyRectangle) myWorld.getCastles()[1].getDimension()).getWidth(), ((MyRectangle) myWorld.getCastles()[1].getDimension()).getHeight());        
+        batcher.draw(AssetLoaderSingleton.base[0], myWorld.getCastles()[0].getDimension().getPosition().x, myWorld.getCastles()[0].getDimension().getPosition().y, ((MyRectangle) myWorld.getCastles()[0].getDimension()).getWidth(), ((MyRectangle) myWorld.getCastles()[0].getDimension()).getHeight());        
+        batcher.draw(AssetLoaderSingleton.base[1], myWorld.getCastles()[1].getDimension().getPosition().x, myWorld.getCastles()[1].getDimension().getPosition().y, ((MyRectangle) myWorld.getCastles()[1].getDimension()).getWidth(), ((MyRectangle) myWorld.getCastles()[1].getDimension()).getHeight());        
         batcher.enableBlending();
         font.draw(batcher, Integer.toString(myWorld.getCastles()[0].getLives()), myWorld.getCastles()[0].getDimension().getPosition().x, myWorld.getCastles()[0].getDimension().getPosition().y);
         font.draw(batcher, Integer.toString(myWorld.getCastles()[1].getLives()), myWorld.getCastles()[1].getDimension().getPosition().x, myWorld.getCastles()[1].getDimension().getPosition().y);
@@ -115,21 +114,21 @@ public class GameRenderer {
         	for(Building building :towerList ){        		
         		
         			if(building instanceof Mine){
-        				batcher.draw(AssetLoader.mine[building.getIdGroup()-1], building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());        
+        				batcher.draw(AssetLoaderSingleton.mine[building.getIdGroup()-1], building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());        
 //        				shapeRenderer.begin(ShapeType.Filled);
 //        				shapeRenderer.setColor(Color.YELLOW);
 //        				shapeRenderer.rect(building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());
 //        	            shapeRenderer.end();
         			}
         			else if(building instanceof Tower){
-        				batcher.draw(AssetLoader.tower[building.getIdGroup()-1], building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());        
+        				batcher.draw(AssetLoaderSingleton.tower[building.getIdGroup()-1], building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());        
 //        				shapeRenderer.begin(ShapeType.Filled);
 //        				shapeRenderer.setColor(Color.GRAY);
 //        				shapeRenderer.rect(building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());
 //        	            shapeRenderer.end();
         			}
         			else if(building instanceof Factory){   
-        				batcher.draw(AssetLoader.factory[building.getIdGroup()-1], building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());        
+        				batcher.draw(AssetLoaderSingleton.factory[building.getIdGroup()-1], building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());        
 //        				shapeRenderer.begin(ShapeType.Filled);
 //        		        shapeRenderer.setColor(Color.PURPLE);
 //        		        shapeRenderer.rect(building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());
@@ -161,7 +160,7 @@ public class GameRenderer {
         		   float width=((MyRectangle) plane.getDimension()).getWidth();
         		   float height=((MyRectangle) plane.getDimension()).getHeight();       		   
         	
-        		   batcher.draw(AssetLoader.plane[plane.getIdGroup()-1], x, y,width/2,height/2, width, height, 1, 1, (float) plane.getDegrees(), true); //90% to poziomo
+        		   batcher.draw(AssetLoaderSingleton.plane[plane.getIdGroup()-1], x, y,width/2,height/2, width, height, 1, 1, (float) plane.getDegrees(), true); //90% to poziomo
 //        		   shapeRenderer.begin(ShapeType.Filled);
 //        	        shapeRenderer.begin(ShapeType.Filled);
 //	        		shapeRenderer.setColor(Color.PINK);
@@ -172,7 +171,7 @@ public class GameRenderer {
          
         for (ArrayList<Bullet> bulletList : myWorld.getBulletList()) {
         	for (Bullet bullet:bulletList) {
-        		batcher.draw(AssetLoader.bulletsAnimation[bullet.getTargetType()].getKeyFrame(runTime), bullet.getDimension().getPosition().x, bullet.getDimension().getPosition().y, ((MyCircle) bullet.getDimension()).getRadius()*2,((MyCircle) bullet.getDimension()).getRadius()*2);
+        		batcher.draw(AssetLoaderSingleton.bulletsAnimation[bullet.getTargetType()].getKeyFrame(runTime), bullet.getDimension().getPosition().x, bullet.getDimension().getPosition().y, ((MyCircle) bullet.getDimension()).getRadius()*2,((MyCircle) bullet.getDimension()).getRadius()*2);
 //        		shapeRenderer.begin(ShapeType.Filled);
 //		        shapeRenderer.setColor(Color.BLACK);
 //	            shapeRenderer.circle(bullet.getDimension().getPosition().x, bullet.getDimension().getPosition().y, ((MyCircle) bullet.getDimension()).getRadius());

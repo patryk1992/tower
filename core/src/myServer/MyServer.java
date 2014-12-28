@@ -17,20 +17,19 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Server;
-import com.esotericsoftware.minlog.Log;
 import com.mygdx.gameobjects.Base;
+import com.mygdx.gameobjects.Building;
 import com.mygdx.gameobjects.Bullet;
 import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.GameObject;
 import com.mygdx.gameobjects.Mine;
-import com.mygdx.gameobjects.Building;
 import com.mygdx.gameobjects.Plane;
 import com.mygdx.gameobjects.Tower;
 import com.mygdx.gameworld.GameWorld;
+import com.mygdx.patternflyweight.PlaneModel;
 import com.mygdx.simpleobjects.Dimension;
 import com.mygdx.simpleobjects.MyCircle;
 import com.mygdx.simpleobjects.MyRectangle;
-import com.server.logic.ServerGameWorld;
 
 public class MyServer {
 	public Server server;
@@ -74,6 +73,7 @@ public class MyServer {
 		kryo.register(MyCircle.class);
 		kryo.register(PacketEndGame.class);
 		kryo.register(PacketRestartGame.class);
+		kryo.register(PlaneModel.class);
 	}
 	
 }

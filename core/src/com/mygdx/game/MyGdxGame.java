@@ -2,7 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.mygdx.helpers.AssetLoader;
+import com.mygdx.helpers.AssetLoaderSingleton;
 import com.mygdx.screens.GameScreen;
 import com.mygdx.screens.MenuScreen;
 
@@ -19,7 +19,7 @@ public class MyGdxGame  extends Game{
 		@Override
 	    public void dispose() {	    	
 	        super.dispose();
-	        AssetLoader.dispose();
+	        AssetLoaderSingleton.dispose();
 	    }
 		
 }

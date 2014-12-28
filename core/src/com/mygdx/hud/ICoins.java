@@ -1,4 +1,4 @@
-package com.mygdx.gameobjects;
+package com.mygdx.hud;
 
 import com.mygdx.simpleobjects.MyCircle;
 

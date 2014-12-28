@@ -1,27 +1,18 @@
 package com.mygdx.gameworld;
 
-import java.awt.Button;
-
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.mygdx.gameobjects.Barricade;
-import com.mygdx.gameobjects.IButton;
-import com.mygdx.gameobjects.ICoins;
-import com.mygdx.gameobjects.IFactory;
-import com.mygdx.gameobjects.IMine;
-import com.mygdx.gameobjects.ITower;
-import com.mygdx.helpers.AssetLoader;
+import com.mygdx.helpers.AssetLoaderSingleton;
+import com.mygdx.hud.IButton;
+import com.mygdx.hud.ICoins;
 
 public class HUD {	
 	int gameWidth, midPointY;
 	ShapeRenderer shapeRenderer;
-	ITower iTower;
-	IMine iMine;
-	IFactory iFactory;
+	IButton iTower;
+	IButton iMine;
+	IButton iFactory;
 	ICoins iCoins;
 	SpriteBatch batcher;
 	int connectionId;
@@ -40,18 +31,19 @@ public class HUD {
 		this.font=font;	
 		this.endGame=false;
 		this.idWinner=0;
+		
 	}
 	public void intHUD(){
 		if(connectionId==1){
-			iTower= new ITower(1,670,50,50);
-			iMine= new IMine(1,610,50,50);
-			iFactory= new IFactory(1,550,50,50);
+			iTower= new IButton(1,670,50,50);
+			iMine= new IButton(1,610,50,50);
+			iFactory= new IButton(1,550,50,50);
 			iCoins= new ICoins(5, 10, 15);
 			}
 		else if(connectionId==2){
-			iTower= new ITower(1229,670,50,50);
-			iMine= new IMine(1229,610,50,50);
-			iFactory= new IFactory(1229,550,50,50);
+			iTower= new IButton(1229,670,50,50);
+			iMine= new IButton(1229,610,50,50);
+			iFactory= new IButton(1229,550,50,50);
 			iCoins= new ICoins(1250, 10, 15);
 			}
 		restartGameButton=new IButton(320,260,640,100);
@@ -66,11 +58,11 @@ public class HUD {
 	         // This is good for performance when drawing images that do not require
 	         // transparency.
 	         batcher.disableBlending();
-	         batcher.draw(AssetLoader.tower[connectionId-1], iTower.getPosition().x, iTower.getPosition().y, iTower.getWidth(), iTower.getHeight());
-	         batcher.draw(AssetLoader.mine[connectionId-1], iMine.getPosition().x, iMine.getPosition().y, iMine.getWidth(), iMine.getHeight());
-	         batcher.draw(AssetLoader.factory[connectionId-1],iFactory.getPosition().x, iFactory.getPosition().y, iFactory.getWidth(), iFactory.getHeight());
+	         batcher.draw(AssetLoaderSingleton.tower[connectionId-1], iTower.getPosition().x, iTower.getPosition().y, iTower.getWidth(), iTower.getHeight());
+	         batcher.draw(AssetLoaderSingleton.mine[connectionId-1], iMine.getPosition().x, iMine.getPosition().y, iMine.getWidth(), iMine.getHeight());
+	         batcher.draw(AssetLoaderSingleton.factory[connectionId-1],iFactory.getPosition().x, iFactory.getPosition().y, iFactory.getWidth(), iFactory.getHeight());
 	         batcher.enableBlending();
-	         batcher.draw(AssetLoader.coins, iCoins.getPosition().x, iCoins.getPosition().y, iCoins.getRadius()*2, iCoins.getRadius()*2);
+	         batcher.draw(AssetLoaderSingleton.coins, iCoins.getPosition().x, iCoins.getPosition().y, iCoins.getRadius()*2, iCoins.getRadius()*2);
 	         batcher.end();
 	         
 //		     shapeRenderer.begin(ShapeType.Filled);
@@ -99,7 +91,7 @@ public class HUD {
 //		     shapeRenderer.rect(320, 60, 640,100);
 //		     shapeRenderer.end();
 		     batcher.begin();
-		     batcher.draw(AssetLoader.waiting, 320, 60, 640,100);
+		     batcher.draw(AssetLoaderSingleton.waiting, 320, 60, 640,100);
 //			 font.draw(batcher, "czekam na 2",320,60);
 			 batcher.end();
 	     }
@@ -110,18 +102,18 @@ public class HUD {
 //		     shapeRenderer.end();
 		     batcher.begin();
 		     if(idWinner==0){
-		    	 batcher.draw(AssetLoader.lostConnection, 320, 60, 640,100);
+		    	 batcher.draw(AssetLoaderSingleton.lostConnection, 320, 60, 640,100);
 //		    	 font.draw(batcher, "lost connection",320,60);
 		    	 batcher.end();
 		     }else if(idWinner==connectionId){
 //		    	 font.draw(batcher, "you win",320,60);
 		    	 batcher.enableBlending();
-		    	 batcher.draw(AssetLoader.win, 320, 60, 640, 100);
+		    	 batcher.draw(AssetLoaderSingleton.win, 320, 60, 640, 100);
 		    	 batcher.end();
 		     }else{
 //		    	 font.draw(batcher, "you lose",320,60);
 		    	 batcher.enableBlending();
-		    	 batcher.draw(AssetLoader.lose, 320, 60, 640, 100);
+		    	 batcher.draw(AssetLoaderSingleton.lose, 320, 60, 640, 100);
 		    	 batcher.end();
 		     }
 		     if(idWinner!=0){
@@ -130,7 +122,7 @@ public class HUD {
 //			     shapeRenderer.rect(restartGameButton.getPosition().x, restartGameButton.getPosition().y, restartGameButton.getWidth(), restartGameButton.getHeight());
 //			     shapeRenderer.end();
 			     batcher.begin();
-			     batcher.draw(AssetLoader.restart, restartGameButton.getPosition().x, restartGameButton.getPosition().y, restartGameButton.getWidth(), restartGameButton.getHeight());
+			     batcher.draw(AssetLoaderSingleton.restart, restartGameButton.getPosition().x, restartGameButton.getPosition().y, restartGameButton.getWidth(), restartGameButton.getHeight());
 //			     font.draw(batcher, "restartButton",restartGameButton.getPosition().x, restartGameButton.getPosition().y);
 			     batcher.end();
 			 }		     
@@ -139,18 +131,18 @@ public class HUD {
 //		     shapeRenderer.rect(endGameButton.getPosition().x, endGameButton.getPosition().y, endGameButton.getWidth(), endGameButton.getHeight());
 //		     shapeRenderer.end();
 		     batcher.begin();
-		     batcher.draw(AssetLoader.end, endGameButton.getPosition().x, endGameButton.getPosition().y, endGameButton.getWidth(), endGameButton.getHeight());
+		     batcher.draw(AssetLoaderSingleton.end, endGameButton.getPosition().x, endGameButton.getPosition().y, endGameButton.getWidth(), endGameButton.getHeight());
 //		     font.draw(batcher, "endButton",endGameButton.getPosition().x, endGameButton.getPosition().y);
 		     batcher.end();
 	     }
 	 }
-	public ITower getiTower() {
+	public IButton getiTower() {
 		return iTower;
 	}
-	public IMine getiMine() {
+	public IButton getiMine() {
 		return iMine;
 	}
-	public IFactory getiFactory() {
+	public IButton getiFactory() {
 		return iFactory;
 	}
 	public ICoins getiCoins() {

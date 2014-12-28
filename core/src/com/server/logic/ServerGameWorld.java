@@ -20,6 +20,10 @@ import com.mygdx.gameobjects.Plane;
 import com.mygdx.gameobjects.Tower;
 import com.mygdx.gameobjects.iFire;
 import com.mygdx.gameworld.GameWorld;
+import com.mygdx.patterncommand.Command;
+import com.mygdx.patterncommand.FactoryCommand;
+import com.mygdx.patterncommand.MineCommand;
+import com.mygdx.patterncommand.TowerCommand;
 
 public class ServerGameWorld {
 
@@ -107,32 +111,25 @@ public class ServerGameWorld {
 	
 
 	public void performTowerAction(long time) {
+		ArrayList<Command> listCommand =new ArrayList<Command>();
 		for (ArrayList<Building> towerList : gameWorld.getTowerList()) {
 			synchronized(gameWorld){
 				for (Building building : towerList) {
 					if(building instanceof Factory){
-	    				((Factory) building).produce(time);
+//	    				((Factory) building).produce(time);
+	    				listCommand.add(new FactoryCommand(((Factory) building), time));
 	    			}
 					else if(building instanceof Tower){
-						int tmpGroupId;//odejmowanie ¿yæ z budynku
-						if(building.getIdGroup()==2){
-							tmpGroupId=0;
-						}
-						else
-						{
-							tmpGroupId=1;
-						}
-						Bullet bullet=(Bullet) ((Tower) building).fire(time, gameWorld.getTankList().get(tmpGroupId));
-						if(bullet!=null){
-							synchronized (gameWorld) {
-								gameWorld.getBulletList().get(building.getIdGroup()-1).add(bullet);
-							}						
-						}
+						listCommand.add(new TowerCommand(((Tower) building),time,gameWorld.getTankList(),gameWorld.getBulletList()));
 	    			}
 					else if(building instanceof Mine){
-						gameWorld.getCastles()[building.getIdGroup()-1].addCoins(((Mine) building).extract(time));
+//						gameWorld.getCastles()[building.getIdGroup()-1].addCoins(((Mine) building).extract(time));
+						listCommand.add(new MineCommand(((Mine) building), time, gameWorld.getCastles()[building.getIdGroup()-1]));
 	    			}
 				}
+			}
+			for(Command tmpCommand:listCommand ){
+				tmpCommand.execute();
 			}
 		}
 
@@ -194,7 +191,7 @@ public class ServerGameWorld {
 	public void deployTanks(int tanksNumber,int idConnection){
 		
 		for(int i=0;i<tanksNumber;i++){
-			Plane tank=new Plane(gameWorld.getTargetLine().get(idConnection-1).get(0).x,gameWorld.getTargetLine().get(idConnection-1).get(0).y,20,20,2,idConnection,UUID.randomUUID().toString());
+			Plane tank=new Plane(gameWorld.getTargetLine().get(idConnection-1).get(0).x,gameWorld.getTargetLine().get(idConnection-1).get(0).y,20,20,idConnection,UUID.randomUUID().toString());
 			tank.goTo(gameWorld.getTargetLine().get(idConnection-1).get(1));
 			temporaryTankList.get(idConnection-1).add(tank);
 		}

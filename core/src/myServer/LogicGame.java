@@ -37,19 +37,7 @@ public class LogicGame {
 				serverGameWorld = new ServerGameWorld(360, myServer.server);				
 				myServer.networkListener.setServerGameWorld(serverGameWorld);			
 				
-				Thread thread=new Thread(){
-					public void run(){
-						while (true) {
-							sleepFps(fps);
-							synchronized (serverGameWorld.getGameWorld()) {									
-//								myServer.server.sendToUDP(myServer.server.getConnections()[0].getID(), serverGameWorld.getGameWorld());
-//								myServer.server.sendToUDP(myServer.server.getConnections()[1].getID(), serverGameWorld.getGameWorld());
-								myServer.server.sendToAllUDP(serverGameWorld.getGameWorld());
-							}
-						}
-					}
-				};
-				thread.start();
+				sendGameWorldUpdate();
 				waitForSecondPlayerPacket();
 				break;
 				
@@ -59,6 +47,7 @@ public class LogicGame {
 		loopGame();
 
 	}
+	
 	static void loopGame(){
 		while (true) {
 			delta++;
@@ -67,6 +56,23 @@ public class LogicGame {
 			serverGameWorld.update(time);					
 		}
 	}	
+	
+	private static void sendGameWorldUpdate() {
+		Thread thread=new Thread(){
+			public void run(){
+				while (true) {
+					sleepFps(fps);
+					synchronized (serverGameWorld.getGameWorld()) {									
+//						myServer.server.sendToUDP(myServer.server.getConnections()[0].getID(), serverGameWorld.getGameWorld());
+//						myServer.server.sendToUDP(myServer.server.getConnections()[1].getID(), serverGameWorld.getGameWorld());
+						myServer.server.sendToAllUDP(serverGameWorld.getGameWorld());
+					}
+				}
+			}
+		};
+		thread.start();
+	}
+	
 	static void waitForSecondPlayerPacket(){		//komunikat czekam na gracza
 		Packet1LoginAnswer loginAnswer= new Packet1LoginAnswer();			
 		loginAnswer.accepted=true;

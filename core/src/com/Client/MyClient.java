@@ -1,9 +1,11 @@
 package com.Client;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
+import com.Client.packets.Packet.Packet0LoginRequest;
+import com.Client.packets.Packet.Packet1LoginAnswer;
+import com.Client.packets.Packet.Packet2Message;
 import com.Client.packets.Packet.PacketEndGame;
 import com.Client.packets.Packet.PacketRestartGame;
 import com.Client.packets.Packet3CreateFactoryRequest;
@@ -11,24 +13,22 @@ import com.Client.packets.Packet4CreateMineRequest;
 import com.Client.packets.Packet5CreateTowerRequest;
 import com.Client.packets.Packet6CreateAttackPointRequest;
 import com.Client.packets.Packet7ClickTowerRequest;
-import com.Client.packets.Packet.Packet0LoginRequest;
-import com.Client.packets.Packet.Packet1LoginAnswer;
-import com.Client.packets.Packet.Packet2Message;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.minlog.Log;
 import com.mygdx.gameobjects.Base;
+import com.mygdx.gameobjects.Building;
 import com.mygdx.gameobjects.Bullet;
 import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.GameObject;
 import com.mygdx.gameobjects.Mine;
-import com.mygdx.gameobjects.Building;
 import com.mygdx.gameobjects.Plane;
 import com.mygdx.gameobjects.Tower;
 import com.mygdx.gameworld.GameRenderer;
 import com.mygdx.gameworld.GameWorld;
+import com.mygdx.patternflyweight.PlaneModel;
 import com.mygdx.simpleobjects.Dimension;
 import com.mygdx.simpleobjects.MyCircle;
 import com.mygdx.simpleobjects.MyRectangle;
@@ -81,6 +81,7 @@ public class MyClient {
 		kryo.register(MyCircle.class);
 		kryo.register(PacketEndGame.class);
 		kryo.register(PacketRestartGame.class);
+		kryo.register(PlaneModel.class);
 		
 	}
 	

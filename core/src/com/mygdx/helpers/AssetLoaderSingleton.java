@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public abstract class AssetLoader {
+public final class AssetLoaderSingleton {
 
+	private static volatile AssetLoaderSingleton instance = null;
+	
     public static Texture texture;
     public static Texture background;
     public static TextureRegion base[];
@@ -24,11 +26,22 @@ public abstract class AssetLoader {
 
     public static Animation bulletsAnimation[];
     public static TextureRegion bullets[];
-    public static TextureRegion bullets2[];
+    public static TextureRegion bullets2[];    
     
-    
-    
-    public static void load() {
+    public static AssetLoaderSingleton getInstance() {
+        if (instance == null) {
+            synchronized (AssetLoaderSingleton.class) {
+                if (instance == null) {
+                    instance = new AssetLoaderSingleton();
+                }
+            }
+        }
+        return instance;
+    }
+    private AssetLoaderSingleton() {
+		load();
+	}
+	public static void load() {
 
         texture = new Texture(Gdx.files.internal("data/texture.png"));
         texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);      

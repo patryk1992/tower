@@ -8,38 +8,38 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.patternflyweight.PlaneFactory;
+import com.mygdx.patternflyweight.PlaneModel;
 import com.mygdx.simpleobjects.MyRectangle;
 
 public class Plane extends GameObject implements iFire{
-	int lives;
-	float velocityConstant;
+	
+	private PlaneModel planeModel;	
 	float progres;
 	float speed;
 	Vector2 pointTarget;
 	Vector2 pointInit;
 	long storedTime;
-	long produceTime;
 	double degrees;
 	int bulletsCanTake;
 	
-	public Plane(float x, float y, int width, int height,long produceTime ,int idGroup, String id){
-		super(x,y,width,height,idGroup,id);		
-		lives=3;
-		this.produceTime=produceTime;
+	public Plane(float x, float y, int width, int height,int idGroup, String id){
+		super(x,y,width,height,idGroup,id);			
 		degrees=90;
-		this.bulletsCanTake=2;
+		this.bulletsCanTake=2;	
+		planeModel=PlaneFactory.getPlaneModel();
 	}
 	public Plane(){
 		
 	}
 	
 	public void goTo(Vector2 point){
-		velocityConstant=1;
+		
 		progres=0;
 		pointInit=new Vector2(this.getDimension().getPosition());
 		pointTarget=point;		
 		float distance=this.getDimension().getPosition().dst(point);
-		speed=velocityConstant/distance;
+		speed=planeModel.getVelocityConstant()/distance;
 		/*
 		 * Przeliczanie nachylania
 		 * 
@@ -79,7 +79,7 @@ public class Plane extends GameObject implements iFire{
 	public Bullet fire(long time, List<? extends GameObject> objectList) {
 		long timeDifference=time-storedTime;
 		Building targetBuilding=(Building) scanForTarget(objectList);
-		if(timeDifference>produceTime&&targetBuilding!=null){			
+		if(timeDifference>planeModel.getProduceTime()&&targetBuilding!=null){			
 			storedTime=time;
 			return new Bullet(getDimension().position.x, getDimension().position.y, 5, getIdGroup(),UUID.randomUUID().toString(),targetBuilding);
 			
