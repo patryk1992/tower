@@ -80,17 +80,13 @@ public class GameRenderer {
         batcher.draw(AssetLoaderSingleton.background, 0, 0, gameWidth, midPointY*2);    
     
         
-        // Begin SpriteBatch
-        
-        // Disable transparency
-        // This is good for performance when drawing images that do not require
-        // transparency.
+      
         batcher.disableBlending();
         batcher.draw(AssetLoaderSingleton.base[0], myWorld.getCastles()[0].getDimension().getPosition().x, myWorld.getCastles()[0].getDimension().getPosition().y, ((MyRectangle) myWorld.getCastles()[0].getDimension()).getWidth(), ((MyRectangle) myWorld.getCastles()[0].getDimension()).getHeight());        
         batcher.draw(AssetLoaderSingleton.base[1], myWorld.getCastles()[1].getDimension().getPosition().x, myWorld.getCastles()[1].getDimension().getPosition().y, ((MyRectangle) myWorld.getCastles()[1].getDimension()).getWidth(), ((MyRectangle) myWorld.getCastles()[1].getDimension()).getHeight());        
         batcher.enableBlending();
-        font.draw(batcher, Integer.toString(myWorld.getCastles()[0].getLives()), myWorld.getCastles()[0].getDimension().getPosition().x, myWorld.getCastles()[0].getDimension().getPosition().y);
-        font.draw(batcher, Integer.toString(myWorld.getCastles()[1].getLives()), myWorld.getCastles()[1].getDimension().getPosition().x, myWorld.getCastles()[1].getDimension().getPosition().y);
+        font.draw(batcher, Integer.toString(myWorld.getCastles()[0].getLives()), myWorld.getCastles()[0].getDimension().getPosition().x+4, myWorld.getCastles()[0].getDimension().getPosition().y+4);
+        font.draw(batcher, Integer.toString(myWorld.getCastles()[1].getLives()), myWorld.getCastles()[1].getDimension().getPosition().x+4, myWorld.getCastles()[1].getDimension().getPosition().y+4);
         batcher.end();
         
 //        shapeRenderer.begin(ShapeType.Filled);
@@ -134,7 +130,7 @@ public class GameRenderer {
 //        		        shapeRenderer.rect(building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());
 //                       shapeRenderer.end();
                         batcher.enableBlending();;
-        		        font.draw(batcher, Integer.toString(((Factory) building).getTankNumber()),building.getDimension().getPosition().x, building.getDimension().getPosition().y);
+        		        font.draw(batcher, Integer.toString(((Factory) building).getTankNumber()),building.getDimension().getPosition().x+2, building.getDimension().getPosition().y+1);
         		        batcher.disableBlending();;
         			}
         		}        	
@@ -182,7 +178,7 @@ public class GameRenderer {
        hud.render(runTime);
        if(myWorld!=null){
 	       batcher.begin();
-		   font.draw(batcher, Integer.toString(myWorld.getCastles()[hud.connectionId-1].getCoins()),hud.getiCoins().getPosition().x,hud.getiCoins().getPosition().y);
+		   font.draw(batcher, Integer.toString(myWorld.getCastles()[hud.connectionId-1].getCoins()),hud.getiCoins().getPosition().x,hud.getiCoins().getPosition().y+8);
 		   batcher.end();
 	   }
        

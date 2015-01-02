@@ -12,8 +12,8 @@ public class Tower extends Building implements iFire{
 		super(x,y,width,height, producedTime,idGroup,id,10);
 	}
 	@Override
-	public GameObject fire(long time, List<? extends GameObject> objectList) {
-		long timeDifference=time-storedTime;
+	public GameObject fire(double time, List<? extends GameObject> objectList) {
+		double timeDifference=time-storedTime;
 		GameObject targetBuilding= scanForTarget(objectList);
 		if(timeDifference>produceTime&&targetBuilding!=null){			
 			storedTime=time;

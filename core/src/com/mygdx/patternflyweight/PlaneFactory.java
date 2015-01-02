@@ -6,7 +6,7 @@ public class PlaneFactory {
 	
 	public static PlaneModel getPlaneModel(){
 		if(PLANEMODEL==null){
-			PLANEMODEL=new PlaneModel(1,2);
+			PLANEMODEL=new PlaneModel(1,2000);
 		}
 		return PLANEMODEL;
 	}

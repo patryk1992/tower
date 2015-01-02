@@ -9,12 +9,12 @@ import com.mygdx.gameobjects.Tower;
 
 public class TowerCommand implements Command{
 	private Tower tower;
-	private long time;
+	private double time;
 	private ArrayList<ArrayList<Plane>> arrayListPlane;
 	private ArrayList<ArrayList<Bullet>> arrayListBullet;
-	public TowerCommand(Tower tower,long time, ArrayList<ArrayList<Plane>> arrayListPlane, ArrayList<ArrayList<Bullet>> arrayListBullet) {
+	public TowerCommand(Tower tower,double elapsed, ArrayList<ArrayList<Plane>> arrayListPlane, ArrayList<ArrayList<Bullet>> arrayListBullet) {
 		this.tower = tower;
-		this.time=time;
+		this.time=elapsed;
 		this.arrayListPlane=arrayListPlane;
 		this.arrayListBullet=arrayListBullet;
 	}

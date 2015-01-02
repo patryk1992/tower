@@ -30,4 +30,8 @@ public class MyCircle extends Dimension {
 	public float getRadius() {
 		return radius;
 	}
+
+	public void setRadius(float radius) {
+		this.radius = radius;
+	}
 }

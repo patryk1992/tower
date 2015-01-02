@@ -4,11 +4,11 @@ import com.mygdx.gameobjects.GameObject;
 
 public class FactoryCommand implements Command{
 	private Factory factory;
-	private long time;
+	private double time;
 	
-	public FactoryCommand(Factory factory,long time) {
+	public FactoryCommand(Factory factory,double elapsed) {
 		this.factory = factory;
-		this.time=time;
+		this.time=elapsed;
 	}
 
 	@Override

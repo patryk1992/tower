@@ -31,7 +31,7 @@ public class ServerGameWorld {
 	int midPointY;
 	GameWorld gameWorld;
 	ArrayList<ArrayList<Plane>> temporaryTankList =new ArrayList<ArrayList<Plane>>(3);
-	long time;
+	double time;
 	Boolean endGameBoolean;
 	
 	
@@ -45,14 +45,14 @@ public class ServerGameWorld {
 		ArrayList<Plane> tankLIst2=new ArrayList<Plane>(3);
 		temporaryTankList.add(tankList1);
 		temporaryTankList.add(tankLIst2);
-		
+
 	}
 
-	public void update(long time) {
-		this.time=time;
-		performTowerAction(time);				
+	public void update(double elapsed) {
+		this.time=elapsed;
+		performTowerAction(elapsed);				
 		setOnStartPositionTanks();
-		goAttack(time);
+		goAttack(elapsed);
 		moveBullets();
 	}
 	
@@ -110,21 +110,21 @@ public class ServerGameWorld {
 	}
 	
 
-	public void performTowerAction(long time) {
+	public void performTowerAction(double elapsed) {
 		ArrayList<Command> listCommand =new ArrayList<Command>();
 		for (ArrayList<Building> towerList : gameWorld.getTowerList()) {
 			synchronized(gameWorld){
 				for (Building building : towerList) {
 					if(building instanceof Factory){
 //	    				((Factory) building).produce(time);
-	    				listCommand.add(new FactoryCommand(((Factory) building), time));
+	    				listCommand.add(new FactoryCommand(((Factory) building), elapsed));
 	    			}
 					else if(building instanceof Tower){
-						listCommand.add(new TowerCommand(((Tower) building),time,gameWorld.getTankList(),gameWorld.getBulletList()));
+						listCommand.add(new TowerCommand(((Tower) building),elapsed,gameWorld.getTankList(),gameWorld.getBulletList()));
 	    			}
 					else if(building instanceof Mine){
 //						gameWorld.getCastles()[building.getIdGroup()-1].addCoins(((Mine) building).extract(time));
-						listCommand.add(new MineCommand(((Mine) building), time, gameWorld.getCastles()[building.getIdGroup()-1]));
+						listCommand.add(new MineCommand(((Mine) building), elapsed, gameWorld.getCastles()[building.getIdGroup()-1]));
 	    			}
 				}
 			}
@@ -134,7 +134,7 @@ public class ServerGameWorld {
 		}
 
 	}
-	public void goAttack(long time) {
+	public void goAttack(double elapsed) {
 		Plane tmp;
 		int tmpGroupId;
 		for (ArrayList<Plane> planesList : gameWorld.getTankList()) {
@@ -161,7 +161,7 @@ public class ServerGameWorld {
 				}
 				/////////////////////////////////////////////////////////////////////////////////strzelanie do innych budynków	zainicjowanie wystrza³u		 				
 				synchronized (gameWorld) {
-					Bullet bullet=plane.fire(time, gameWorld.getTowerList().get(tmpGroupId));				
+					Bullet bullet=(Bullet) plane.fire(elapsed, gameWorld.getTowerList().get(tmpGroupId));				
 					if(bullet!=null){					
 						gameWorld.getBulletList().get(plane.getIdGroup()-1).add(bullet);
 					}
@@ -221,7 +221,7 @@ public class ServerGameWorld {
 		this.endGameBoolean = endGameBoolean;
 	}
 
-	public long getTime() {
+	public double getTime() {
 		return time;
 	}
 

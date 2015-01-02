@@ -30,12 +30,7 @@ public class LogicGame {
 		while (true) {
 			sleepFps(fps);
 			if (myServer.server.getConnections().length == 2) {
-				Log.info("server" + myServer.server.getConnections().length);				
-				Packet2Message message = new Packet2Message();
-				message.message = "Start";
-				myServer.server.sendToAllTCP(message);				
-				serverGameWorld = new ServerGameWorld(360, myServer.server);				
-				myServer.networkListener.setServerGameWorld(serverGameWorld);			
+				init();
 				
 				sendGameWorldUpdate();
 				waitForSecondPlayerPacket();
@@ -49,13 +44,24 @@ public class LogicGame {
 	}
 	
 	static void loopGame(){
+		double lastTime = System.currentTimeMillis();
 		while (true) {
-			delta++;
-			sleepFps(fps);
-			time=delta/fps;
-			serverGameWorld.update(time);					
+			double current = System.currentTimeMillis();
+			double elapsed = current - lastTime;
+			
+			sleepFps(fps,elapsed);
+			serverGameWorld.update(current);			
+			lastTime = current;
 		}
-	}	
+	}
+	static void init(){
+		Log.info("server" + myServer.server.getConnections().length);				
+		Packet2Message message = new Packet2Message();
+		message.message = "Start";
+		myServer.server.sendToAllTCP(message);				
+		serverGameWorld = new ServerGameWorld(360, myServer.server);				
+		myServer.networkListener.setServerGameWorld(serverGameWorld);			
+	}
 	
 	private static void sendGameWorldUpdate() {
 		Thread thread=new Thread(){
@@ -87,6 +93,19 @@ public class LogicGame {
 	static long sleepFps(int fps){
 		try {
 			Thread.sleep(1000/fps);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 1000/fps;
+	}
+	static long sleepFps(int fps,double elapsed){
+		try {
+			double diftime=1000-elapsed;
+			if(diftime>0){
+				Thread.sleep((long) (diftime/fps));
+			}
+			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

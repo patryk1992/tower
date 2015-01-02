@@ -1,13 +1,9 @@
 package com.mygdx.gameobjects;
 
-import java.util.List;
 
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
-import com.mygdx.simpleobjects.MyRectangle;
-
-public class Building extends GameObject{
-	long storedTime;
+public  class Building extends GameObject{
+	
+	double storedTime;
 	long produceTime;
 	int bulletsCanTake;
 	public Building(float x, float y, int width, int height ,long producedTime,int idGroup, String id,int bulletsCanTake){

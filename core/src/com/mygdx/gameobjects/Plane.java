@@ -19,7 +19,7 @@ public class Plane extends GameObject implements iFire{
 	float speed;
 	Vector2 pointTarget;
 	Vector2 pointInit;
-	long storedTime;
+	double storedTime;
 	double degrees;
 	int bulletsCanTake;
 	
@@ -66,7 +66,7 @@ public class Plane extends GameObject implements iFire{
 	    return false;
 	}
 	
-	public long getStoredTime() {
+	public double getStoredTime() {
 		return storedTime;
 	}
 	public void setStoredTime(long storedTime) {
@@ -76,8 +76,8 @@ public class Plane extends GameObject implements iFire{
 		return degrees;
 	}
 	@Override
-	public Bullet fire(long time, List<? extends GameObject> objectList) {
-		long timeDifference=time-storedTime;
+	public Bullet fire(double time, List<? extends GameObject> objectList) {
+		double timeDifference=time-storedTime;
 		Building targetBuilding=(Building) scanForTarget(objectList);
 		if(timeDifference>planeModel.getProduceTime()&&targetBuilding!=null){			
 			storedTime=time;

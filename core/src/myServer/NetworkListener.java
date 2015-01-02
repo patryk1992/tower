@@ -27,16 +27,17 @@ public class NetworkListener extends Listener {
 
 	private ServerGameWorld serverGameWorld;
 	private int restartGameRequets=0;
-
+	
 	public void setServerGameWorld(ServerGameWorld serverGameWorld) {
 		this.serverGameWorld = serverGameWorld;
+		
 	}
 
 	@Override
 	public void connected(Connection arg0) {
 		Log.info("[SERVER]Someone is trying to connected");
 		float tmp=(float) 0.9;
-		arg0.setIdleThreshold( tmp);
+		arg0.setIdleThreshold( tmp);		
 	}
 
 	@Override
@@ -69,7 +70,7 @@ public class NetworkListener extends Listener {
 		{
 			if(o instanceof Packet5CreateTowerRequest){
 				Packet5CreateTowerRequest request=(Packet5CreateTowerRequest)o;	
-				Tower tower=new Tower(request.position.x-25,request.position.y-25,50,50,1,c.getID(),UUID.randomUUID().toString());
+				Tower tower=new Tower(request.position.x-25,request.position.y-25,50,50,1000,c.getID(),UUID.randomUUID().toString());
 				Base[] bases=serverGameWorld.getGameWorld().getCastles();
 				if ((bases[0].getDimension().getPosition().x+((MyRectangle) bases[0].getDimension()).getWidth()+25 < request.position.x && c.getID() == 1)
 						||( bases[1].getDimension().getPosition().x -25 > request.position.x && c.getID() == 2)) {
@@ -99,7 +100,7 @@ public class NetworkListener extends Listener {
 						||( bases[1].getDimension().getPosition().x -25 > request.position.x && c.getID() == 2)) {
 					if(serverGameWorld.getGameWorld().getCastles()[c.getID()-1].getCoins()>=100){//wybudowanie wie¿y kosztuje 100 coins
 						serverGameWorld.getGameWorld().getCastles()[c.getID()-1].withdrawCoins(100);
-						Factory factory=new Factory(request.position.x-25,request.position.y-25,50,50,c.getID(),UUID.randomUUID().toString(),5,5);
+						Factory factory=new Factory(request.position.x-25,request.position.y-25,50,50,c.getID(),UUID.randomUUID().toString(),5000,5);
 						if(c.getID()==1&&request.position.x<640){
 							if(factory.collides(serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1))==null){
 							synchronized(serverGameWorld.getGameWorld()){
@@ -123,7 +124,7 @@ public class NetworkListener extends Listener {
 						||( bases[1].getDimension().getPosition().x -25 > request.position.x && c.getID() == 2)) {
 					if(serverGameWorld.getGameWorld().getCastles()[c.getID()-1].getCoins()>=100){//wybudowanie wie¿y kosztuje 100 coins
 						serverGameWorld.getGameWorld().getCastles()[c.getID()-1].withdrawCoins(100);
-						Mine mine=new Mine(request.position.x-25,request.position.y-25,50,50,5,c.getID(),UUID.randomUUID().toString());
+						Mine mine= new Mine(request.position.x-25,request.position.y-25,50,50,5000,c.getID(),UUID.randomUUID().toString());
 						if(c.getID()==1&&request.position.x<640){
 							if(mine.collides(serverGameWorld.getGameWorld().getTowerList().get(c.getID()-1))==null){
 								synchronized(serverGameWorld.getGameWorld()){		

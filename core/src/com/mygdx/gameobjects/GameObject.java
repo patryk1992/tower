@@ -3,9 +3,9 @@ package com.mygdx.gameobjects;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
-import com.mygdx.simpleobjects.*;
+import com.mygdx.simpleobjects.Dimension;
+import com.mygdx.simpleobjects.MyCircle;
+import com.mygdx.simpleobjects.MyRectangle;
 
 
 public class GameObject {	
@@ -26,6 +26,13 @@ public class GameObject {
 		setDimension(new MyCircle(x,y,radius));
 		this.id=id;
 		this.idGroup=idGroup;		
+	}
+	public void setAttributes(float x, float y ,int idGroup, String id){
+		this.id=id;
+		this.idGroup=idGroup;
+		this.dimension.position.x=x;
+		this.dimension.position.y=y;
+		
 	}
 	
 	public GameObject collides(List<? extends GameObject> objectList) {

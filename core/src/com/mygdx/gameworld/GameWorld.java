@@ -3,12 +3,6 @@ package com.mygdx.gameworld;
 import java.util.ArrayList;
 import java.util.UUID;
 
-
-
-
-
-
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.gameobjects.Base;
@@ -27,6 +21,7 @@ public class GameWorld  {
 	ArrayList<ArrayList<Bullet>> bulletList =new ArrayList<ArrayList<Bullet>>(3);	
 
 	public GameWorld(int midPointY){
+		
 		Bases=new Base[2];
 		Bases[0]=new Base(5,midPointY-40,80,80,1,UUID.randomUUID().toString(),Color.GREEN);
 		Bases[1]=new Base(1195,midPointY-40,80,80,2,UUID.randomUUID().toString(),Color.RED);

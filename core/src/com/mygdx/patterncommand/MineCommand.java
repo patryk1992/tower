@@ -7,11 +7,11 @@ import com.mygdx.gameobjects.Mine;
 
 public class MineCommand implements Command {
 	private Mine mine;
-	private long time;
+	private double time;
 	private Base base;
-	public MineCommand(Mine mine,long time,Base base) {
+	public MineCommand(Mine mine,double elapsed,Base base) {
 		this.mine = mine;
-		this.time=time;
+		this.time=elapsed;
 		this.base=base;
 	}
 	@Override

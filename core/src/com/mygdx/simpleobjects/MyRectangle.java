@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class MyRectangle extends Dimension{
 	int width;
+	
 	int height;
 	
 	public MyRectangle(){
@@ -49,6 +50,13 @@ public class MyRectangle extends Dimension{
 
 	public int getHeight() {
 		return height;
+	}
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 }
