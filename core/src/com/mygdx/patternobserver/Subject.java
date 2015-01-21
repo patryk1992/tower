@@ -2,15 +2,8 @@ package com.mygdx.patternobserver;
 
 import java.util.ArrayList;
 
-public interface Subject {
-	//methods to register and unregister observers
+public interface Subject {	
     public void register(Observer obj);
-    public void unregister(Observer obj);
-     
-    //method to notify observers of change
-    public void notifyObservers(int screenX, int screenY);
-     
-    //method to get updates from subject
-    public Object getUpdate(Observer obj);
-	
+    public void unregister(Observer obj);    
+    public void notifyObservers(int screenX, int screenY);  
 }

@@ -4,8 +4,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
 public class MyRectangle extends Dimension{
-	int width;
-	
+	int width;	
 	int height;
 	
 	public MyRectangle(){

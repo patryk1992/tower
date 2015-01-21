@@ -1,16 +1,12 @@
 package com.mygdx.gameobjects;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.patternflyweight.PlaneFactory;
 import com.mygdx.patternflyweight.PlaneModel;
-import com.mygdx.simpleobjects.MyRectangle;
 
 public class Plane extends GameObject implements iFire{
 	
@@ -34,28 +30,22 @@ public class Plane extends GameObject implements iFire{
 	}
 	
 	public void goTo(Vector2 point){
-		
 		progres=0;
 		pointInit=new Vector2(this.getDimension().getPosition());
 		pointTarget=point;		
 		float distance=this.getDimension().getPosition().dst(point);
 		speed=planeModel.getVelocityConstant()/distance;
-		/*
-		 * Przeliczanie nachylania
-		 * 
-		 */
-		
+		//Przeliczanie nachylania
 		Vector2 pointHelp=new Vector2(pointInit.x,pointTarget.y);
-//		float radian=pointHelp.dst(pointTarget)/pointHelp.dst(pointInit);
-//		degrees=Math.atan(radian)*180/Math.PI;
 		degrees=MathUtils.atan2(pointHelp.dst(pointTarget), pointHelp.dst(pointInit))*180/Math.PI;
 		if(pointInit.y<pointHelp.y){
 			degrees=180-degrees;
 		}
-		if(idGroup==2){
+		if(pointInit.x>pointTarget.x){
 			degrees=360-degrees;
 		}
 	}
+	
 	public boolean move(){
 	    progres += speed;
 	    this.getDimension().getPosition().x=pointInit.x+(pointTarget.x-pointInit.x)*progres;
@@ -98,5 +88,6 @@ public class Plane extends GameObject implements iFire{
 	public int shooted() {
 		return bulletsCanTake--;
 	}
+	
 
 }

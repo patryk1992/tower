@@ -6,24 +6,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Vector2;
-import com.mygdx.gameobjects.Barricade;
-import com.mygdx.gameobjects.Base;
 import com.mygdx.gameobjects.Building;
 import com.mygdx.gameobjects.Bullet;
 import com.mygdx.gameobjects.Factory;
 import com.mygdx.gameobjects.Mine;
 import com.mygdx.gameobjects.Plane;
 import com.mygdx.gameobjects.Tower;
+import com.mygdx.gameobjects.iFire;
 import com.mygdx.helpers.AssetLoaderSingleton;
 import com.mygdx.simpleobjects.MyCircle;
 import com.mygdx.simpleobjects.MyRectangle;
+import com.sun.org.apache.bcel.internal.generic.I2F;
 
 public class GameRenderer {
 
@@ -36,20 +33,16 @@ public class GameRenderer {
 	private BitmapFont font;
 	
 	private int midPointY;
-    private int gameWidth;    
+    private int gameWidth;  
+    private AssetLoaderSingleton singleton;
 
-    public GameRenderer(GameWorld world, int gameWidth, int midPointY) {
-        myWorld = world;
-
-        // The word "this" refers to this instance.
-        // We are setting the instance variables' values to be that of the
-        // parameters passed in from GameScreen.
+    public GameRenderer(int gameWidth, int midPointY) {                    
+        Gdx.gl20.glViewport( 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
         this.gameWidth = gameWidth;
         this.midPointY = midPointY;
-
         cam = new OrthographicCamera();
         cam.setToOrtho(true, gameWidth, midPointY*2);
-        AssetLoaderSingleton.getInstance();
+        singleton=AssetLoaderSingleton.getInstance();
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
         shapeRenderer = new ShapeRenderer();
@@ -61,6 +54,93 @@ public class GameRenderer {
      
     }
     
+   
+    public void render(float runTime) {
+    	
+    	Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);           
+      
+		
+	
+        batcher.begin();
+        batcher.enableBlending();
+        batcher.draw(singleton.background, 0, 0, gameWidth, midPointY*2);
+        batcher.end();
+        if (myWorld!=null) {
+        	batcher.begin();
+	        batcher.disableBlending();
+	        batcher.draw(singleton.base[0], myWorld.getCastles()[0].getDimension().getPosition().x, myWorld.getCastles()[0].getDimension().getPosition().y, ((MyRectangle) myWorld.getCastles()[0].getDimension()).getWidth(), ((MyRectangle) myWorld.getCastles()[0].getDimension()).getHeight());        
+	        batcher.draw(singleton.base[1], myWorld.getCastles()[1].getDimension().getPosition().x, myWorld.getCastles()[1].getDimension().getPosition().y, ((MyRectangle) myWorld.getCastles()[1].getDimension()).getWidth(), ((MyRectangle) myWorld.getCastles()[1].getDimension()).getHeight());        
+	        batcher.enableBlending();
+	        font.draw(batcher, Integer.toString(myWorld.getCastles()[0].getLives()), myWorld.getCastles()[0].getDimension().getPosition().x+4, myWorld.getCastles()[0].getDimension().getPosition().y+4);
+	        font.draw(batcher, Integer.toString(myWorld.getCastles()[1].getLives()), myWorld.getCastles()[1].getDimension().getPosition().x+4, myWorld.getCastles()[1].getDimension().getPosition().y+4);
+	        batcher.end();      
+        
+	        batcher.begin();       
+	        batcher.disableBlending();
+	        for(ArrayList<Building> towerList : myWorld.getTowerList()){
+	        	for(Building building :towerList ){        		
+	        		
+	        			if(building instanceof Mine){
+	        				batcher.draw(singleton.mine[building.getIdGroup()-1], building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());        
+	       				
+	        			}
+	        			else if(building instanceof Tower){
+	        				batcher.draw(singleton.tower[building.getIdGroup()-1], building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());        
+	        				
+	        			}
+	        			else if(building instanceof Factory){   
+	        				batcher.draw(singleton.factory[building.getIdGroup()-1], building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());        
+	        				
+	                        batcher.enableBlending();;
+	        		        font.draw(batcher, Integer.toString(((Factory) building).getTankNumber()),building.getDimension().getPosition().x+2, building.getDimension().getPosition().y+1);
+	        		        batcher.disableBlending();;
+	        			}
+	        		}        	
+	        	}        
+	        batcher.enableBlending();
+	        batcher.end();
+	        		
+	        shapeRenderer.begin(ShapeType.Line);
+	        shapeRenderer.setColor(Color.RED);
+	        shapeRenderer.line(myWorld.getTargetLine().get(hud.connectionId-1).get(0).x-5,myWorld.getTargetLine().get(hud.connectionId-1).get(0).y+10,myWorld.getTargetLine().get(hud.connectionId-1).get(1).x,myWorld.getTargetLine().get(hud.connectionId-1).get(1).y+10);        		       
+	        shapeRenderer.end();
+	        shapeRenderer.begin(ShapeType.Line);
+	        shapeRenderer.setColor(Color.RED);
+	        shapeRenderer.line(myWorld.getTargetLine().get(hud.connectionId-1).get(1).x,myWorld.getTargetLine().get(hud.connectionId-1).get(1).y+10,myWorld.getTargetLine().get(hud.connectionId-1).get(2).x,myWorld.getTargetLine().get(hud.connectionId-1).get(2).y+10);        		       
+	        shapeRenderer.end();
+	        
+	        batcher.begin();
+	        batcher.enableBlending();
+	        for(ArrayList<Plane> towerList : myWorld.getTankList()){
+	        	   for(Plane plane :towerList ){       		   
+	        		   float x=plane.getDimension().getPosition().x;
+	        		   float y=plane.getDimension().getPosition().y;
+	        		   float width=((MyRectangle) plane.getDimension()).getWidth();
+	        		   float height=((MyRectangle) plane.getDimension()).getHeight();       		           	
+	        		   batcher.draw(AssetLoaderSingleton.plane[plane.getIdGroup()-1], x, y,width/2,height/2, width, height, 1, 1, (float) plane.getDegrees(), true); //90 stopni to poziomo
+	        		     	               
+	        	    }
+	        }
+	         
+	        for (ArrayList<Bullet> bulletList : myWorld.getBulletList()) {
+	        	for (Bullet bullet:bulletList) {
+	        		batcher.draw(singleton.bulletsAnimation[bullet.getTargetType()].getKeyFrame(runTime), bullet.getDimension().getPosition().x, bullet.getDimension().getPosition().y, ((MyCircle) bullet.getDimension()).getRadius()*2,((MyCircle) bullet.getDimension()).getRadius()*2);        		
+	        	}
+	        }
+	        batcher.end();
+	       
+      }
+       hud.render(runTime);
+       if(myWorld!=null){
+    	   batcher.begin();
+    	   font.draw(batcher, Integer.toString(myWorld.getCastles()[hud.connectionId-1].getCoins()),hud.getiCoins().getPosition().x,hud.getiCoins().getPosition().y+8);
+    	   batcher.end();
+       }
+    }  
+    public HUD getHud() {
+		return hud;
+	}
     public void setMyWorld(GameWorld myWorld) {
 		this.myWorld = myWorld;
 		
@@ -68,123 +148,4 @@ public class GameRenderer {
     public GameWorld getMyWorld() {
 		return myWorld;
 	}
-    public void render(float runTime) {
-    	
-    	Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
-        
-        // Draw Background color
-        batcher.begin();
-        batcher.enableBlending();
-        batcher.draw(AssetLoaderSingleton.background, 0, 0, gameWidth, midPointY*2);    
-    
-        
-      
-        batcher.disableBlending();
-        batcher.draw(AssetLoaderSingleton.base[0], myWorld.getCastles()[0].getDimension().getPosition().x, myWorld.getCastles()[0].getDimension().getPosition().y, ((MyRectangle) myWorld.getCastles()[0].getDimension()).getWidth(), ((MyRectangle) myWorld.getCastles()[0].getDimension()).getHeight());        
-        batcher.draw(AssetLoaderSingleton.base[1], myWorld.getCastles()[1].getDimension().getPosition().x, myWorld.getCastles()[1].getDimension().getPosition().y, ((MyRectangle) myWorld.getCastles()[1].getDimension()).getWidth(), ((MyRectangle) myWorld.getCastles()[1].getDimension()).getHeight());        
-        batcher.enableBlending();
-        font.draw(batcher, Integer.toString(myWorld.getCastles()[0].getLives()), myWorld.getCastles()[0].getDimension().getPosition().x+4, myWorld.getCastles()[0].getDimension().getPosition().y+4);
-        font.draw(batcher, Integer.toString(myWorld.getCastles()[1].getLives()), myWorld.getCastles()[1].getDimension().getPosition().x+4, myWorld.getCastles()[1].getDimension().getPosition().y+4);
-        batcher.end();
-        
-//        shapeRenderer.begin(ShapeType.Filled);
-//        shapeRenderer.setColor(myWorld.getCastles()[0].getColor());
-//        shapeRenderer.rect(myWorld.getCastles()[0].getDimension().getPosition().x, myWorld.getCastles()[0].getDimension().getPosition().y, ((MyRectangle) myWorld.getCastles()[0].getDimension()).getWidth(), ((MyRectangle) myWorld.getCastles()[0].getDimension()).getHeight());
-//        shapeRenderer.end();
-//        batcher.begin();
-//        font.draw(batcher, Integer.toString(myWorld.getCastles()[0].getLives()), myWorld.getCastles()[0].getDimension().getPosition().x, myWorld.getCastles()[0].getDimension().getPosition().y);
-//        batcher.end();
-        
-//        shapeRenderer.begin(ShapeType.Filled);
-//        shapeRenderer.setColor(myWorld.getCastles()[1].getColor());
-//        shapeRenderer.rect(myWorld.getCastles()[1].getDimension().getPosition().x, myWorld.getCastles()[1].getDimension().getPosition().y, ((MyRectangle) myWorld.getCastles()[1].getDimension()).getWidth(), ((MyRectangle) myWorld.getCastles()[1].getDimension()).getHeight());
-//        shapeRenderer.end();
-//        batcher.begin();
-//        font.draw(batcher, Integer.toString(myWorld.getCastles()[1].getLives()), myWorld.getCastles()[1].getDimension().getPosition().x, myWorld.getCastles()[1].getDimension().getPosition().y);
-//        batcher.end();
-        batcher.begin();       
-        batcher.disableBlending();
-        for(ArrayList<Building> towerList : myWorld.getTowerList()){
-        	for(Building building :towerList ){        		
-        		
-        			if(building instanceof Mine){
-        				batcher.draw(AssetLoaderSingleton.mine[building.getIdGroup()-1], building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());        
-//        				shapeRenderer.begin(ShapeType.Filled);
-//        				shapeRenderer.setColor(Color.YELLOW);
-//        				shapeRenderer.rect(building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());
-//        	            shapeRenderer.end();
-        			}
-        			else if(building instanceof Tower){
-        				batcher.draw(AssetLoaderSingleton.tower[building.getIdGroup()-1], building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());        
-//        				shapeRenderer.begin(ShapeType.Filled);
-//        				shapeRenderer.setColor(Color.GRAY);
-//        				shapeRenderer.rect(building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());
-//        	            shapeRenderer.end();
-        			}
-        			else if(building instanceof Factory){   
-        				batcher.draw(AssetLoaderSingleton.factory[building.getIdGroup()-1], building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());        
-//        				shapeRenderer.begin(ShapeType.Filled);
-//        		        shapeRenderer.setColor(Color.PURPLE);
-//        		        shapeRenderer.rect(building.getDimension().getPosition().x, building.getDimension().getPosition().y, ((MyRectangle) building.getDimension()).getWidth(), ((MyRectangle) building.getDimension()).getHeight());
-//                       shapeRenderer.end();
-                        batcher.enableBlending();;
-        		        font.draw(batcher, Integer.toString(((Factory) building).getTankNumber()),building.getDimension().getPosition().x+2, building.getDimension().getPosition().y+1);
-        		        batcher.disableBlending();;
-        			}
-        		}        	
-        	}        
-        batcher.enableBlending();
-        batcher.end();
-        		
-        shapeRenderer.begin(ShapeType.Line);
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.line(myWorld.getTargetLine().get(hud.connectionId-1).get(0).x-5,myWorld.getTargetLine().get(hud.connectionId-1).get(0).y+10,myWorld.getTargetLine().get(hud.connectionId-1).get(1).x,myWorld.getTargetLine().get(hud.connectionId-1).get(1).y+10);        		       
-        shapeRenderer.end();
-        shapeRenderer.begin(ShapeType.Line);
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.line(myWorld.getTargetLine().get(hud.connectionId-1).get(1).x,myWorld.getTargetLine().get(hud.connectionId-1).get(1).y+10,myWorld.getTargetLine().get(hud.connectionId-1).get(2).x,myWorld.getTargetLine().get(hud.connectionId-1).get(2).y+10);        		       
-        shapeRenderer.end();
-        
-        batcher.begin();
-        batcher.enableBlending();
-        for(ArrayList<Plane> towerList : myWorld.getTankList()){
-        	   for(Plane plane :towerList ){       		   
-        		   float x=plane.getDimension().getPosition().x;
-        		   float y=plane.getDimension().getPosition().y;
-        		   float width=((MyRectangle) plane.getDimension()).getWidth();
-        		   float height=((MyRectangle) plane.getDimension()).getHeight();       		   
-        	
-        		   batcher.draw(AssetLoaderSingleton.plane[plane.getIdGroup()-1], x, y,width/2,height/2, width, height, 1, 1, (float) plane.getDegrees(), true); //90% to poziomo
-//        		   shapeRenderer.begin(ShapeType.Filled);
-//        	        shapeRenderer.begin(ShapeType.Filled);
-//	        		shapeRenderer.setColor(Color.PINK);
-//	        		shapeRenderer.rect(tank.getDimension().getPosition().x, tank.getDimension().getPosition().y, ((MyRectangle) tank.getDimension()).getWidth(), ((MyRectangle) tank.getDimension()).getHeight());
-//	        	    shapeRenderer.end();       	               
-        	    }
-        }
-         
-        for (ArrayList<Bullet> bulletList : myWorld.getBulletList()) {
-        	for (Bullet bullet:bulletList) {
-        		batcher.draw(AssetLoaderSingleton.bulletsAnimation[bullet.getTargetType()].getKeyFrame(runTime), bullet.getDimension().getPosition().x, bullet.getDimension().getPosition().y, ((MyCircle) bullet.getDimension()).getRadius()*2,((MyCircle) bullet.getDimension()).getRadius()*2);
-//        		shapeRenderer.begin(ShapeType.Filled);
-//		        shapeRenderer.setColor(Color.BLACK);
-//	            shapeRenderer.circle(bullet.getDimension().getPosition().x, bullet.getDimension().getPosition().y, ((MyCircle) bullet.getDimension()).getRadius());
-//				shapeRenderer.end();
-        	}
-        }
-        batcher.end();		 
-       hud.render(runTime);
-       if(myWorld!=null){
-	       batcher.begin();
-		   font.draw(batcher, Integer.toString(myWorld.getCastles()[hud.connectionId-1].getCoins()),hud.getiCoins().getPosition().x,hud.getiCoins().getPosition().y+8);
-		   batcher.end();
-	   }
-       
-    }  
-    public HUD getHud() {
-		return hud;
-	}
-
 }

@@ -10,8 +10,7 @@ import com.mygdx.helpers.Input;
 
 
 public class GameScreen implements Screen{
-
-	public GameWorld world;
+	
 	private GameRenderer renderer;
 	private MyClient myClient;
 	private float runTime =0;
@@ -23,8 +22,7 @@ public class GameScreen implements Screen{
 		float screenHeight =Gdx.graphics.getHeight();	
 		int midPointY =(int) (screenHeight /2);
 		this.game=game;
-		world= new GameWorld(midPointY);
-		renderer = new GameRenderer(world,(int) screenWidth,midPointY);
+		renderer = new GameRenderer((int) screenWidth,midPointY);
 		myClient=new MyClient(renderer);	
 		input=new Input(myClient.client,renderer,game);
 		Gdx.input.setInputProcessor(input);

@@ -8,7 +8,6 @@ public class Factory extends Building   {
 	public Factory(){
 		
 	}
-	
 	public Factory(float x, float y, int width, int height ,int idGroup, String id,long produceTime,long maxTank){
 		super(x,y,width,height,produceTime,idGroup,id,10);
 		tankNumber=0;

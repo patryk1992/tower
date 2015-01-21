@@ -36,13 +36,14 @@ import com.mygdx.simpleobjects.MyRectangle;
 public class MyClient {
 	public Client client;
 	GameRenderer renderer;
+	NetworkListener nl;
 	
 	public MyClient( GameRenderer renderer)throws Exception{
 		this.renderer=renderer;
 		client= new Client(998192,9948192);
 		register();
 		
-		NetworkListener nl = new NetworkListener();
+		nl = new NetworkListener();
 		nl.init(renderer);
 		client.addListener(nl);		
 		client.start();

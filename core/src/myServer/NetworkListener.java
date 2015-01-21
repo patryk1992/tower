@@ -159,7 +159,7 @@ public class NetworkListener extends Listener {
 	        			if(building instanceof Factory){
 		        			Factory factory=((Factory)building);        			
 		        				synchronized(serverGameWorld.getGameWorld()){
-		    						serverGameWorld.deployTanks(factory.getTankNumber(), c.getID());
+		    						serverGameWorld.deployPlanes(factory.getTankNumber(), c.getID());
 		    						factory.setTankNumber(0);
 		    	        			factory.setStoredTime(serverGameWorld.getTime());
 		    					}        			

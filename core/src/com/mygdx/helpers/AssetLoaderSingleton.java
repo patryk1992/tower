@@ -39,9 +39,6 @@ public final class AssetLoaderSingleton {
         return instance;
     }
     private AssetLoaderSingleton() {
-		load();
-	}
-	public static void load() {
 
         texture = new Texture(Gdx.files.internal("data/texture.png"));
         texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);      
@@ -128,7 +125,8 @@ public final class AssetLoaderSingleton {
         bulletsAnimation[1] = new Animation(0.06f, bullets2);
         bulletsAnimation[1].setPlayMode(Animation.PlayMode.LOOP_RANDOM);
 
-    }
+	}
+	
 
     public static void dispose() {
         // We must dispose of the texture when we are finished.

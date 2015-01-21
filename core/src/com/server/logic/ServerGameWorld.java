@@ -23,6 +23,7 @@ import com.mygdx.gameworld.GameWorld;
 import com.mygdx.patterncommand.Command;
 import com.mygdx.patterncommand.FactoryCommand;
 import com.mygdx.patterncommand.MineCommand;
+import com.mygdx.patterncommand.PerformBuildingAction;
 import com.mygdx.patterncommand.TowerCommand;
 
 public class ServerGameWorld {
@@ -30,10 +31,10 @@ public class ServerGameWorld {
 	Server server;
 	int midPointY;
 	GameWorld gameWorld;
-	ArrayList<ArrayList<Plane>> temporaryTankList =new ArrayList<ArrayList<Plane>>(3);
+	ArrayList<ArrayList<Plane>> temporaryPlaneArrayList =new ArrayList<ArrayList<Plane>>(3);
 	double time;
 	Boolean endGameBoolean;
-	
+	PerformBuildingAction performBuildingAction;
 	
 	public ServerGameWorld(int midPointY, Server server) {
 		this.server = server;
@@ -43,9 +44,9 @@ public class ServerGameWorld {
 		server.sendToAllTCP(gameWorld);
 		ArrayList<Plane> tankList1=new ArrayList<Plane>(3);
 		ArrayList<Plane> tankLIst2=new ArrayList<Plane>(3);
-		temporaryTankList.add(tankList1);
-		temporaryTankList.add(tankLIst2);
-
+		temporaryPlaneArrayList.add(tankList1);
+		temporaryPlaneArrayList.add(tankLIst2);
+		performBuildingAction=new PerformBuildingAction();
 	}
 
 	public void update(double elapsed) {
@@ -113,24 +114,26 @@ public class ServerGameWorld {
 	public void performTowerAction(double elapsed) {
 		ArrayList<Command> listCommand =new ArrayList<Command>();
 		for (ArrayList<Building> towerList : gameWorld.getTowerList()) {
-			synchronized(gameWorld){
+			
 				for (Building building : towerList) {
 					if(building instanceof Factory){
-//	    				((Factory) building).produce(time);
 	    				listCommand.add(new FactoryCommand(((Factory) building), elapsed));
 	    			}
 					else if(building instanceof Tower){
 						listCommand.add(new TowerCommand(((Tower) building),elapsed,gameWorld.getTankList(),gameWorld.getBulletList()));
 	    			}
 					else if(building instanceof Mine){
-//						gameWorld.getCastles()[building.getIdGroup()-1].addCoins(((Mine) building).extract(time));
 						listCommand.add(new MineCommand(((Mine) building), elapsed, gameWorld.getCastles()[building.getIdGroup()-1]));
 	    			}
 				}
+			
+			for(Command iterCommand:listCommand ){
+				synchronized (gameWorld) {
+					performBuildingAction.Execute(iterCommand);
+				}
+				
 			}
-			for(Command tmpCommand:listCommand ){
-				tmpCommand.execute();
-			}
+			
 		}
 
 	}
@@ -188,17 +191,17 @@ public class ServerGameWorld {
 		
 	}
 	
-	public void deployTanks(int tanksNumber,int idConnection){
+	public void deployPlanes(int tanksNumber,int idConnection){
 		
 		for(int i=0;i<tanksNumber;i++){
-			Plane tank=new Plane(gameWorld.getTargetLine().get(idConnection-1).get(0).x,gameWorld.getTargetLine().get(idConnection-1).get(0).y,20,20,idConnection,UUID.randomUUID().toString());
-			tank.goTo(gameWorld.getTargetLine().get(idConnection-1).get(1));
-			temporaryTankList.get(idConnection-1).add(tank);
+			Plane plane=new Plane(gameWorld.getTargetLine().get(idConnection-1).get(0).x,gameWorld.getTargetLine().get(idConnection-1).get(0).y,20,20,idConnection,UUID.randomUUID().toString());
+			plane.goTo(gameWorld.getTargetLine().get(idConnection-1).get(1));
+			temporaryPlaneArrayList.get(idConnection-1).add(plane);
 		}
 	}
 	public void setOnStartPositionTanks(){	
 		synchronized (gameWorld) {		
-					for (ArrayList<Plane> tmpTankList : temporaryTankList) {			
+					for (ArrayList<Plane> tmpTankList : temporaryPlaneArrayList) {			
 						for (Plane newTank : tmpTankList) {									
 									if(!newTank.collides(gameWorld.getTankList().get(newTank.getIdGroup()-1),-20,-20,40,40)){
 										gameWorld.getTankList().get(newTank.getIdGroup()-1).add(newTank);
@@ -206,7 +209,6 @@ public class ServerGameWorld {
 										break;//ConcurrentModificationException i lepsza wydajnoœæ 
 										}
 									}					
-					
 					}
 		}
 	}
@@ -237,8 +239,8 @@ public class ServerGameWorld {
 		this.gameWorld= new GameWorld(midPointY);		
 	}
 	public void cleanBeforRestart(){
-		temporaryTankList.get(0).clear();
-		temporaryTankList.get(1).clear();
+		temporaryPlaneArrayList.get(0).clear();
+		temporaryPlaneArrayList.get(1).clear();
 		gameWorld= new GameWorld(midPointY);	
 	}
 

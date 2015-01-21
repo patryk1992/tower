@@ -10,11 +10,9 @@ import com.mygdx.simpleobjects.MyRectangle;
 public class IButton extends MyRectangle implements Observer{
 	Boolean pressed=false;
 	private Subject topic;
-	
 	public IButton(float x, float y, int width, int height){
 		super(x,y,width,height);
 	}
-	
 	@Override
 	public void update(float clickX,float clickY) {
 		if (collides((int)clickX,(int) clickY)) {
@@ -26,9 +24,7 @@ public class IButton extends MyRectangle implements Observer{
 				pressed=false;
 			} else {
 				pressed=true;
-			}
-			
-			
+			}		
 		}
 	}
 	@Override

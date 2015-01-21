@@ -19,13 +19,11 @@ import com.mygdx.patternobserver.Observer;
 import com.mygdx.patternobserver.Subject;
 
 public class Input implements InputProcessor,Subject {
-	
 	private ArrayList<Observer> observers;
 	private Client client;
 	GameRenderer renderer;
 	HUD hud;
-	MyGdxGame game;
-	
+	MyGdxGame game;	
 	public Input(Client client, GameRenderer renderer, MyGdxGame game) {
 		this.client = client;
 		this.renderer = renderer;		
@@ -37,10 +35,8 @@ public class Input implements InputProcessor,Subject {
 		hud.getiFactory().setSubject(this);
 		hud.getiMine().setSubject(this);
 		hud.getiTower().setSubject(this);
-		this.game=game;
-		
+		this.game=game;		
 	}
-
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
@@ -124,16 +120,17 @@ public class Input implements InputProcessor,Subject {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	public String towerClicked(int screenX, int screenY){				
+	public String towerClicked(int screenX, int screenY){	
+		if(renderer.getMyWorld()!=null){
 	        	for(Building building :renderer.getMyWorld().getTowerList().get(client.getID()-1) ){
 	        		if(building.getDimension().collides(screenX, screenY)){
 	        			return building.getId();
 	        		}
 	        	}
+		}
 				return null;
 				
 	}
-
 	@Override
 	public void register(Observer obj) {
 		 if(obj == null) throw new NullPointerException("Null Observer");
@@ -142,26 +139,19 @@ public class Input implements InputProcessor,Subject {
 	        }
 		
 	}
-
 	@Override
 	public void unregister(Observer obj) {
 		synchronized (observers) {
 	        observers.remove(obj);
 	        }
 	}
-
 	@Override
 	public void notifyObservers(int screenX, int screenY) {
 		 for (Observer observer : observers) {
 	            observer.update(screenX, screenY);
 	        }
 	}
-
-	@Override
-	public Object getUpdate(Observer obj) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	public ArrayList<Observer> getObservers() {
 		return observers;
 	}

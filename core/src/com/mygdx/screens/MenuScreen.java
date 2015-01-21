@@ -47,45 +47,22 @@ public class MenuScreen implements Screen {
 		float height = 540;
 
 		batcher = new SpriteBatch();
-
-		// Load our UI skin from file. Once again, I used the files included in
-		// the tests.
-		// Make sure default.fnt, default.png, uiskin.[atlas/json/png] are all
-		// added to your assets
 		skin = new Skin(Gdx.files.internal("data/uiskin.json"));
-		stage = new Stage();
-		// Wire the stage to receive input, as we are using Scene2d in this
-		// example
-		Gdx.input.setInputProcessor(stage);
-		
-
-		// Now setupt our scene UI
-
-		// Vertical group groups contents vertically. I suppose that was
-		// probably pretty obvious
-		VerticalGroup vg = new VerticalGroup().space(5).pad(5).fill();// .space(2).pad(5).fill();//.space(3).reverse().fill();
-		// Set the bounds of the group to the entire virtual display
+		stage = new Stage();		
+		Gdx.input.setInputProcessor(stage);		
+		VerticalGroup vg = new VerticalGroup().space(5).pad(5).fill();		
 		vg.setBounds(100, 0, width - 200, height );
 
-		// Create our controls
 		labelMessage = new Label(" ", skin);
 		connectButton = new TextButton("Connect to server", skin);
-		startServerButton = new TextButton("Start server", skin);
-		
-		
-		// Add them to scene
+		startServerButton = new TextButton("Start server", skin);		
+	
 		vg.addActor(labelMessage);
 		vg.addActor(connectButton);
-		vg.addActor(startServerButton);
-	
-
-		// Add scene to stage
+		vg.addActor(startServerButton);	
+		
 		stage.addActor(vg);
 
-		// Setup a viewport to map screen to a 480x640 virtual resolution
-		// As otherwise this is way too tiny on my 1080p android phone.
-		// stage.setViewport(new ExtendViewport(VIRTUAL_SCREEN_WIDTH,
-		// VIRTUAL_SCREEN_HEIGHT));
 		stage.getCamera().viewportWidth = width;
 		stage.getCamera().viewportHeight = Gdx.graphics.getHeight();
 		stage.getCamera().position.set(width / 2, height / 2, 0);
@@ -113,7 +90,6 @@ public class MenuScreen implements Screen {
 			}
 		});
 
-		// Wire up a click listener to our button
 		connectButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

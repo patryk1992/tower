@@ -22,6 +22,8 @@ public class HUD {
 	int idWinner;	
 	IButton restartGameButton;
 	IButton endGameButton;
+	AssetLoaderSingleton singleton;
+
 	
 	public HUD(ShapeRenderer shapeRenderer, SpriteBatch batcher, BitmapFont font, int gameWidth, int midPointY){
 		this.gameWidth=gameWidth;
@@ -31,7 +33,7 @@ public class HUD {
 		this.font=font;	
 		this.endGame=false;
 		this.idWinner=0;
-		
+		singleton=AssetLoaderSingleton.getInstance();
 	}
 	public void intHUD(){
 		if(connectionId==1){
@@ -51,88 +53,44 @@ public class HUD {
 	}
 	public void render(float runTime) {		
 	     if(iTower!=null&&iMine!=null&&iFactory!=null&&iCoins!=null){
-	    	 
-	    	// Begin SpriteBatch
+	    	
 	         batcher.begin();
-	         // Disable transparency
-	         // This is good for performance when drawing images that do not require
-	         // transparency.
+	         
 	         batcher.disableBlending();
-	         batcher.draw(AssetLoaderSingleton.tower[connectionId-1], iTower.getPosition().x, iTower.getPosition().y, iTower.getWidth(), iTower.getHeight());
-	         batcher.draw(AssetLoaderSingleton.mine[connectionId-1], iMine.getPosition().x, iMine.getPosition().y, iMine.getWidth(), iMine.getHeight());
-	         batcher.draw(AssetLoaderSingleton.factory[connectionId-1],iFactory.getPosition().x, iFactory.getPosition().y, iFactory.getWidth(), iFactory.getHeight());
+	         batcher.draw(singleton.tower[connectionId-1], iTower.getPosition().x, iTower.getPosition().y, iTower.getWidth(), iTower.getHeight());
+	         batcher.draw(singleton.mine[connectionId-1], iMine.getPosition().x, iMine.getPosition().y, iMine.getWidth(), iMine.getHeight());
+	         batcher.draw(singleton.factory[connectionId-1],iFactory.getPosition().x, iFactory.getPosition().y, iFactory.getWidth(), iFactory.getHeight());
 	         batcher.enableBlending();
-	         batcher.draw(AssetLoaderSingleton.coins, iCoins.getPosition().x, iCoins.getPosition().y, iCoins.getRadius()*2, iCoins.getRadius()*2);
+	         batcher.draw(singleton.coins, iCoins.getPosition().x, iCoins.getPosition().y, iCoins.getRadius()*2, iCoins.getRadius()*2);
 	         batcher.end();
 	         
-//		     shapeRenderer.begin(ShapeType.Filled);
-//		     shapeRenderer.setColor(Color.GRAY);
-//		     shapeRenderer.rect(iTower.getPosition().x, iTower.getPosition().y, iTower.getWidth(), iTower.getHeight());
-//		     shapeRenderer.end();
-		     
-//		     shapeRenderer.begin(ShapeType.Filled);
-//		     shapeRenderer.setColor(Color.YELLOW);
-//		     shapeRenderer.rect(iMine.getPosition().x, iMine.getPosition().y, iMine.getWidth(), iMine.getHeight());
-//		     shapeRenderer.end();
-		     
-//		     shapeRenderer.begin(ShapeType.Filled);
-//		     shapeRenderer.setColor(Color.PURPLE);
-//		     shapeRenderer.rect(iFactory.getPosition().x, iFactory.getPosition().y, iFactory.getWidth(), iFactory.getHeight());
-//		     shapeRenderer.end();
-		     
-//		     shapeRenderer.begin(ShapeType.Filled);
-//		     shapeRenderer.setColor(Color.PINK);
-//		     shapeRenderer.circle(iCoins.getPosition().x, iCoins.getPosition().y, iCoins.getRadius());
-//		     shapeRenderer.end();
 	     }
-	     if(connections<1){
-//		     shapeRenderer.begin(ShapeType.Filled);
-//		     shapeRenderer.setColor(Color.RED);
-//		     shapeRenderer.rect(320, 60, 640,100);
-//		     shapeRenderer.end();
+	     if(connections<1){		    
 		     batcher.begin();
-		     batcher.draw(AssetLoaderSingleton.waiting, 320, 60, 640,100);
-//			 font.draw(batcher, "czekam na 2",320,60);
+		     batcher.draw(singleton.waiting, 320, 60, 640,100);
 			 batcher.end();
 	     }
-	     if(endGame){
-//	    	 shapeRenderer.begin(ShapeType.Filled);
-//		     shapeRenderer.setColor(Color.RED);
-//		     shapeRenderer.rect(320, 60, 640,100);
-//		     shapeRenderer.end();
+	     if(endGame){	    	 
 		     batcher.begin();
 		     if(idWinner==0){
-		    	 batcher.draw(AssetLoaderSingleton.lostConnection, 320, 60, 640,100);
-//		    	 font.draw(batcher, "lost connection",320,60);
+		    	 batcher.draw(singleton.lostConnection, 320, 60, 640,100);
 		    	 batcher.end();
 		     }else if(idWinner==connectionId){
-//		    	 font.draw(batcher, "you win",320,60);
 		    	 batcher.enableBlending();
-		    	 batcher.draw(AssetLoaderSingleton.win, 320, 60, 640, 100);
+		    	 batcher.draw(singleton.win, 320, 60, 640, 100);
 		    	 batcher.end();
 		     }else{
-//		    	 font.draw(batcher, "you lose",320,60);
 		    	 batcher.enableBlending();
-		    	 batcher.draw(AssetLoaderSingleton.lose, 320, 60, 640, 100);
+		    	 batcher.draw(singleton.lose, 320, 60, 640, 100);
 		    	 batcher.end();
 		     }
-		     if(idWinner!=0){
-//				 shapeRenderer.begin(ShapeType.Filled);
-//			     shapeRenderer.setColor(Color.PURPLE);
-//			     shapeRenderer.rect(restartGameButton.getPosition().x, restartGameButton.getPosition().y, restartGameButton.getWidth(), restartGameButton.getHeight());
-//			     shapeRenderer.end();
+		     if(idWinner!=0){				 
 			     batcher.begin();
-			     batcher.draw(AssetLoaderSingleton.restart, restartGameButton.getPosition().x, restartGameButton.getPosition().y, restartGameButton.getWidth(), restartGameButton.getHeight());
-//			     font.draw(batcher, "restartButton",restartGameButton.getPosition().x, restartGameButton.getPosition().y);
+			     batcher.draw(singleton.restart, restartGameButton.getPosition().x, restartGameButton.getPosition().y, restartGameButton.getWidth(), restartGameButton.getHeight());
 			     batcher.end();
-			 }		     
-//		     shapeRenderer.begin(ShapeType.Filled);
-//		     shapeRenderer.setColor(Color.PURPLE);
-//		     shapeRenderer.rect(endGameButton.getPosition().x, endGameButton.getPosition().y, endGameButton.getWidth(), endGameButton.getHeight());
-//		     shapeRenderer.end();
+			 }	
 		     batcher.begin();
-		     batcher.draw(AssetLoaderSingleton.end, endGameButton.getPosition().x, endGameButton.getPosition().y, endGameButton.getWidth(), endGameButton.getHeight());
-//		     font.draw(batcher, "endButton",endGameButton.getPosition().x, endGameButton.getPosition().y);
+		     batcher.draw(singleton.end, endGameButton.getPosition().x, endGameButton.getPosition().y, endGameButton.getWidth(), endGameButton.getHeight());
 		     batcher.end();
 	     }
 	 }

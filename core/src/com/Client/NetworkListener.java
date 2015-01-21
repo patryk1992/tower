@@ -14,9 +14,7 @@ import com.mygdx.gameworld.GameRenderer;
 import com.mygdx.gameworld.GameWorld;
 
 public class NetworkListener extends Listener {
-	private Client client;
-	GameRenderer renderer;
-	
+	GameRenderer renderer;	
 	
 	public void init( GameRenderer renderer) {		
 		this.renderer = renderer;

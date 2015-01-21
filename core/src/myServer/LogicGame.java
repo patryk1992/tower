@@ -31,7 +31,6 @@ public class LogicGame {
 			sleepFps(fps);
 			if (myServer.server.getConnections().length == 2) {
 				init();
-				
 				sendGameWorldUpdate();
 				waitForSecondPlayerPacket();
 				break;
@@ -47,8 +46,7 @@ public class LogicGame {
 		double lastTime = System.currentTimeMillis();
 		while (true) {
 			double current = System.currentTimeMillis();
-			double elapsed = current - lastTime;
-			
+			double elapsed = current - lastTime;			
 			sleepFps(fps,elapsed);
 			serverGameWorld.update(current);			
 			lastTime = current;
@@ -69,8 +67,6 @@ public class LogicGame {
 				while (true) {
 					sleepFps(fps);
 					synchronized (serverGameWorld.getGameWorld()) {									
-//						myServer.server.sendToUDP(myServer.server.getConnections()[0].getID(), serverGameWorld.getGameWorld());
-//						myServer.server.sendToUDP(myServer.server.getConnections()[1].getID(), serverGameWorld.getGameWorld());
 						myServer.server.sendToAllUDP(serverGameWorld.getGameWorld());
 					}
 				}
