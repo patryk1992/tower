@@ -12,10 +12,11 @@ import com.esotericsoftware.minlog.Log;
 import com.mygdx.gameobjects.Base;
 import com.mygdx.gameworld.GameRenderer;
 import com.mygdx.gameworld.GameWorld;
+import com.sun.org.apache.bcel.internal.generic.I2F;
 
 public class NetworkListener extends Listener {
 	GameRenderer renderer;	
-	
+	double id=0;
 	public void init( GameRenderer renderer) {		
 		this.renderer = renderer;
 	}
@@ -41,7 +42,11 @@ public class NetworkListener extends Listener {
 		
 		if (o instanceof GameWorld) {
 			GameWorld gameWorld = ((GameWorld) o);
-			renderer.setMyWorld(gameWorld);
+			if(	gameWorld.getId()>id){
+				id=gameWorld.getId();
+				renderer.setMyWorld(gameWorld);
+			}
+			
 			
 		}
 		else if (o instanceof Packet1LoginAnswer) {

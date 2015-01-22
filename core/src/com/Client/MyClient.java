@@ -36,24 +36,19 @@ import com.mygdx.simpleobjects.MyRectangle;
 public class MyClient {
 	public Client client;
 	GameRenderer renderer;
-	NetworkListener nl;
-	
+	NetworkListener nl;	
 	public MyClient( GameRenderer renderer)throws Exception{
 		this.renderer=renderer;
 		client= new Client(998192,9948192);
-		register();
-		
+		register();		
 		nl = new NetworkListener();
 		nl.init(renderer);
 		client.addListener(nl);		
-		client.start();
-		
+		client.start();		
 		InetAddress adressIP=client.discoverHost(43445, 3000);		
 		Log.info("Please enter IP: ");
-		client.connect(500000,adressIP, 54556,43445);
-		
-	}
-	
+		client.connect(500000,adressIP, 54556,43445);		
+	}	
 	private void register(){
 		Kryo kryo = client.getKryo();
 		kryo.register(Packet0LoginRequest.class);
@@ -82,9 +77,6 @@ public class MyClient {
 		kryo.register(MyCircle.class);
 		kryo.register(PacketEndGame.class);
 		kryo.register(PacketRestartGame.class);
-		kryo.register(PlaneModel.class);
-		
+		kryo.register(PlaneModel.class);		
 	}
-	
-
 }

@@ -33,8 +33,7 @@ public class LogicGame {
 				init();
 				sendGameWorldUpdate();
 				waitForSecondPlayerPacket();
-				break;
-				
+				break;				
 			}
 
 		}
@@ -42,14 +41,11 @@ public class LogicGame {
 
 	}
 	
-	static void loopGame(){
-		double lastTime = System.currentTimeMillis();
+	static void loopGame(){		
 		while (true) {
-			double current = System.currentTimeMillis();
-			double elapsed = current - lastTime;			
-			sleepFps(fps,elapsed);
-			serverGameWorld.update(current);			
-			lastTime = current;
+			double current = System.currentTimeMillis();						
+			sleepFps(fps);
+			serverGameWorld.update(current);				
 		}
 	}
 	static void init(){
@@ -66,7 +62,8 @@ public class LogicGame {
 			public void run(){
 				while (true) {
 					sleepFps(fps);
-					synchronized (serverGameWorld.getGameWorld()) {									
+					synchronized (serverGameWorld.getGameWorld()) {	
+						serverGameWorld.getGameWorld().setId(System.currentTimeMillis());
 						myServer.server.sendToAllUDP(serverGameWorld.getGameWorld());
 					}
 				}
@@ -96,8 +93,8 @@ public class LogicGame {
 		return 1000/fps;
 	}
 	static long sleepFps(int fps,double elapsed){
-		try {
-			double diftime=1000-elapsed;
+		double diftime=1000-elapsed;
+		try {			
 			if(diftime>0){
 				Thread.sleep((long) (diftime/fps));
 			}
@@ -106,6 +103,6 @@ public class LogicGame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return 1000/fps;
+		return (long) diftime;
 	}
 }

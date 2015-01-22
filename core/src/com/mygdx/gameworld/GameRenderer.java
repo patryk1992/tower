@@ -112,7 +112,7 @@ public class GameRenderer {
 	        
 	        batcher.begin();
 	        batcher.enableBlending();
-	        for(ArrayList<Plane> towerList : myWorld.getTankList()){
+	        for(ArrayList<Plane> towerList : myWorld.getPlaneList()){
 	        	   for(Plane plane :towerList ){       		   
 	        		   float x=plane.getDimension().getPosition().x;
 	        		   float y=plane.getDimension().getPosition().y;

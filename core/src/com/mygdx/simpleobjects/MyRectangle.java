@@ -27,6 +27,7 @@ public class MyRectangle extends Dimension{
 		} else {
 			return false;
 		}
+		
 	}
 
 	@Override

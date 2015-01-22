@@ -52,7 +52,7 @@ public class ServerGameWorld {
 	public void update(double elapsed) {
 		this.time=elapsed;
 		performTowerAction(elapsed);				
-		setOnStartPositionTanks();
+		setOnStartPositionPlane();
 		goAttack(elapsed);
 		moveBullets();
 	}
@@ -72,7 +72,7 @@ public class ServerGameWorld {
 				/*
 				 * Update target gdy czo³g/
 				 */
-				GameObject targetGameObject= gameWorld.getObjectFromList(bullet.getTargetBuildingID(), gameWorld.getTankList().get(tmpGroupId));
+				GameObject targetGameObject= gameWorld.getObjectFromList(bullet.getTargetBuildingID(), gameWorld.getPlaneList().get(tmpGroupId));
 				if(targetGameObject!=null){
 					bullet.updatePointTarget(targetGameObject);
 				}
@@ -84,7 +84,7 @@ public class ServerGameWorld {
 					
 					GameObject target=gameWorld.getObjectFromList(bullet.getTargetBuildingID(), gameWorld.getTowerList().get(tmpGroupId));
 					if(target==null){
-						 target=gameWorld.getObjectFromList(bullet.getTargetBuildingID(), gameWorld.getTankList().get(tmpGroupId));	
+						 target=gameWorld.getObjectFromList(bullet.getTargetBuildingID(), gameWorld.getPlaneList().get(tmpGroupId));	
 					}
 					if(target instanceof Building){
 						if(target!=null&&((Building) target).shooted()<=0){
@@ -96,7 +96,7 @@ public class ServerGameWorld {
 					else if(target instanceof Plane){
 						if(target!=null&&((Plane) target).shooted()<=0){
 							synchronized(gameWorld){
-								gameWorld.getTankList().get(tmpGroupId).remove(target);
+								gameWorld.getPlaneList().get(tmpGroupId).remove(target);
 							}
 						}
 					}
@@ -113,34 +113,30 @@ public class ServerGameWorld {
 
 	public void performTowerAction(double elapsed) {
 		ArrayList<Command> listCommand =new ArrayList<Command>();
-		for (ArrayList<Building> towerList : gameWorld.getTowerList()) {
-			
-				for (Building building : towerList) {
-					if(building instanceof Factory){
-	    				listCommand.add(new FactoryCommand(((Factory) building), elapsed));
-	    			}
-					else if(building instanceof Tower){
-						listCommand.add(new TowerCommand(((Tower) building),elapsed,gameWorld.getTankList(),gameWorld.getBulletList()));
-	    			}
-					else if(building instanceof Mine){
-						listCommand.add(new MineCommand(((Mine) building), elapsed, gameWorld.getCastles()[building.getIdGroup()-1]));
-	    			}
-				}
-			
-			for(Command iterCommand:listCommand ){
-				synchronized (gameWorld) {
-					performBuildingAction.Execute(iterCommand);
-				}
-				
+		synchronized (gameWorld) {
+			for (ArrayList<Building> towerList : gameWorld.getTowerList()) {
+					for (Building building : towerList) {
+						if(building instanceof Factory){
+		    				listCommand.add(new FactoryCommand(((Factory) building), elapsed));
+		    			}
+						else if(building instanceof Tower){
+							listCommand.add(new TowerCommand(((Tower) building),elapsed,gameWorld.getPlaneList(),gameWorld.getBulletList()));
+		    			}
+						else if(building instanceof Mine){
+							listCommand.add(new MineCommand(((Mine) building), elapsed, gameWorld.getCastles()[building.getIdGroup()-1]));
+		    			}
+					}
 			}
-			
+			for(Command iterCommand:listCommand ){				
+					performBuildingAction.Execute(iterCommand);			
+			}
 		}
 
 	}
 	public void goAttack(double elapsed) {
 		Plane tmp;
 		int tmpGroupId;
-		for (ArrayList<Plane> planesList : gameWorld.getTankList()) {
+		for (ArrayList<Plane> planesList : gameWorld.getPlaneList()) {
 			for (Plane plane : planesList) {
 				/////////////////////////////////////////////////////////////////////////////////sprawdzenie koloizi z Base przeciwnika dlategi inne idgroup
 				if(plane.getIdGroup()==2){
@@ -191,22 +187,21 @@ public class ServerGameWorld {
 		
 	}
 	
-	public void deployPlanes(int tanksNumber,int idConnection){
-		
+	public void deployPlanes(int tanksNumber,int idConnection){		
 		for(int i=0;i<tanksNumber;i++){
 			Plane plane=new Plane(gameWorld.getTargetLine().get(idConnection-1).get(0).x,gameWorld.getTargetLine().get(idConnection-1).get(0).y,20,20,idConnection,UUID.randomUUID().toString());
 			plane.goTo(gameWorld.getTargetLine().get(idConnection-1).get(1));
 			temporaryPlaneArrayList.get(idConnection-1).add(plane);
 		}
 	}
-	public void setOnStartPositionTanks(){	
+	public void setOnStartPositionPlane(){	
 		synchronized (gameWorld) {		
-					for (ArrayList<Plane> tmpTankList : temporaryPlaneArrayList) {			
-						for (Plane newTank : tmpTankList) {									
-									if(!newTank.collides(gameWorld.getTankList().get(newTank.getIdGroup()-1),-20,-20,40,40)){
-										gameWorld.getTankList().get(newTank.getIdGroup()-1).add(newTank);
-										tmpTankList.remove(newTank);
-										break;//ConcurrentModificationException i lepsza wydajnoœæ 
+					for (ArrayList<Plane> tmpPlaneList : temporaryPlaneArrayList) {			
+						for (Plane newPlane : tmpPlaneList) {									
+									if(!newPlane.collides(gameWorld.getPlaneList().get(newPlane.getIdGroup()-1),-20,-20,40,40)){
+										gameWorld.getPlaneList().get(newPlane.getIdGroup()-1).add(newPlane);
+										tmpPlaneList.remove(newPlane);
+										break;
 										}
 									}					
 					}

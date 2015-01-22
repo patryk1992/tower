@@ -14,6 +14,7 @@ import com.mygdx.gameobjects.Plane;
 public class GameWorld  {
 
 	private Base []Bases;
+	double id;	
 
 	ArrayList<ArrayList<Building>> towerList = new ArrayList<ArrayList<Building>>(3);
 	ArrayList<ArrayList<Vector2>> targetLine =new ArrayList<ArrayList<Vector2>>(3);
@@ -63,7 +64,7 @@ public class GameWorld  {
 		return targetLine;
 	}
 
-	public ArrayList<ArrayList<Plane>> getTankList() {
+	public ArrayList<ArrayList<Plane>> getPlaneList() {
 		return tankList;
 	}
 	public ArrayList<ArrayList<Bullet>> getBulletList() {
@@ -85,5 +86,12 @@ public class GameWorld  {
 		this.Bases = castles;
 	}
 			
+	public double getId() {
+		return id;
+	}
 
+
+	public void setId(double id) {
+		this.id = id;
+	}
 }
